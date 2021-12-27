@@ -18,6 +18,8 @@ class Scene
       @entities << @max_id
       @renderers << prefab[:class_name]::components[:render_data]
     end
+
+    pp @renderers
   end
 
   def entities

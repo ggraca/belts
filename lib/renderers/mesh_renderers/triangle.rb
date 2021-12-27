@@ -1,6 +1,6 @@
 class Renderers::MeshRenderers::Triangle
   class << self
-    def draw(render_data)
+    def draw(transform, render_data)
       color = [0.0, 1.0, 0.0]
       color = [1.0, 0.0, 0.0] if render_data.color == :red
       dir = 1

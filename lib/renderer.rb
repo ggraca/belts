@@ -37,7 +37,8 @@ class Renderer
     glMatrixMode(GL_MODELVIEW)
 
     @scene.renderers.each do |render_data|
-      MESH_RENDERERS[render_data.type]::draw(render_data)
+      transform = Float3.new(0, 0, 0)
+      MESH_RENDERERS[render_data.type]::draw(transform, render_data)
     end
 
     glfwSwapBuffers( @window )
