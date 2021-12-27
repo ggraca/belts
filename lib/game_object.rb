@@ -1,5 +1,3 @@
-require_relative './renderer/game_object_helpers'
-
 class GameObject
   # Transform = new Struct.new(:x, :y, :z)
 
@@ -8,6 +6,15 @@ class GameObject
   # end
 
   self.instance_eval do
-    extend Renderer::GameObjectHelpers
+    @@components ||= {}
+    @@components[:transform] = Float3.new(0, 0, 0)
+
+    def renderer(type, options = {})
+      @@components[:render_data] = RenderData.new(type, options[:color], options[:flip])
+    end
+  end
+
+  def self.components
+    @@components
   end
 end

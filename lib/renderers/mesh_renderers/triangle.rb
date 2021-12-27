@@ -1,10 +1,10 @@
-class Renderer::MeshRenderers::Triangle
+class Renderers::MeshRenderers::Triangle
   class << self
-    def draw(options = {})
+    def draw(render_data)
       color = [0.0, 1.0, 0.0]
-      color = [1.0, 0.0, 0.0] if options[:color] == :red
+      color = [1.0, 0.0, 0.0] if render_data.color == :red
       dir = 1
-      dir = -1 if options[:flip]
+      dir = -1 if render_data.flip
 
       glLoadIdentity()
       glRotatef(dir * glfwGetTime() * 50.0, 0.0, 0.0, 1.0)

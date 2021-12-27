@@ -1,7 +1,13 @@
+require_relative './renderers/mesh_renderers/triangle'
+
 include OpenGL
 include GLFW
 
 class Renderer
+  MESH_RENDERERS = {
+    triangle: Renderers::MeshRenderers::Triangle,
+  }
+
   def initialize
     OpenGL.load_lib
     GLFW.load_lib
@@ -30,8 +36,8 @@ class Renderer
     glOrtho(-ratio, ratio, -1.0, 1.0, 1.0, -1.0)
     glMatrixMode(GL_MODELVIEW)
 
-    @scene.renderers.each do |renderer|
-      renderer.draw
+    @scene.renderers.each do |render_data|
+      MESH_RENDERERS[render_data.type]::draw(render_data)
     end
 
     glfwSwapBuffers( @window )

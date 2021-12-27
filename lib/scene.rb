@@ -3,7 +3,7 @@ class Scene
     extend Module.new {
       def instantiate(class_name, options = {})
         @@prefabs ||= []
-        @@prefabs << class_name
+        @@prefabs << options.merge(class_name: class_name)
       end
     }
   end
@@ -16,7 +16,7 @@ class Scene
     @@prefabs.each do |prefab|
       @max_id += 1
       @entities << @max_id
-      @renderers << prefab
+      @renderers << prefab[:class_name]::components[:render_data]
     end
   end
 
