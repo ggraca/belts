@@ -15,8 +15,8 @@ module ComponentMixin
       @components[name] = data
     end
 
-    def component(name, klass)
-      set_component(name, klass.new)
+    def component(name, val)
+      set_component(name, val)
     end
   end
 end
@@ -41,6 +41,6 @@ class Prefab
 
   def self.inherited(subclass)
     super
-    subclass.component(:transform, Transform)
+    subclass.component(:transform, Transform.new)
   end
 end

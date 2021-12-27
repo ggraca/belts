@@ -1,4 +1,4 @@
 class GreenTriangle < Prefab
-  renderer :triangle, color: :green
-  component :spinner, Spinner
+  renderer :triangle, color: Float3.up
+  component :spinner, Spinner.new
 end

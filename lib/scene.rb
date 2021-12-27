@@ -1,7 +1,7 @@
 class Scene
   self.instance_eval do
     extend Module.new {
-      def instantiate(class_name, options = {})
+      def prefab(class_name, options = {})
         @@prefabs ||= []
         @@prefabs << options.merge(class_name: class_name)
       end
@@ -17,22 +17,19 @@ class Scene
     register_collection(:transform, :spinner)
 
     @@prefabs.each do |prefab|
-      klass = prefab[:class_name]
-      @max_id += 1
-      @entities << @max_id
+      instantiate(prefab[:class_name], prefab[:position])
+    end
+  end
 
-      @collections.each do |key, value|
-        next if (key - klass.components.keys).any?
+  def instantiate(klass, position)
+    @max_id += 1
+    @entities << @max_id
 
-        data = { entity: @max_id }
-        common_keys = key & klass.components.keys
-        common_keys.each do |k|
-          data[k] = klass.components[k]
-        end
+    @collections.each do |key, value|
+      next if (key - klass.components.keys).any?
 
-
-        value << data
-      end
+      common_keys = key & klass.components.keys
+      value << klass.components.slice(*common_keys).merge(entity: @max_id)
     end
   end
 
