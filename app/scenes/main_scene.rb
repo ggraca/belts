@@ -1,5 +1,5 @@
 class MainScene < Scene
-  instantiate GreenTriangle, pos: :zero
+  instantiate GreenTriangle
   instantiate RedTriangle, pos: :zero
   # instantiate :green_triangle, pos: [0, 1, 2]
   # instantiate :green_triangle, pos: -> [(1..2).sample, (-5, 2).sample, 0]

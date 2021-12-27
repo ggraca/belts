@@ -25,8 +25,8 @@ module TransformMixin
   end
 
   module ClassMethods
-    def transform(position)
-      set_component(:transform, Transform.new(Float3.new(*position)))
+    def transform
+      set_component(:transform, Transform.new)
     end
   end
 end
@@ -45,8 +45,13 @@ module RendererMixin
   end
 end
 
-class GameObject
+class Prefab
   include ComponentMixin
   include TransformMixin
   include RendererMixin
+
+  def self.inherited(subclass)
+    super
+    subclass.transform
+  end
 end

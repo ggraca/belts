@@ -1,5 +1,4 @@
-class RedTriangle < GameObject
-  transform [1, 0, 0]
+class RedTriangle < Prefab
   renderer :triangle, color: :red
   # renderer :square, color: :red
   # renderer :sprite
