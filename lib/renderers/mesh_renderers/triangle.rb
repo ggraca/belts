@@ -1,13 +1,13 @@
 class Renderers::MeshRenderers::Triangle
   class << self
     def draw(transform, render_data)
-      color = [0.0, 1.0, 0.0]
-      color = [1.0, 0.0, 0.0] if render_data.color == :red
+      color = Float3.up
+      color = Float3.right if render_data.color == :red
       dir = 1
       dir = -1 if render_data.flip
 
       glLoadIdentity()
-      glTranslatef(transform.x, transform.y, transform.z)
+      glTranslatef(*transform.position.values)
       glRotatef(dir * glfwGetTime() * 50.0, 0.0, 0.0, 1.0)
       glBegin(GL_TRIANGLES)
       glColor3f(*color)
