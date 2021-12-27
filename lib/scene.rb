@@ -11,22 +11,35 @@ class Scene
   def initialize
     @max_id = 0
     @entities = []
-    @renderers = []
+    @collections = {}
+    register_collection(:transform, :render_data)
 
     @@prefabs.each do |prefab|
+      klass = prefab[:class_name]
       @max_id += 1
       @entities << @max_id
-      @renderers << prefab[:class_name]::components[:render_data]
-    end
 
-    pp @renderers
+      @collections.each do |key, value|
+        next if (key - klass.components.keys).any?
+
+        value << {
+          entity: @max_id,
+          transform: klass.components[:transform],
+          render_data: klass.components[:render_data]
+        }
+      end
+    end
   end
 
   def entities
     @entities
   end
 
-  def renderers
-    @renderers
+  def collection(*components)
+    @collections[components]
+  end
+
+  def register_collection(*components)
+    @collections[components] = []
   end
 end

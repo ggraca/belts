@@ -1,4 +1,5 @@
 class RedTriangle < GameObject
+  transform [1, 0, 0]
   renderer :triangle, color: :red
   # renderer :square, color: :red
   # renderer :sprite

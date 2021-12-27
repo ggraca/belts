@@ -7,6 +7,7 @@ class Renderers::MeshRenderers::Triangle
       dir = -1 if render_data.flip
 
       glLoadIdentity()
+      glTranslatef(transform.x, transform.y, transform.z)
       glRotatef(dir * glfwGetTime() * 50.0, 0.0, 0.0, 1.0)
       glBegin(GL_TRIANGLES)
       glColor3f(*color)

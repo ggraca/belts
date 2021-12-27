@@ -36,9 +36,9 @@ class Renderer
     glOrtho(-ratio, ratio, -1.0, 1.0, 1.0, -1.0)
     glMatrixMode(GL_MODELVIEW)
 
-    @scene.renderers.each do |render_data|
-      transform = Float3.new(0, 0, 0)
-      MESH_RENDERERS[render_data.type]::draw(transform, render_data)
+    @scene.collection(:transform, :render_data).each do |data|
+      data => {render_data:, transform:}
+      MESH_RENDERERS[render_data.type]::draw(transform, data[:render_data])
     end
 
     glfwSwapBuffers( @window )

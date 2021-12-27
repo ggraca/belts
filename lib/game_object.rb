@@ -17,6 +17,20 @@ module ComponentMixin
   end
 end
 
+module TransformMixin
+  class << self
+    def included(base)
+      base.extend ClassMethods
+    end
+  end
+
+  module ClassMethods
+    def transform(position)
+      set_component(:transform, Float3.new(*position))
+    end
+  end
+end
+
 module RendererMixin
   class << self
     def included(base)
@@ -33,5 +47,6 @@ end
 
 class GameObject
   include ComponentMixin
+  include TransformMixin
   include RendererMixin
 end
