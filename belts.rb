@@ -25,6 +25,7 @@ class Belts
 
   def update
     @zeitwerk_loader.reload
+    @scene.update
     @renderer.update
 
     # renderer.perform

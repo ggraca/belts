@@ -9,10 +9,12 @@ class Scene
   end
 
   def initialize
+    @system = SpinnerSystem.new(self)
     @max_id = 0
     @entities = []
     @collections = {}
     register_collection(:transform, :render_data)
+    register_collection(:transform, :spinner)
 
     @@prefabs.each do |prefab|
       klass = prefab[:class_name]
@@ -22,11 +24,14 @@ class Scene
       @collections.each do |key, value|
         next if (key - klass.components.keys).any?
 
-        value << {
-          entity: @max_id,
-          transform: klass.components[:transform],
-          render_data: klass.components[:render_data]
-        }
+        data = { entity: @max_id }
+        common_keys = key & klass.components.keys
+        common_keys.each do |k|
+          data[k] = klass.components[k]
+        end
+
+
+        value << data
       end
     end
   end
@@ -41,5 +46,9 @@ class Scene
 
   def register_collection(*components)
     @collections[components] = []
+  end
+
+  def update
+    @system.update
   end
 end

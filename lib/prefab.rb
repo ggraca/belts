@@ -14,19 +14,9 @@ module ComponentMixin
       @components ||= {}
       @components[name] = data
     end
-  end
-end
 
-module TransformMixin
-  class << self
-    def included(base)
-      base.extend ClassMethods
-    end
-  end
-
-  module ClassMethods
-    def transform
-      set_component(:transform, Transform.new)
+    def component(name, klass)
+      set_component(name, klass.new)
     end
   end
 end
@@ -47,11 +37,10 @@ end
 
 class Prefab
   include ComponentMixin
-  include TransformMixin
   include RendererMixin
 
   def self.inherited(subclass)
     super
-    subclass.transform
+    subclass.component(:transform, Transform)
   end
 end

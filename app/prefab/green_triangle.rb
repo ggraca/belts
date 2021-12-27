@@ -1,3 +1,4 @@
 class GreenTriangle < Prefab
-  renderer :triangle, color: :green, flip: true
+  renderer :triangle, color: :green
+  component :spinner, Spinner
 end
