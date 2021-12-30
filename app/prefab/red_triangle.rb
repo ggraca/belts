@@ -1,6 +1,7 @@
 class RedTriangle < Prefab
-  renderer :square, color: Float3.right
+  renderer :cube, color: Float3.right
   component :transform, Transform.new(Float3.zero, Float3.zero, Float3.new(0.2, 0.2, 0.2))
+  component :spinner, Spinner.new
   # renderer :square, color: :red
   # renderer :sprite
   # renderer :cube, color: :red

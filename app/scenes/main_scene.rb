@@ -1,6 +1,7 @@
 class MainScene < Scene
-  prefab GreenTriangle, position: Float3.right
+  prefab GreenTriangle, position: Float3.left
   prefab RedTriangle, position: Float3.left
+  prefab RedTriangle, position: Float3.right
   # prefab :green_triangle, pos: [0, 1, 2]
   # prefab :green_triangle, pos: -> [(1..2).sample, (-5, 2).sample, 0]
 

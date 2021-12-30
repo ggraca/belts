@@ -1,5 +1,6 @@
 require_relative './renderers/mesh_renderers/triangle'
 require_relative './renderers/mesh_renderers/square'
+require_relative './renderers/mesh_renderers/cube'
 
 include OpenGL
 include GLFW
@@ -8,6 +9,7 @@ class Renderer
   MESH_RENDERERS = {
     triangle: Renderers::MeshRenderers::Triangle,
     square: Renderers::MeshRenderers::Square,
+    cube: Renderers::MeshRenderers::Cube
   }
 
   def initialize

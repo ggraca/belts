@@ -24,12 +24,14 @@ class Scene
   def instantiate(klass, position)
     @max_id += 1
     @entities << @max_id
+    components = Marshal.load(Marshal.dump(klass.components))
+    components[:transform].position = position if position
 
     @collections.each do |key, value|
-      next if (key - klass.components.keys).any?
+      next if (key - components.keys).any?
 
-      common_keys = key & klass.components.keys
-      value << klass.components.slice(*common_keys).merge(entity: @max_id)
+      common_keys = key & components.keys
+      value << components.slice(*common_keys).merge(entity: @max_id)
     end
   end
 
