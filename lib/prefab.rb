@@ -29,7 +29,7 @@ module RendererMixin
   end
 
   module ClassMethods
-    def renderer(type, options = {})
+    def renderer(type, **options)
       set_component(:render_data, RenderData.new(type, options[:color], options[:flip]))
     end
   end

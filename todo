@@ -1,14 +1,14 @@
 0.1 Release
+- keyboard input
+- component system should be registered automatically
+- instantiate/destroy register components and entities properly
+- github readme (inspiration, direction, concepts)
 - `belts init name` command. Scaffold project skeleton
-- 2d render templates (:square, :sphere with color)
-- component system to manipulate state
 - demos:
   - snake
   - conway's game of life
-- github readme (inspiration, direction, concepts)
-- keyboard input
-- scenes / levels
-- prefabs / game_objects?
 
 0.n Release
 - Export to webassembly?
+- Rust bindings for performance
+- audio

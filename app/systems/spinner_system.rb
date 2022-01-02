@@ -1,8 +1,4 @@
-class SpinnerSystem
-  def initialize(scene)
-    @scene = scene
-  end
-
+class SpinnerSystem < System
   def update
     @scene.collection(:transform, :spinner).each do |data|
       data => {transform:}

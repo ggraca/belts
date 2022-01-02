@@ -1,6 +1,7 @@
 require 'zeitwerk'
 require 'opengl'
 require 'glfw'
+require 'glu'
 
 class Belts
   def self.init
