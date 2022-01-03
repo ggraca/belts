@@ -15,6 +15,9 @@ class Belts
   def initialize
     init_zeitwerk_loader
     init_renderer
+    init_asset_manager
+
+    @renderer.set_asset_manager(@asset_manager)
 
     @scene = MainScene.new
     @renderer.set_current_scene(@scene)
@@ -38,6 +41,10 @@ class Belts
 
   def init_renderer
     @renderer = Renderer.new
+  end
+
+  def init_asset_manager
+    @asset_manager = AssetManager.new
   end
 
   def init_zeitwerk_loader

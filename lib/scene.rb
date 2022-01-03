@@ -14,6 +14,7 @@ class Scene
     @entities = []
     @collections = {}
     register_collection(:transform, :camera_data)
+    register_collection(:transform, :light_data)
     register_collection(:transform, :render_data)
     register_collection(:transform, :spinner)
 

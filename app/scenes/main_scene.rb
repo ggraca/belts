@@ -1,5 +1,5 @@
 class MainScene < Scene
-  prefab Camera3d, position: Float3.forward
+  prefab Camera2d
 
   prefab GreenTriangle, position: Float3.left
   prefab SpinningCube

@@ -1,4 +1,5 @@
 0.1 Release
+- lights, shaders
 - keyboard input
 - component system should be registered automatically
 - instantiate/destroy register components and entities properly
@@ -12,3 +13,4 @@
 - Export to webassembly?
 - Rust bindings for performance
 - audio
+- debugger (what operations take the longest to perform and should be optimised)

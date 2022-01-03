@@ -27,11 +27,17 @@ class Renderer
     @scene = scene
   end
 
+  def set_asset_manager(asset_manager)
+    @asset_manager = asset_manager
+  end
+
   def update
     update_window_size
     glClear(GL_COLOR_BUFFER_BIT)
+    glUseProgram(@asset_manager.get_shader(:default))
 
     update_cameras
+    update_lights
     render_entities
 
     glfwSwapBuffers( @window )
@@ -64,6 +70,12 @@ class Renderer
     end
 
     glMatrixMode(GL_MODELVIEW)
+  end
+
+  def update_lights
+    @scene.collection(:transform, :light_data).each do |data|
+      data => {transform:, light_data:}
+    end
   end
 
   def render_entities
