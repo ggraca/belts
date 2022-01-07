@@ -1,4 +1,4 @@
-class Renderers::MeshRenderers::Cube
+class Meshes::Cube
   class << self
     def draw(transform, render_data)
       color = render_data.color || Float3.up

@@ -8,6 +8,7 @@
 - demos:
   - snake
   - conway's game of life
+- safely close the program (delete assets, stop opengl, etc)
 
 0.n Release
 - Export to webassembly?

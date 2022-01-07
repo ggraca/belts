@@ -1,6 +1,8 @@
 class AssetManager
   def initialize
     @shaders = {}
+    @meshes = {}
+
     build_default_shader
   end
 
@@ -30,5 +32,9 @@ class AssetManager
 
     glDeleteShader(vert_shader)
     glDeleteShader(frag_shader)
+  end
+
+  def build_default_meshes
+    @meshes[:square] = Meshes::Square.new
   end
 end

@@ -1,6 +1,6 @@
-require_relative './renderers/mesh_renderers/triangle'
-require_relative './renderers/mesh_renderers/square'
-require_relative './renderers/mesh_renderers/cube'
+require_relative './meshes/triangle'
+require_relative './meshes/square'
+require_relative './meshes/cube'
 
 include OpenGL
 include GLFW
@@ -8,9 +8,9 @@ include GLU
 
 class Renderer
   MESH_RENDERERS = {
-    triangle: Renderers::MeshRenderers::Triangle,
-    square: Renderers::MeshRenderers::Square,
-    cube: Renderers::MeshRenderers::Cube
+    triangle: Meshes::Triangle,
+    square: Meshes::Square,
+    cube: Meshes::Cube
   }
 
   def initialize
@@ -82,7 +82,10 @@ class Renderer
     @scene.collection(:transform, :render_data).each do |data|
       data => {transform:, render_data:}
 
-      MESH_RENDERERS[render_data.type]::draw(transform, data[:render_data])
+      mesh = MESH_RENDERERS[render_data.type].new
+      mesh.transform(transform, render_data)
+      mesh.draw
+      mesh.destroy
     end
   end
 end
