@@ -1,18 +1,8 @@
-require_relative './meshes/triangle'
-require_relative './meshes/square'
-require_relative './meshes/cube'
-
 include OpenGL
 include GLFW
 include GLU
 
 class Renderer
-  MESH_RENDERERS = {
-    triangle: Meshes::Triangle,
-    square: Meshes::Square,
-    cube: Meshes::Cube
-  }
-
   def initialize(game)
     @game = game
 
@@ -69,10 +59,14 @@ class Renderer
     @game.current_scene.collection(:transform, :render_data).each do |data|
       data => {transform:, render_data:}
 
-      mesh = MESH_RENDERERS[render_data.type].new
-      mesh.transform(transform, render_data)
+      # Move somewhere
+      glLoadIdentity()
+      glTranslatef(*transform.position.values)
+      glScalef(*transform.scale.values)
+      glRotatef(*transform.rotation.values, 1.0)
+
+      mesh = @game.asset_manager.get_mesh(render_data.type)
       mesh.draw
-      mesh.destroy
     end
   end
 end

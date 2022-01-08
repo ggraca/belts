@@ -27,16 +27,6 @@ class Mesh
     upload_vertice_data
   end
 
-  def transform(transform, render_data)
-    color = render_data.color || Float3.up
-
-    glLoadIdentity()
-    glTranslatef(*transform.position.values)
-    glScalef(*transform.scale.values)
-    glRotatef(*transform.rotation.values, 1.0)
-    glColor3f(*color)
-  end
-
   def draw
     glBindVertexArray(@vao)
     glDrawArrays(GL_TRIANGLES, 0, @vertices.size)

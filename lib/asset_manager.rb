@@ -1,13 +1,22 @@
+require_relative './meshes/triangle'
+require_relative './meshes/square'
+require_relative './meshes/cube'
+
 class AssetManager
   def initialize
     @shaders = {}
     @meshes = {}
 
     build_default_shader
+    build_default_meshes
   end
 
   def get_shader(key)
     @shaders[key]
+  end
+
+  def get_mesh(key)
+    @meshes[key]
   end
 
   def build_default_shader
@@ -35,6 +44,12 @@ class AssetManager
   end
 
   def build_default_meshes
-    @meshes[:square] = Meshes::Square.new
+    default_meshes = {
+      square: Meshes::Square.new,
+      triangle: Meshes::Triangle.new,
+      cube: Meshes::Cube.new
+    }
+
+    @meshes.merge!(default_meshes)
   end
 end
