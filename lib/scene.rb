@@ -8,7 +8,8 @@ class Scene
     }
   end
 
-  def initialize
+  def initialize(game)
+    @game = game
     @system = SpinnerSystem.new(self)
     @max_id = 0
     @entities = []

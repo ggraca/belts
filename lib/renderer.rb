@@ -13,7 +13,9 @@ class Renderer
     cube: Meshes::Cube
   }
 
-  def initialize
+  def initialize(game)
+    @game = game
+
     OpenGL.load_lib
     GLFW.load_lib
     GLU.load_lib
@@ -23,21 +25,12 @@ class Renderer
     glfwMakeContextCurrent( @window )
   end
 
-  def set_current_scene(scene)
-    @scene = scene
-  end
-
-  def set_asset_manager(asset_manager)
-    @asset_manager = asset_manager
-  end
-
   def update
     update_window_size
     glClear(GL_COLOR_BUFFER_BIT)
-    glUseProgram(@asset_manager.get_shader(:default))
+    glUseProgram(@game.asset_manager.get_shader(:default))
 
     update_cameras
-    update_lights
     render_entities
 
     glfwSwapBuffers( @window )
@@ -60,7 +53,7 @@ class Renderer
   def update_cameras
     glMatrixMode(GL_PROJECTION)
 
-    @scene.collection(:transform, :camera_data).each do |data|
+    @game.current_scene.collection(:transform, :camera_data).each do |data|
       data => {transform:, camera_data:}
 
       glLoadIdentity()
@@ -72,14 +65,8 @@ class Renderer
     glMatrixMode(GL_MODELVIEW)
   end
 
-  def update_lights
-    @scene.collection(:transform, :light_data).each do |data|
-      data => {transform:, light_data:}
-    end
-  end
-
   def render_entities
-    @scene.collection(:transform, :render_data).each do |data|
+    @game.current_scene.collection(:transform, :render_data).each do |data|
       data => {transform:, render_data:}
 
       mesh = MESH_RENDERERS[render_data.type].new
