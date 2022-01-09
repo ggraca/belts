@@ -1,82 +1,30 @@
-class Meshes::Cube
-  class << self
-    def draw(transform, render_data)
-      color = render_data.color || Float3.up
+class Meshes::Cube < Mesh
+  U = 0.5 # Unit size
 
-      glLoadIdentity()
-      glTranslatef(*transform.position.values)
-      glScalef(*transform.scale.values)
-      glRotatef(*transform.rotation.values, 1.0)
-      glBegin(GL_TRIANGLES)
-      glColor3f(*color)
+  def initialize
+    vertices = [
+      # Back face (clockwise winding)
+      [-U, U, -U],
+      [U, U, -U],
+      [U, -U, -U],
+      [-U, -U, -U],
 
-      draw_cube_faces
+      # Front face (counter-clockwise winding)
+      [-U, U, U],
+      [U, U, U],
+      [U, -U, U],
+      [-U, -U, U]
+    ]
 
-      glEnd()
-    end
+    indexes = [
+      0, 1, 2, 2, 3, 0, # Back face
+      5, 4, 7, 7, 6, 5, # Front face
+      4, 5, 1, 1, 0, 4, # Top face
+      3, 2, 6, 6, 7, 3, # Bottom face
+      4, 0, 3, 3, 7, 4, # Left face
+      1, 5, 6, 6, 2, 1  # Right face
+    ]
 
-    def draw_cube_faces
-      cube_vertices = [
-        # Back face (clockwise winding)
-        [-0.5, 0.5, -0.5],
-        [0.5, 0.5, -0.5],
-        [0.5, -0.5, -0.5],
-        [-0.5, -0.5, -0.5],
-
-        # Front face (counter-clockwise winding)
-        [-0.5, 0.5, 0.5],
-        [0.5, 0.5, 0.5],
-        [0.5, -0.5, 0.5],
-        [-0.5, -0.5, 0.5]
-      ]
-
-      # Back face
-      glVertex3f(*cube_vertices[0])
-      glVertex3f(*cube_vertices[1])
-      glVertex3f(*cube_vertices[2])
-      glVertex3f(*cube_vertices[2])
-      glVertex3f(*cube_vertices[3])
-      glVertex3f(*cube_vertices[0])
-
-      # Front face
-      glVertex3f(*cube_vertices[5])
-      glVertex3f(*cube_vertices[4])
-      glVertex3f(*cube_vertices[7])
-      glVertex3f(*cube_vertices[7])
-      glVertex3f(*cube_vertices[6])
-      glVertex3f(*cube_vertices[5])
-
-      # Top face
-      glVertex3f(*cube_vertices[4])
-      glVertex3f(*cube_vertices[5])
-      glVertex3f(*cube_vertices[1])
-      glVertex3f(*cube_vertices[1])
-      glVertex3f(*cube_vertices[0])
-      glVertex3f(*cube_vertices[4])
-
-      # Bottom face
-      glVertex3f(*cube_vertices[3])
-      glVertex3f(*cube_vertices[2])
-      glVertex3f(*cube_vertices[6])
-      glVertex3f(*cube_vertices[6])
-      glVertex3f(*cube_vertices[7])
-      glVertex3f(*cube_vertices[3])
-
-      # Left face
-      glVertex3f(*cube_vertices[4])
-      glVertex3f(*cube_vertices[0])
-      glVertex3f(*cube_vertices[3])
-      glVertex3f(*cube_vertices[3])
-      glVertex3f(*cube_vertices[7])
-      glVertex3f(*cube_vertices[4])
-
-      # Right face
-      glVertex3f(*cube_vertices[1])
-      glVertex3f(*cube_vertices[5])
-      glVertex3f(*cube_vertices[6])
-      glVertex3f(*cube_vertices[6])
-      glVertex3f(*cube_vertices[2])
-      glVertex3f(*cube_vertices[1])
-    end
+    super(vertices, indexes)
   end
 end

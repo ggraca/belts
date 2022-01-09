@@ -53,7 +53,7 @@ class Scene
   end
 
   def update
-    @system.update
+    @systems.each(&:update)
   end
 
   private

@@ -4,11 +4,13 @@ class Meshes::Square < Mesh
       [-0.5, 0.5, 0.0],
       [0.5, 0.5, 0.0],
       [0.5, -0.5, 0.0],
-      [0.5, -0.5, 0.0],
-      [-0.5, -0.5, 0.0],
-      [-0.5, 0.5, 0.0]
+      [-0.5, -0.5, 0.0]
     ]
 
-    super(vertices)
+    indexes = [
+      0, 1, 2, 3
+    ]
+
+    super(vertices, indexes)
   end
 end

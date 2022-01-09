@@ -2,6 +2,7 @@ class MainScene < Scene
   prefab Camera2d
 
   prefab GreenTriangle, position: Float3.left
+  prefab SpinningCube, position: Float3.right
 
   # (-1..1).each do |i|
   #   prefab SpinningCube, position: Float3.left * i
