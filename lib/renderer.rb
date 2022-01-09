@@ -13,14 +13,16 @@ class Renderer
     glfwInit()
     @window = glfwCreateWindow( 1920, 1080, "Simple example", nil, nil )
     glfwMakeContextCurrent( @window )
+    glEnable(GL_DEPTH_TEST)
   end
 
   def update
     update_window_size
-    glClear(GL_COLOR_BUFFER_BIT)
+    glClearColor(0.07, 0.13, 0.17, 1.0)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glUseProgram(@game.asset_manager.get_shader(:default))
 
-    update_cameras
+    # update_cameras
     render_entities
 
     glfwSwapBuffers( @window )
@@ -59,11 +61,18 @@ class Renderer
     @game.current_scene.collection(:transform, :render_data).each do |data|
       data => {transform:, render_data:}
 
-      # Move somewhere
-      glLoadIdentity()
-      glTranslatef(*transform.position.values)
-      glScalef(*transform.scale.values)
-      glRotatef(*transform.rotation.values, 1.0)
+      model_matrix = Mat4.identity
+      view_matrix = Mat4.translation(0, 0, -10)
+      proj_matrix = Mat4.perspective(45, 1, 0.1, 100)
+
+      modelLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "model")
+      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model_matrix.to_a.flatten.pack("F*"))
+
+      viewLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "view")
+      glUniformMatrix4fv(viewLoc, 1, GL_FALSE, view_matrix.to_a.flatten.pack("F*"))
+
+      projLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "proj")
+      glUniformMatrix4fv(projLoc, 1, GL_FALSE, proj_matrix.to_a.flatten.pack("F*"))
 
       mesh = @game.asset_manager.get_mesh(render_data.type)
       mesh.draw
