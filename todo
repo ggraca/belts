@@ -9,6 +9,7 @@
   - snake
   - conway's game of life
 - safely close the program (delete assets, stop opengl, etc)
+- rspec configured by default
 
 0.n Release
 - Export to webassembly?

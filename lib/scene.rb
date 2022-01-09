@@ -10,7 +10,7 @@ class Scene
 
   def initialize(game)
     @game = game
-    @system = SpinnerSystem.new(self)
+    @systems = autoload_systems
     @max_id = 0
     @entities = []
     @collections = {}
@@ -54,5 +54,12 @@ class Scene
 
   def update
     @system.update
+  end
+
+  private
+
+  def autoload_systems
+    # TODO: grab systems from /app/systems
+    [SpinnerSystem.new(self)]
   end
 end
