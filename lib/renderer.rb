@@ -11,9 +11,11 @@ class Renderer
     GLU.load_lib
 
     glfwInit()
-    @window = glfwCreateWindow( 1920, 1080, "Simple example", nil, nil )
+    glfwWindowHint(GLFW_ALPHA_BITS, 0)
+    @window = glfwCreateWindow( 640, 480, "Belts Demo", nil, nil )
     glfwMakeContextCurrent( @window )
     glEnable(GL_DEPTH_TEST)
+    glEnable(GL_CULL_FACE)
   end
 
   def update
@@ -61,9 +63,9 @@ class Renderer
     @game.current_scene.collection(:transform, :render_data).each do |data|
       data => {transform:, render_data:}
 
-      model_matrix = Mat4.identity
-      view_matrix = Mat4.translation(0, 0, -10)
-      proj_matrix = Mat4.perspective(45, 1, 0.1, 100)
+      model_matrix = transform.to_matrix
+      view_matrix = Mat4.translation(0, 0, -2)
+      proj_matrix = Mat4.perspective(45, @window_ratio, 1, 100)
 
       modelLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "model")
       glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model_matrix.to_a.flatten.pack("F*"))

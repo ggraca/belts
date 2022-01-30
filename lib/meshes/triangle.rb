@@ -1,9 +1,9 @@
 class Meshes::Triangle < Mesh
   def initialize
     vertices = [
-      [-0.6, -0.4, 0.0],
-      [0.6, -0.4, 0.0],
-      [0.0, 0.6, 0.0]
+      0, HU, 0,
+      -HU, -HU, 0,
+      HU, -HU, 0
     ]
 
     indexes = [

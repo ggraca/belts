@@ -21,14 +21,14 @@ class AssetManager
 
   def build_default_shader
     vert_shader = glCreateShader(GL_VERTEX_SHADER)
-    vpath = 'app/shaders/vert.glsl'
+    vpath = 'app/shaders/base.vert'
     vcontent = [File.read(vpath)].pack('p')
     vsize = [File.size(vpath)].pack('I')
     glShaderSource(vert_shader, 1, vcontent, vsize)
     glCompileShader(vert_shader)
 
     frag_shader = glCreateShader(GL_FRAGMENT_SHADER)
-    fpath = 'app/shaders/frag.glsl'
+    fpath = 'app/shaders/base.frag'
     fcontent = [File.read(fpath)].pack('p')
     fsize = [File.size(fpath)].pack('I')
     glShaderSource(frag_shader, 1, fcontent, fsize)

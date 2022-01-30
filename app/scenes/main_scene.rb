@@ -1,7 +1,8 @@
 class MainScene < Scene
   prefab Camera2d
 
-  prefab GreenTriangle, position: Float3.left
+  # prefab GreenTriangle, position: Float3.left * 2
+  prefab SpinningCube
   # prefab SpinningCube, position: Float3.right
 
   # (-1..1).each do |i|
