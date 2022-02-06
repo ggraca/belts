@@ -1,10 +1,10 @@
 class Meshes::Square < Mesh
   def initialize
     vertices = [
-      -HU, HU, 0, *Vec3.back.values,
-      -HU, -HU, 0, *Vec3.back.values,
-      HU, -HU, 0, *Vec3.back.values,
-      HU, HU, 0, *Vec3.back.values
+      -HU, HU, 0, *Vec3.back,
+      -HU, -HU, 0, *Vec3.back,
+      HU, -HU, 0, *Vec3.back,
+      HU, HU, 0, *Vec3.back
     ]
 
     indexes = [
