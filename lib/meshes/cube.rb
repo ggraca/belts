@@ -16,40 +16,40 @@ class Meshes::Cube < Mesh
 
     vertices = [
       # Back face
-      *common_vertices[0], *Float3.back.values,
-      *common_vertices[1], *Float3.back.values,
-      *common_vertices[2], *Float3.back.values,
-      *common_vertices[3], *Float3.back.values,
+      *common_vertices[0], *Vec3.back.values,
+      *common_vertices[1], *Vec3.back.values,
+      *common_vertices[2], *Vec3.back.values,
+      *common_vertices[3], *Vec3.back.values,
 
       # Right face
-      *common_vertices[3], *Float3.right.values,
-      *common_vertices[2], *Float3.right.values,
-      *common_vertices[5], *Float3.right.values,
-      *common_vertices[4], *Float3.right.values,
+      *common_vertices[3], *Vec3.right.values,
+      *common_vertices[2], *Vec3.right.values,
+      *common_vertices[5], *Vec3.right.values,
+      *common_vertices[4], *Vec3.right.values,
 
       # Front face
-      *common_vertices[4], *Float3.forward.values,
-      *common_vertices[5], *Float3.forward.values,
-      *common_vertices[6], *Float3.forward.values,
-      *common_vertices[7], *Float3.forward.values,
+      *common_vertices[4], *Vec3.forward.values,
+      *common_vertices[5], *Vec3.forward.values,
+      *common_vertices[6], *Vec3.forward.values,
+      *common_vertices[7], *Vec3.forward.values,
 
       # Left face
-      *common_vertices[7], *Float3.left.values,
-      *common_vertices[6], *Float3.left.values,
-      *common_vertices[1], *Float3.left.values,
-      *common_vertices[0], *Float3.left.values,
+      *common_vertices[7], *Vec3.left.values,
+      *common_vertices[6], *Vec3.left.values,
+      *common_vertices[1], *Vec3.left.values,
+      *common_vertices[0], *Vec3.left.values,
 
       # Top face
-      *common_vertices[7], *Float3.up.values,
-      *common_vertices[0], *Float3.up.values,
-      *common_vertices[3], *Float3.up.values,
-      *common_vertices[4], *Float3.up.values,
+      *common_vertices[7], *Vec3.up.values,
+      *common_vertices[0], *Vec3.up.values,
+      *common_vertices[3], *Vec3.up.values,
+      *common_vertices[4], *Vec3.up.values,
 
       # Bottom face
-      *common_vertices[1], *Float3.down.values,
-      *common_vertices[6], *Float3.down.values,
-      *common_vertices[5], *Float3.down.values,
-      *common_vertices[2], *Float3.down.values
+      *common_vertices[1], *Vec3.down.values,
+      *common_vertices[6], *Vec3.down.values,
+      *common_vertices[5], *Vec3.down.values,
+      *common_vertices[2], *Vec3.down.values
     ]
 
     indexes = (0..5).map do |i|

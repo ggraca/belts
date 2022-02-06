@@ -1,4 +1,4 @@
-Float3 = Struct.new(:x, :y, :z) do
+Vec3 = Struct.new(:x, :y, :z) do
   class << self
     def zero = new(0, 0, 0)
     def one = new(1, 1, 1)
@@ -11,5 +11,5 @@ Float3 = Struct.new(:x, :y, :z) do
   end
 
   def initialize(x = 0, y = 0, z = 0) = super
-  def *(number) = Float3.new(x * number, y * number, z * number)
+  def *(number) = Vec3.new(x * number, y * number, z * number)
 end

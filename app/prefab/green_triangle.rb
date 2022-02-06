@@ -1,3 +1,3 @@
 class GreenTriangle < Prefab
-  renderer :square, color: Float3.up
+  renderer :square, color: Vec3.up
 end

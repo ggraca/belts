@@ -52,14 +52,15 @@ Mat4 = Struct.new(:m) do
     def perspective(fov, aspect, near, far)
       fov_rad = fov * Math::PI / 180
 
-      f = Math.tan(fov_rad)
-      f = 1 / f
+      y_scale = 1 / Math.tan(fov_rad)
+      x_scale = y_scale / aspect
+      frustumLength = far - near
 
       Matrix[
-        [f / aspect, 0, 0, 0],
-        [0, f, 0, 0],
-        [0, 0, (far + near) / (near - far), 2 * far * near / (near - far)],
-        [0, 0, -1, 0]
+        [x_scale, 0, 0, 0],
+        [0, y_scale, 0, 0],
+        [0, 0, -(far + near) / frustumLength, -1],
+        [0, 0, 2 * -(far * near) / frustumLength, 0]
       ]
     end
 
@@ -69,6 +70,19 @@ Mat4 = Struct.new(:m) do
       centerer = translation(- (right + left) / (right - left), - (top + bottom) / (top - bottom), - (far + near) / (far - near))
 
       switcher * scale * centerer
+    end
+
+    def look_at(eye, target, up)
+      z_axis = (eye - target).normalize
+      x_axis = up.cross(z_axis).normalize
+      y_axis = z_axis.cross(x_axis)
+
+      Matrix[
+        [x_axis[0], x_axis[1], x_axis[2], -x_axis.dot(eye)],
+        [y_axis[0], y_axis[1], y_axis[2], -y_axis.dot(eye)],
+        [z_axis[0], z_axis[1], z_axis[2], -z_axis.dot(eye)],
+        [0, 0, 0, 1]
+      ]
     end
   end
 end

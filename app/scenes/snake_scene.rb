@@ -1,6 +1,6 @@
 class SnakeScene < Scene
   prefab Camera2d
 
-  prefab Food, position: Float3.right
-  prefab Snake, position: Float3.left
+  prefab Food, position: Vec3.right
+  prefab Snake, position: Vec3.left
 end

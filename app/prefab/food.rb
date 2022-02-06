@@ -1,3 +1,3 @@
 class Food < Prefab
-  renderer :cube, color: Float3.one
+  renderer :cube, color: Vec3.one
 end

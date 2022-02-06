@@ -1,5 +1,5 @@
 class SpinningCube < Prefab
-  renderer :cube, color: Float3.right
+  renderer :cube, color: Vec3.right
   component :spinner, Spinner.new
   # renderer :square, color: :red
   # renderer :sprite
