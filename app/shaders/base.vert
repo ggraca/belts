@@ -6,11 +6,11 @@ uniform mat4 model;
 uniform mat4 camera;
 
 out vec3 normal;
-out vec3 curPosition;
+out vec4 curPosition;
 
 void main() {
-  normal = vec3(model * vec4(aNormal, 1.0));
-  curPosition = vec3(model * vec4(aPosition, 1.0));
+  normal = aNormal;
+  curPosition = model * vec4(aPosition, 1.0);
 
-  gl_Position = camera * vec4(curPosition, 1.0);
+  gl_Position = camera * curPosition;
 }

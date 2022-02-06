@@ -61,15 +61,15 @@ Mat4 = Struct.new(:m) do
         [0, y_scale, 0, 0],
         [0, 0, -(far + near) / frustumLength, -1],
         [0, 0, 2 * -(far * near) / frustumLength, 0]
-      ]
+      ].transpose
     end
 
     def orthographic(left, right, bottom, top, near, far)
-      switcher = scale(1, 1, -1)
       scale = scale(2.0 / (right - left), 2.0 / (top - bottom), 2.0 / (far - near))
-      centerer = translation(- (right + left) / (right - left), - (top + bottom) / (top - bottom), - (far + near) / (far - near))
+      centerer = translation(- (right + left) / (right - left), - (top + bottom) / (top - bottom), (far - near) / 2.0)
+      inverter = scale(1, 1, -1)
 
-      switcher * scale * centerer
+      scale * centerer# * inverter
     end
 
     def look_at(eye, target, up)

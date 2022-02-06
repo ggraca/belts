@@ -61,6 +61,6 @@ class Scene
 
   def autoload_systems
     # TODO: grab systems from /app/systems
-    [SpinnerSystem.new(self)]
+    [SpinnerSystem.new(self), CameraControllerSystem.new(self)]
   end
 end

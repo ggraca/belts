@@ -47,11 +47,14 @@ class Renderer
     @game.current_scene.collection(:transform, :camera_data).each do |data|
       data => {transform:, camera_data:}
 
-      view_matrix = transform.to_matrix
-      proj_matrix = Mat4.perspective(45, @window_ratio, 1, 100)
-      orth_matrix = Mat4.orthographic(-@window_ratio * 10, @window_ratio * 10, -10, 10, 10, 100)
+      # view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, transform.up)
+      view_matrix = Mat4.rotation(*-transform.rotation) * Mat4.scale(1, 1, -1) * Mat4.translation(*-transform.position)
+      proj_matrix = Mat4.perspective(45, @window_ratio, 0.1, 100)
 
-      camera_matrix = orth_matrix * view_matrix
+      ortho_size = 5
+      orth_matrix = Mat4.orthographic(-ortho_size * @window_ratio, ortho_size * @window_ratio, -ortho_size, ortho_size, 0, 10)
+
+      camera_matrix = proj_matrix * view_matrix
     end
 
     @game.current_scene.collection(:transform, :render_data).each do |data|

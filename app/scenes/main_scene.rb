@@ -1,9 +1,21 @@
 class MainScene < Scene
-  prefab Camera3d, position: Vec3[0, 0, -2]#, rotation: Vec3[0, 180, 0]
+  prefab Camera3d, position: Vec3[0, 0, -5], rotation: Vec3[0, 0, 0]
 
   # prefab GreenTriangle, position: Vec3.left * 2
+  # prefab SpinningCube, position: (Vec3.up + Vec3.forward) * -2
+  # prefab SpinningCube, position: (Vec3.right + Vec3.forward) * -2
+  # prefab SpinningCube, position: Vec3.forward * -2
+  prefab GreenTriangle
+  prefab GreenTriangle, position: Vec3.left
+  prefab GreenTriangle, position: Vec3.right
+  prefab GreenTriangle, position: Vec3.up
+  prefab GreenTriangle, position: Vec3.down
+  prefab GreenTriangle, position: Vec3.up + Vec3.right
+  prefab GreenTriangle, position: Vec3.up * 2 + Vec3.right * 2
   prefab SpinningCube, position: Vec3.right * 2
   prefab SpinningCube, position: Vec3.left * 2
+  prefab SpinningCube, position: Vec3.up * 2
+  prefab SpinningCube, position: Vec3.up * 2 + Vec3.left * 2
   # prefab SpinningCube, position: Vec3.left * 2
   # prefab SpinningCube, position: Vec3.right
 

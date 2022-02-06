@@ -2,12 +2,12 @@
 out vec4 FragColor;
 
 in vec3 normal;
-in vec3 curPosition;
+in vec4 curPosition;
 
 void main() {
   float ambient = 0.2;
-  vec3 lightPosition = vec3(2, 2, -1);
-  vec3 lightDirection = normalize(lightPosition - curPosition);
+  vec3 lightPosition = vec3(1, 1, -0.1);
+  vec3 lightDirection = normalize(lightPosition - vec3(curPosition));
 
   float diffuse = max(dot(normal, lightDirection), 0.0);
   vec4 objColor = vec4(1.0, 1.0, 0.5, 1);
