@@ -20,15 +20,16 @@ class Scene
     register_collection(:transform, :spinner)
 
     @@prefabs.each do |prefab|
-      instantiate(prefab[:class_name], prefab[:position])
+      instantiate(prefab[:class_name], prefab[:position], prefab[:rotation])
     end
   end
 
-  def instantiate(klass, position)
+  def instantiate(klass, position, rotation)
     @max_id += 1
     @entities << @max_id
     components = Marshal.load(Marshal.dump(klass.components))
     components[:transform].position = position if position
+    components[:transform].rotation = rotation if rotation
 
     @collections.each do |key, value|
       next if (key - components.keys).any?

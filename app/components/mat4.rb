@@ -12,6 +12,10 @@ Mat4 = Struct.new(:m) do
     end
 
     def rotation(x, y, z)
+      x = x * Math::PI / 180
+      y = y * Math::PI / 180
+      z = z * Math::PI / 180
+
       rotation_x = Matrix[
         [1, 0, 0, 0],
         [0, Math.cos(x), -Math.sin(x), 0],
@@ -46,16 +50,25 @@ Mat4 = Struct.new(:m) do
     end
 
     def perspective(fov, aspect, near, far)
-      y_scale = 1.0 / Math.tan(fov * Math::PI / 360.0)
-      x_scale = y_scale / aspect
-      nearmfar = near - far
+      fov_rad = fov * Math::PI / 180
+
+      f = Math.tan(fov_rad)
+      f = 1 / f
 
       Matrix[
-        [x_scale, 0, 0, 0],
-        [0, y_scale, 0, 0],
-        [0, 0, (far + near) / nearmfar, -1],
-        [0, 0, 2 * far * near / nearmfar, 0]
+        [f / aspect, 0, 0, 0],
+        [0, f, 0, 0],
+        [0, 0, (far + near) / (near - far), 2 * far * near / (near - far)],
+        [0, 0, -1, 0]
       ]
+    end
+
+    def orthographic(left, right, bottom, top, near, far)
+      switcher = scale(1, 1, -1)
+      scale = scale(2.0 / (right - left), 2.0 / (top - bottom), 2.0 / (far - near))
+      centerer = translation(- (right + left) / (right - left), - (top + bottom) / (top - bottom), - (far + near) / (far - near))
+
+      switcher * scale * centerer
     end
   end
 end

@@ -1,6 +1,5 @@
 include OpenGL
 include GLFW
-include GLU
 
 class Renderer
   def initialize(game)
@@ -8,7 +7,6 @@ class Renderer
 
     OpenGL.load_lib
     GLFW.load_lib
-    GLU.load_lib
 
     glfwInit()
     glfwWindowHint(GLFW_ALPHA_BITS, 0)
@@ -24,7 +22,6 @@ class Renderer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glUseProgram(@game.asset_manager.get_shader(:default))
 
-    # update_cameras
     render_entities
 
     glfwSwapBuffers( @window )
@@ -44,37 +41,29 @@ class Renderer
     glViewport(0, 0, width, height)
   end
 
-  def update_cameras
-    glMatrixMode(GL_PROJECTION)
+  def render_entities
+    camera_matrix = nil
 
     @game.current_scene.collection(:transform, :camera_data).each do |data|
       data => {transform:, camera_data:}
 
-      glLoadIdentity()
-      glTranslatef(*transform.position.values)
-      gluPerspective(45.0, @window_ratio, 0.1, 1000.0) if camera_data.perspective?
-      glOrtho(-@window_ratio, @window_ratio, -1.0, 1.0, 1.0, -1.0) if camera_data.orthographic?
+      view_matrix = transform.to_matrix
+      proj_matrix = Mat4.perspective(45, @window_ratio, 1, 100)
+      orth_matrix = Mat4.orthographic(-@window_ratio * 10, @window_ratio * 10, -10, 10, 0, 100)
+
+      camera_matrix = proj_matrix * view_matrix
     end
 
-    glMatrixMode(GL_MODELVIEW)
-  end
-
-  def render_entities
     @game.current_scene.collection(:transform, :render_data).each do |data|
       data => {transform:, render_data:}
 
       model_matrix = transform.to_matrix
-      view_matrix = Mat4.translation(0, 0, -2)
-      proj_matrix = Mat4.perspective(45, @window_ratio, 1, 100)
 
       modelLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "model")
-      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model_matrix.to_a.flatten.pack("F*"))
+      glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model_matrix.transpose.to_a.flatten.pack("F*"))
 
-      viewLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "view")
-      glUniformMatrix4fv(viewLoc, 1, GL_FALSE, view_matrix.to_a.flatten.pack("F*"))
-
-      projLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "proj")
-      glUniformMatrix4fv(projLoc, 1, GL_FALSE, proj_matrix.to_a.flatten.pack("F*"))
+      cameraLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "camera")
+      glUniformMatrix4fv(cameraLoc, 1, GL_FALSE, camera_matrix.transpose.to_a.flatten.pack("F*"))
 
       mesh = @game.asset_manager.get_mesh(render_data.type)
       mesh.draw

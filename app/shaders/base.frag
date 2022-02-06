@@ -6,7 +6,7 @@ in vec3 curPosition;
 
 void main() {
   float ambient = 0.2;
-  vec3 lightPosition = vec3(2.0, 2.0, 2.0);
+  vec3 lightPosition = vec3(2, 2, -1);
   vec3 lightDirection = normalize(lightPosition - curPosition);
 
   float diffuse = max(dot(normal, lightDirection), 0.0);

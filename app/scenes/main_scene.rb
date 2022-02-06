@@ -1,8 +1,10 @@
 class MainScene < Scene
-  prefab Camera2d
+  prefab Camera3d, position: Float3.new(0, 0, -2)
 
   # prefab GreenTriangle, position: Float3.left * 2
-  prefab SpinningCube
+  prefab SpinningCube, position: Float3.right
+  prefab SpinningCube, position: Float3.left
+  # prefab SpinningCube, position: Float3.left * 2
   # prefab SpinningCube, position: Float3.right
 
   # (-1..1).each do |i|
