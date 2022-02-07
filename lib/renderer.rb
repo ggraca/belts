@@ -54,19 +54,23 @@ class Renderer
       ortho_size = 5
       orth_matrix = Mat4.orthographic(-ortho_size * @window_ratio, ortho_size * @window_ratio, -ortho_size, ortho_size, 0, 10)
 
-      camera_matrix = proj_matrix * view_matrix
+      camera_matrix = (proj_matrix * view_matrix)
     end
 
     @game.current_scene.collection(:transform, :render_data).each do |data|
       data => {transform:, render_data:}
 
       model_matrix = transform.to_matrix
+      normal_matrix = model_matrix.inverse.transpose
 
-      modelLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "model")
+      cameraLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "camera_matrix")
+      glUniformMatrix4fv(cameraLoc, 1, GL_FALSE, camera_matrix.transpose.to_a.flatten.pack("F*"))
+
+      modelLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "model_matrix")
       glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model_matrix.transpose.to_a.flatten.pack("F*"))
 
-      cameraLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "camera")
-      glUniformMatrix4fv(cameraLoc, 1, GL_FALSE, camera_matrix.transpose.to_a.flatten.pack("F*"))
+      normalLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "normal_matrix")
+      glUniformMatrix4fv(normalLoc, 1, GL_FALSE, normal_matrix.transpose.to_a.flatten.pack("F*"))
 
       mesh = @game.asset_manager.get_mesh(render_data.type)
       mesh.draw
