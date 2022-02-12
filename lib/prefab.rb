@@ -10,13 +10,15 @@ module ComponentMixin
       @components ||= {}
     end
 
+    def component(name, val)
+      set_component(name, val)
+    end
+
+    private
+
     def set_component(name, data)
       @components ||= {}
       @components[name] = data
-    end
-
-    def component(name, val)
-      set_component(name, val)
     end
   end
 end

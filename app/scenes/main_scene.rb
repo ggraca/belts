@@ -1,5 +1,5 @@
 class MainScene < Scene
-  prefab Camera3d, position: Vec3[0, 0, -5], rotation: Vec3[0, 0, 0]
+  prefab Camera3d, position: Vec3[0, 0, -5]
 
   # prefab GreenTriangle, position: Vec3.left * 2
   # prefab SpinningCube, position: (Vec3.up + Vec3.forward) * -2

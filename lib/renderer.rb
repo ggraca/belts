@@ -44,7 +44,7 @@ class Renderer
   def render_entities
     camera_matrix = nil
 
-    @game.current_scene.collection(:transform, :camera_data).each do |data|
+    @game.current_scene.collection(with: [:transform, :camera_data]).each do |data|
       data => {transform:, camera_data:}
 
       # view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, transform.up)
@@ -57,7 +57,7 @@ class Renderer
       camera_matrix = (proj_matrix * view_matrix)
     end
 
-    @game.current_scene.collection(:transform, :render_data).each do |data|
+    @game.current_scene.collection(with: [:transform, :render_data]).each do |data|
       data => {transform:, render_data:}
 
       model_matrix = transform.to_matrix

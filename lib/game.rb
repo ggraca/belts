@@ -4,7 +4,7 @@ class Game
   def initialize
     @renderer = Renderer.new(self)
     @asset_manager = AssetManager.new
-    @current_scene = MainScene.new(self)
+    @current_scene = SnakeScene.new(self)
   end
 
   def update

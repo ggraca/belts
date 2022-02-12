@@ -1,6 +1,9 @@
 class CameraControllerSystem < System
+  collection :cameras,
+    with: [:transform, :camera_data]
+
   def update
-    @scene.collection(:transform, :camera_data).each do |data|
+    cameras.each do |data|
       data => {transform:}
 
       # transform.rotation.y += glfwGetTime() * 3

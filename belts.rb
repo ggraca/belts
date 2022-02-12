@@ -2,6 +2,7 @@ require 'zeitwerk'
 require 'opengl'
 require 'glfw'
 require 'matrix'
+require 'active_support/inflector'
 
 class Belts
   def initialize

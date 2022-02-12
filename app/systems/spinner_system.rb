@@ -1,6 +1,9 @@
 class SpinnerSystem < System
+  collection :spinners,
+    with: [:transform, :spinner]
+
   def update
-    @scene.collection(:transform, :spinner).each do |data|
+    spinners.each do |data|
       data => {transform:}
       #transform.rotation.x = glfwGetTime() * 30
       transform.rotation.y = glfwGetTime() * 30

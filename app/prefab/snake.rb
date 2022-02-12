@@ -1,3 +1,5 @@
 class Snake < Prefab
-  renderer :cube, color: Vec3.one
+  renderer :square, color: Vec3.one
+
+  component :snake_data, SnakeData.new
 end

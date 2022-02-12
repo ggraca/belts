@@ -1,4 +1,8 @@
+Entity = Struct.new(:id, :components)
+
 class Scene
+  attr_reader :game
+
   self.instance_eval do
     extend Module.new {
       def prefab(class_name, **options)
@@ -10,47 +14,36 @@ class Scene
 
   def initialize(game)
     @game = game
-    @systems = autoload_systems
-    @max_id = 0
-    @entities = []
-    @collections = {}
-    register_collection(:transform, :camera_data)
-    register_collection(:transform, :light_data)
-    register_collection(:transform, :render_data)
-    register_collection(:transform, :spinner)
-
-    @@prefabs.each do |prefab|
-      instantiate(prefab[:class_name], prefab[:position], prefab[:rotation])
-    end
+    init_systems
+    init_entities
   end
 
-  def instantiate(klass, position, rotation)
-    @max_id += 1
-    @entities << @max_id
-    components = Marshal.load(Marshal.dump(klass.components))
-    components[:transform].position = position if position
-    components[:transform].rotation = rotation if rotation
+  def instantiate(components)
+    @entities ||= []
+    @max_id ||= 0
+
+    @entities << Entity.new(@max_id += 1, components)
 
     @collections.each do |key, value|
-      next if (key - components.keys).any?
+      next if (key[:with] - components.keys).any?
 
-      common_keys = key & components.keys
-      value << components.slice(*common_keys).merge(entity: @max_id)
+      common_keys = key[:with] & components.keys
+      value << components.slice(*common_keys)
     end
   end
 
-  def entities
-    @entities
+  def collection(with: [], without: [])
+    key = {with: with.sort, without: without.sort}
+    raise "Collection not registered: #{key}" unless @collections.key?(key)
+
+    @collections[key]
   end
 
-  def collection(*components)
-    raise "Collection not registered: #{components}" unless @collections.key?(components)
+  def register_collection(with: [], without: [])
+    key = {with: with.sort, without: without.sort}
 
-    @collections[components]
-  end
-
-  def register_collection(*components)
-    @collections[components] = []
+    @collections ||= {}
+    @collections[key] = []
   end
 
   def update
@@ -59,8 +52,33 @@ class Scene
 
   private
 
-  def autoload_systems
-    # TODO: grab systems from /app/systems
-    [SpinnerSystem.new(self), CameraControllerSystem.new(self)]
+  def init_systems
+    @systems = []
+    @collections = {}
+
+    register_collection(with: [:transform, :camera_data])
+    register_collection(with: [:transform, :render_data])
+
+    klasses = Dir["app/systems/*.rb"].map do |file|
+      File.basename(file, ".rb").camelize.constantize
+    end
+
+    klasses.each do |klass|
+      klass.collection_keys.each do |key|
+        register_collection(**key)
+      end
+
+      @systems << klass.new(self)
+    end
+  end
+
+  def init_entities
+    @@prefabs.each do |prefab|
+      components = Marshal.load(Marshal.dump(prefab[:class_name].components)) # deep copy
+      components[:transform].position = prefab[:position] if prefab[:position]
+      components[:transform].rotation = prefab[:rotation] if prefab[:rotation]
+
+      instantiate(components)
+    end
   end
 end
