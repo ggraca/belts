@@ -1,1 +1,0 @@
-SnakeData = Struct.new(:direction)

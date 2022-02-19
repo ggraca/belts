@@ -1,2 +1,0 @@
-class Spinner
-end
