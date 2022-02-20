@@ -7,6 +7,9 @@ require 'active_support/inflector'
 require_relative './belts_components/vec3'
 require_relative './belts_components/mat4'
 require_relative './belts_components/transform'
+require_relative './belts_components/camera_data'
+require_relative './belts_components/light_data'
+require_relative './belts_components/render_data'
 
 loader = Zeitwerk::Loader.for_gem
 loader.setup
@@ -43,3 +46,7 @@ module Belts
     @zeitwerk_loader.setup
   end
 end
+
+require_relative './belts_prefabs/camera_2d'
+require_relative './belts_prefabs/camera_3d'
+require_relative './belts_prefabs/light'
