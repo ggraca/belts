@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.0.1"
 
   s.add_dependency 'activesupport', '~> 7.0.0'
-  s.add_dependency 'opengl-bindings', '~> 1.6.11'
+  s.add_dependency 'opengl-bindings2', '~> 2.0.0'
   s.add_dependency 'zeitwerk', '~> 2.4.2'
 end

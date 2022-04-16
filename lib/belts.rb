@@ -14,10 +14,6 @@ require_relative './belts_components/render_data'
 loader = Zeitwerk::Loader.for_gem
 loader.setup
 
-# TODO: Add abstraction for time and input. Then we can put this in a more specific module
-include OpenGL
-include GLFW
-
 module Belts
   def self.init
     init_zeitwerk_loader

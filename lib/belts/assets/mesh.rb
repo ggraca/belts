@@ -4,13 +4,13 @@ module Belts::Assets
 
     def create_buffer
       temp = ' ' * 4
-      glGenBuffers(1, temp)
+      GL.GenBuffers(1, temp)
       temp.unpack('L')[0]
     end
 
     def create_vertex_array_buffer
       temp = ' ' * 4
-      glGenVertexArrays(1, temp)
+      GL.GenVertexArrays(1, temp)
       temp.unpack('L')[0]
     end
   end
@@ -33,14 +33,14 @@ module Belts::Assets
     end
 
     def draw
-      glBindVertexArray(@vao)
-      glDrawElements(GL_TRIANGLES, @indexes.size, GL_UNSIGNED_INT, 0)
+      GL.BindVertexArray(@vao)
+      GL.DrawElements(GL::TRIANGLES, @indexes.size, GL::UNSIGNED_INT, 0)
     end
 
     def destroy
-      glDeleteVertexArrays(1, [@vao].pack('L'))
-      glDeleteBuffers(1, [@vbo].pack('L'))
-      glDeleteBuffers(1, [@ebo].pack('L'))
+      GL.DeleteVertexArrays(1, [@vao].pack('L'))
+      GL.DeleteBuffers(1, [@vbo].pack('L'))
+      GL.DeleteBuffers(1, [@ebo].pack('L'))
     end
 
     private
@@ -48,22 +48,22 @@ module Belts::Assets
     def upload_vertice_data
       values_per_vertex = 3
 
-      glBindVertexArray(@vao)
-      glBindBuffer(GL_ARRAY_BUFFER, @vbo)
+      GL.BindVertexArray(@vao)
+      GL.BindBuffer(GL::ARRAY_BUFFER, @vbo)
 
-      glBufferData(GL_ARRAY_BUFFER, @vertices.size * Fiddle::SIZEOF_FLOAT, @vertices.pack('F*'), GL_STATIC_DRAW)
+      GL.BufferData(GL::ARRAY_BUFFER, @vertices.size * Fiddle::SIZEOF_FLOAT, @vertices.pack('F*'), GL::STATIC_DRAW)
 
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, @ebo)
-      glBufferData(GL_ELEMENT_ARRAY_BUFFER, @indexes.size * Fiddle::SIZEOF_INT, @indexes.pack('L*'), GL_STATIC_DRAW)
+      GL.BindBuffer(GL::ELEMENT_ARRAY_BUFFER, @ebo)
+      GL.BufferData(GL::ELEMENT_ARRAY_BUFFER, @indexes.size * Fiddle::SIZEOF_INT, @indexes.pack('L*'), GL::STATIC_DRAW)
 
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * Fiddle::SIZEOF_FLOAT, 0)
-      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * Fiddle::SIZEOF_FLOAT, 3 * Fiddle::SIZEOF_FLOAT)
-      glEnableVertexAttribArray(0)
-      glEnableVertexAttribArray(1)
+      GL.VertexAttribPointer(0, 3, GL::FLOAT, GL::FALSE, 6 * Fiddle::SIZEOF_FLOAT, 0)
+      GL.VertexAttribPointer(1, 3, GL::FLOAT, GL::FALSE, 6 * Fiddle::SIZEOF_FLOAT, 3 * Fiddle::SIZEOF_FLOAT)
+      GL.EnableVertexAttribArray(0)
+      GL.EnableVertexAttribArray(1)
 
-      glBindBuffer(GL_ARRAY_BUFFER, 0)
-      glBindVertexArray(0)
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)
+      GL.BindBuffer(GL::ARRAY_BUFFER, 0)
+      GL.BindVertexArray(0)
+      GL.BindBuffer(GL::ELEMENT_ARRAY_BUFFER, 0)
     end
   end
 end

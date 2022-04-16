@@ -17,27 +17,27 @@ module Belts::Assets
     end
 
     def build_default_shader
-      vert_shader = glCreateShader(GL_VERTEX_SHADER)
+      vert_shader = GL.CreateShader(GL::VERTEX_SHADER)
       vpath = File.join(Belts.root, 'lib/belts/assets/shaders/base.vert')
       vcontent = [File.read(vpath)].pack('p')
       vsize = [File.size(vpath)].pack('I')
-      glShaderSource(vert_shader, 1, vcontent, vsize)
-      glCompileShader(vert_shader)
+      GL.ShaderSource(vert_shader, 1, vcontent, vsize)
+      GL.CompileShader(vert_shader)
 
-      frag_shader = glCreateShader(GL_FRAGMENT_SHADER)
+      frag_shader = GL.CreateShader(GL::FRAGMENT_SHADER)
       fpath = File.join(Belts.root, 'lib/belts/assets/shaders/base.frag')
       fcontent = [File.read(fpath)].pack('p')
       fsize = [File.size(fpath)].pack('I')
-      glShaderSource(frag_shader, 1, fcontent, fsize)
-      glCompileShader(frag_shader)
+      GL.ShaderSource(frag_shader, 1, fcontent, fsize)
+      GL.CompileShader(frag_shader)
 
-      @shaders[:default] = glCreateProgram()
-      glAttachShader(@shaders[:default], vert_shader)
-      glAttachShader(@shaders[:default], frag_shader)
-      glLinkProgram(@shaders[:default])
+      @shaders[:default] = GL.CreateProgram()
+      GL.AttachShader(@shaders[:default], vert_shader)
+      GL.AttachShader(@shaders[:default], frag_shader)
+      GL.LinkProgram(@shaders[:default])
 
-      glDeleteShader(vert_shader)
-      glDeleteShader(frag_shader)
+      GL.DeleteShader(vert_shader)
+      GL.DeleteShader(frag_shader)
     end
 
     def build_default_meshes

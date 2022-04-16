@@ -1,48 +1,48 @@
 module Belts
   class Renderer
-    INPUT_MAP = {
-      GLFW_KEY_W => :w,
-      GLFW_KEY_A => :a,
-      GLFW_KEY_S => :s,
-      GLFW_KEY_D => :d,
-    }
-
     def initialize(game)
       @game = game
 
-      OpenGL.load_lib
+      GL.load_lib
       GLFW.load_lib
 
-      glfwInit()
-      glfwWindowHint(GLFW_ALPHA_BITS, 0)
-      @window = glfwCreateWindow(640, 480, "Belts Demo", nil, nil)
-      glfwMakeContextCurrent(@window)
-      glEnable(GL_DEPTH_TEST)
-      glEnable(GL_CULL_FACE)
+      GLFW.Init()
+      GLFW.WindowHint(GLFW::ALPHA_BITS, 0)
+      @window = GLFW.CreateWindow(640, 480, "Belts Demo", nil, nil)
+      GLFW.MakeContextCurrent(@window)
+      GL.Enable(GL::DEPTH_TEST)
+      GL.Enable(GL::CULL_FACE)
+
+      map = {
+        GLFW::KEY_W => :w,
+        GLFW::KEY_A => :a,
+        GLFW::KEY_S => :s,
+        GLFW::KEY_D => :d,
+      }
 
       @input_changes = {}
       key_callback = GLFW::create_callback(:GLFWkeyfun) do |window_handle, key, scancode, action, mods|
         # next if INPUT_MAP[key].nil?
-        # next if action == GLFW_REPEAT
+        # next if action == GLFW::REPEAT
 
         # key = INPUT_MAP[key]
-        # input_changes[key] = action == GLFW_PRESS
+        # input_changes[key] = action == GLFW::PRESS
       end
 
-      glfwSetKeyCallback(@window, key_callback);
+      GLFW.SetKeyCallback(@window, key_callback);
     end
 
     def update
       update_window_size
-      glClearColor(0.07, 0.13, 0.17, 1.0)
-      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-      glUseProgram(@game.asset_manager.get_shader(:default))
+      GL.ClearColor(0.07, 0.13, 0.17, 1.0)
+      GL.Clear(GL::COLOR_BUFFER_BIT | GL::DEPTH_BUFFER_BIT)
+      GL.UseProgram(@game.asset_manager.get_shader(:default))
 
       render_entities
 
-      glfwSwapBuffers( @window )
+      GLFW.SwapBuffers( @window )
 
-      glfwPollEvents()
+      GLFW.PollEvents()
       @game.input.update(@input_changes)
       @input_changes = {}
     end
@@ -52,12 +52,12 @@ module Belts
     def update_window_size
       width_ptr = ' ' * 8
       height_ptr = ' ' * 8
-      glfwGetFramebufferSize(@window, width_ptr, height_ptr)
+      GLFW.GetFramebufferSize(@window, width_ptr, height_ptr)
       width = width_ptr.unpack('L')[0]
       height = height_ptr.unpack('L')[0]
       @window_ratio = width.to_f / height.to_f
 
-      glViewport(0, 0, width, height)
+      GL.Viewport(0, 0, width, height)
     end
 
     def render_entities
@@ -82,14 +82,14 @@ module Belts
         model_matrix = transform.to_matrix
         normal_matrix = model_matrix.inverse.transpose
 
-        cameraLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "camera_matrix")
-        glUniformMatrix4fv(cameraLoc, 1, GL_FALSE, camera_matrix.transpose.to_a.flatten.pack("F*"))
+        cameraLoc = GL.GetUniformLocation(@game.asset_manager.get_shader(:default), "camera_matrix")
+        GL.UniformMatrix4fv(cameraLoc, 1, GL::FALSE, camera_matrix.transpose.to_a.flatten.pack("F*"))
 
-        modelLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "model_matrix")
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model_matrix.transpose.to_a.flatten.pack("F*"))
+        modelLoc = GL.GetUniformLocation(@game.asset_manager.get_shader(:default), "model_matrix")
+        GL.UniformMatrix4fv(modelLoc, 1, GL::FALSE, model_matrix.transpose.to_a.flatten.pack("F*"))
 
-        normalLoc = glGetUniformLocation(@game.asset_manager.get_shader(:default), "normal_matrix")
-        glUniformMatrix4fv(normalLoc, 1, GL_FALSE, normal_matrix.transpose.to_a.flatten.pack("F*"))
+        normalLoc = GL.GetUniformLocation(@game.asset_manager.get_shader(:default), "normal_matrix")
+        GL.UniformMatrix4fv(normalLoc, 1, GL::FALSE, normal_matrix.transpose.to_a.flatten.pack("F*"))
 
         mesh = @game.asset_manager.get_mesh(render_data.type)
         mesh.draw
