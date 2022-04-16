@@ -1,5 +1,12 @@
 module Belts
   class Renderer
+    INPUT_MAP = {
+      GLFW_KEY_W => :w,
+      GLFW_KEY_A => :a,
+      GLFW_KEY_S => :s,
+      GLFW_KEY_D => :d,
+    }
+
     def initialize(game)
       @game = game
 
@@ -8,10 +15,21 @@ module Belts
 
       glfwInit()
       glfwWindowHint(GLFW_ALPHA_BITS, 0)
-      @window = glfwCreateWindow( 640, 480, "Belts Demo", nil, nil )
-      glfwMakeContextCurrent( @window )
+      @window = glfwCreateWindow(640, 480, "Belts Demo", nil, nil)
+      glfwMakeContextCurrent(@window)
       glEnable(GL_DEPTH_TEST)
       glEnable(GL_CULL_FACE)
+
+      @input_changes = {}
+      key_callback = GLFW::create_callback(:GLFWkeyfun) do |window_handle, key, scancode, action, mods|
+        # next if INPUT_MAP[key].nil?
+        # next if action == GLFW_REPEAT
+
+        # key = INPUT_MAP[key]
+        # input_changes[key] = action == GLFW_PRESS
+      end
+
+      glfwSetKeyCallback(@window, key_callback);
     end
 
     def update
@@ -23,7 +41,10 @@ module Belts
       render_entities
 
       glfwSwapBuffers( @window )
+
       glfwPollEvents()
+      @game.input.update(@input_changes)
+      @input_changes = {}
     end
 
     private

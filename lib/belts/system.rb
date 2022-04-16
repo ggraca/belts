@@ -6,6 +6,7 @@ module Belts
       @scene = scene
       @game = scene.game
       @time = @game.time
+      @input = @game.input
     end
   end
 end

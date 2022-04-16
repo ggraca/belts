@@ -3,11 +3,12 @@ module Belts
     attr_reader :time, :input, :asset_manager, :current_scene
 
     def initialize
+      @time = Game::Time.new
+      @input = Game::Input.new
+
       @renderer = Renderer.new(self)
       @asset_manager = Assets::AssetManager.new
-      # @input = Game::Input.new
 
-      @time = Game::Time.new
       @current_scene = MainScene.new(self) # TODO: Game specific
     end
 
