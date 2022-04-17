@@ -17,7 +17,7 @@ module Belts
           register_collection_key(key)
 
           define_method(name) do
-            @scene.collection(**key)
+            @entities.collection(**key)
           end
         end
 

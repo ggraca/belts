@@ -12,9 +12,10 @@ Gem::Specification.new do |s|
 
   s.executable = 'belts'
 
-  s.required_ruby_version = ">= 3.0.1"
+  s.required_ruby_version = ">= 3.1.2"
 
   s.add_dependency 'activesupport', '~> 7.0.0'
+  s.add_dependency 'matrix', '~> 0.4.2'
   s.add_dependency 'opengl-bindings2', '~> 2.0.0'
   s.add_dependency 'zeitwerk', '~> 2.4.2'
 end

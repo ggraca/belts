@@ -9,6 +9,7 @@ GEM
     concurrent-ruby (1.1.10)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
+    matrix (0.4.2)
     minitest (5.15.0)
     opengl-bindings2 (2.0.0)
     tzinfo (2.0.4)
@@ -20,11 +21,12 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
+  matrix
   opengl-bindings2
   zeitwerk
 
 RUBY VERSION
-   ruby 3.0.1p64
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.3.4

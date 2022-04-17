@@ -2,9 +2,9 @@ module Belts
   class System
     include System::CollectionMixin
 
-    def initialize(scene)
-      @scene = scene
-      @game = scene.game
+    def initialize(game)
+      @game = game
+      @entities = game.entities
       @time = @game.time
       @input = @game.input
     end

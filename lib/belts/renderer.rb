@@ -3,33 +3,18 @@ module Belts
     def initialize(game)
       @game = game
 
-      GL.load_lib
-      GLFW.load_lib
-
+      GLFW.load_lib()
       GLFW.Init()
       GLFW.WindowHint(GLFW::ALPHA_BITS, 0)
       @window = GLFW.CreateWindow(640, 480, "Belts Demo", nil, nil)
       GLFW.MakeContextCurrent(@window)
+
+      # NOTE: This causes a segfault. Waiting for it to get fixed.
+      # @input_manager = InputManager.new(@game, @window)
+
+      GL.load_lib()
       GL.Enable(GL::DEPTH_TEST)
       GL.Enable(GL::CULL_FACE)
-
-      map = {
-        GLFW::KEY_W => :w,
-        GLFW::KEY_A => :a,
-        GLFW::KEY_S => :s,
-        GLFW::KEY_D => :d,
-      }
-
-      @input_changes = {}
-      key_callback = GLFW::create_callback(:GLFWkeyfun) do |window_handle, key, scancode, action, mods|
-        # next if INPUT_MAP[key].nil?
-        # next if action == GLFW::REPEAT
-
-        # key = INPUT_MAP[key]
-        # input_changes[key] = action == GLFW::PRESS
-      end
-
-      GLFW.SetKeyCallback(@window, key_callback);
     end
 
     def update
@@ -40,11 +25,10 @@ module Belts
 
       render_entities
 
-      GLFW.SwapBuffers( @window )
-
+      GLFW.SwapBuffers(@window)
       GLFW.PollEvents()
-      @game.input.update(@input_changes)
-      @input_changes = {}
+
+      # @input_manager.update
     end
 
     private
@@ -63,7 +47,7 @@ module Belts
     def render_entities
       camera_matrix = nil
 
-      @game.current_scene.collection(with: [:transform, :camera_data]).each do |data|
+      @game.entities.collection(with: [:transform, :camera_data]).each do |data|
         data => {transform:, camera_data:}
 
         # view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, transform.up)
@@ -76,7 +60,7 @@ module Belts
         camera_matrix = (proj_matrix * view_matrix)
       end
 
-      @game.current_scene.collection(with: [:transform, :render_data]).each do |data|
+      @game.entities.collection(with: [:transform, :render_data]).each do |data|
         data => {transform:, render_data:}
 
         model_matrix = transform.to_matrix
