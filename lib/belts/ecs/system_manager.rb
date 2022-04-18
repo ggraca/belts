@@ -11,6 +11,14 @@ module Belts::Ecs
       @systems.each(&:update)
     end
 
+    def register_system(klass)
+      @systems << klass.new(@game) # TODO: Avoid duplicates
+
+      klass.collection_keys.each do |key|
+        @game.entities.register_collection(**key)
+      end
+    end
+
     private
 
     def register_app_systems
@@ -20,14 +28,6 @@ module Belts::Ecs
 
       klasses.each do |klass|
         register_system(klass)
-      end
-    end
-
-    def register_system(klass)
-      @systems << klass.new(@game) # TODO: Avoid duplicates
-
-      klass.collection_keys.each do |key|
-        @game.entities.register_collection(**key)
       end
     end
   end
