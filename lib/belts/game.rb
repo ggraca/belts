@@ -8,15 +8,10 @@ module Belts
       @window = Game::Window.new
       @entities = Ecs::EntityManager.new
       @systems = Ecs::SystemManager.new(self)
-
-      install_plugins
-      load_assets
-      start
     end
 
-    def install_plugins
-      # Needs game to register and access assets (shaders) and access entities / collections. Can be removed once systems are implemented
-      @renderer = Renderer.new(self)
+    def use(extension)
+      extension.install(self)
     end
 
     def load_assets

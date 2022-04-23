@@ -10,6 +10,7 @@ require_relative './belts_components/transform'
 require_relative './belts_components/camera_data'
 require_relative './belts_components/light_data'
 require_relative './belts_components/render_data'
+require_relative './belts_opengl'
 
 loader = Zeitwerk::Loader.for_gem
 loader.setup
@@ -19,6 +20,10 @@ module Belts
     init_zeitwerk_loader
 
     @game = Game.new
+    @game.use BeltsOpengl
+
+    @game.load_assets
+    @game.start
 
     while true
       @game.update
