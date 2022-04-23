@@ -7,6 +7,11 @@ module Belts
       @entities = game.entities
       @time = @game.time
       @input = @game.input
+
+      start
+    end
+
+    def start
     end
   end
 end

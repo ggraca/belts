@@ -1,11 +1,16 @@
 module Belts
   class Renderer
-    class RendererSystem < Belts::System
+    class RenderSystem < Belts::System
       collection :cameras,
         with: [:transform, :camera_data]
 
       collection :objects,
         with: [:transform, :render_data]
+
+      def start
+        GL.Enable(GL::DEPTH_TEST)
+        GL.Enable(GL::CULL_FACE)
+      end
 
       def update
         GL.ClearColor(0.07, 0.13, 0.17, 1.0)

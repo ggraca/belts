@@ -17,7 +17,7 @@ module Belts::Ecs
 
     def register_collection(with: [], without: [])
       key = {with: with.sort, without: without.sort}
-      @collections[key] = [] # TODO: Avoid duplicates
+      @collections[key] ||= []
     end
 
     def instantiate(components)

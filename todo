@@ -1,6 +1,5 @@
 0.1 Release
 - lights, shaders
-- time.deltaTime
 - keyboard input
 - component system should be registered automatically
 - instantiate/destroy register components and entities properly
