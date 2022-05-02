@@ -1,8 +1,7 @@
 require 'zeitwerk'
-require 'opengl'
-require 'glfw'
 require 'matrix'
 require 'active_support/inflector'
+require 'belts_opengl'
 
 require_relative './belts_components/vec3'
 require_relative './belts_components/mat4'
@@ -10,7 +9,6 @@ require_relative './belts_components/transform'
 require_relative './belts_components/camera_data'
 require_relative './belts_components/light_data'
 require_relative './belts_components/render_data'
-require_relative './belts_opengl'
 
 loader = Zeitwerk::Loader.for_gem
 loader.setup
@@ -20,7 +18,7 @@ module Belts
     init_zeitwerk_loader
 
     @game = Game.new
-    @game.use BeltsOpengl
+    @game.use ::BeltsOpengl
 
     @game.load_assets
     @game.start
@@ -47,7 +45,3 @@ module Belts
     @zeitwerk_loader.setup
   end
 end
-
-require_relative './belts_prefabs/camera_2d'
-require_relative './belts_prefabs/camera_3d'
-require_relative './belts_prefabs/light'

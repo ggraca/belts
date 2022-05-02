@@ -1,3 +1,18 @@
 #!/usr/bin/env ruby
+require 'thor'
 require 'belts'
-Belts.init
+
+class BeltsCLI < Thor
+  include Thor::Actions
+
+  desc "new NAME", "Generate a new project in the current directory with the given NAME"
+  def new(name)
+  end
+
+  desc "start", "start the game"
+  def start
+    Belts.init
+  end
+end
+
+BeltsCLI.start(ARGV)

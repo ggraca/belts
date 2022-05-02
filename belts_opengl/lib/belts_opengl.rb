@@ -1,4 +1,14 @@
+require 'zeitwerk'
+require 'belts_support'
+require 'opengl'
+require 'glfw'
+
+loader = Zeitwerk::Loader.for_gem
+loader.setup
+
 module BeltsOpengl
+  extend BeltsSupport::Extension
+
   def self.install(game)
     GLFW.load_lib()
     GLFW.Init()

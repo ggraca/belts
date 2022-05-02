@@ -1,18 +1,23 @@
 0.1 Release
-- lights, shaders
+- plugin system
 - keyboard input
-- component system should be registered automatically
+- scaffold new project
 - instantiate/destroy register components and entities properly
+- multiple lights
+- safely close the program (delete assets, stop opengl, etc)
+
+0.n Release
 - github readme (inspiration, direction, concepts)
-- `belts init name` command. Scaffold project skeleton
 - demos:
   - snake
   - conway's game of life
-- safely close the program (delete assets, stop opengl, etc)
-- rspec configured by default
-
-0.n Release
-- Export to webassembly?
-- Rust bindings for performance
+- basic graphics features
 - audio
-- debugger (what operations take the longest to perform and should be optimised)
+- debugger
+- system ordering
+- rspec
+
+> 1.0 Release
+- physics
+- simple networking / sync
+- rust bindings for performance
