@@ -1,6 +1,7 @@
 require 'zeitwerk'
 require 'matrix'
 require 'active_support/inflector'
+require 'belts_engine'
 require 'belts_opengl'
 
 require_relative './belts_components/vec3'
@@ -17,15 +18,7 @@ module Belts
   def self.init
     init_zeitwerk_loader
 
-    @game = Game.new
-    @game.use ::BeltsOpengl
-
-    @game.load_assets
-    @game.start
-
-    while true
-      @game.update
-    end
+    ::Application.new
   end
 
   def self.root
@@ -36,6 +29,8 @@ module Belts
 
   def self.init_zeitwerk_loader
     @zeitwerk_loader = Zeitwerk::Loader.new
+
+    @zeitwerk_loader.push_dir('config')
 
     Dir.glob('app/*').each do |dir|
       @zeitwerk_loader.push_dir dir

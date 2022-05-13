@@ -1,5 +1,7 @@
 module Belts
   class Game
+    include BeltsSupport::Configuration
+
     attr_reader :time, :input, :window, :entities, :systems, :asset_manager, :current_scene
 
     def initialize
