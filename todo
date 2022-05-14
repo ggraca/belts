@@ -6,7 +6,7 @@
 - multiple lights
 - safely close the program (delete assets, stop opengl, etc)
 
-0.n Release
+0.2 Release
 - github readme (inspiration, direction, concepts)
 - demos:
   - snake

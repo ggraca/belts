@@ -11,7 +11,6 @@ module BeltsEngine
         @game.use plugin_class
       end
 
-      @game.load_assets
       @game.start
 
       while true

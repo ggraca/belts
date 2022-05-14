@@ -1,4 +1,4 @@
-module Belts::Assets
+module BeltsOpengl::Assets
   module BufferHelpers
     private
 

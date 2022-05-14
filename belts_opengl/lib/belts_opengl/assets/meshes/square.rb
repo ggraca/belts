@@ -1,4 +1,4 @@
-module Belts::Assets
+module BeltsOpengl::Assets
   class Meshes::Square < Mesh
     def initialize
       vertices = [

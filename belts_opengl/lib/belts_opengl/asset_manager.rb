@@ -1,4 +1,4 @@
-module Belts::Assets
+module BeltsOpengl
   class AssetManager
     def initialize
       @shaders = {}
@@ -18,14 +18,14 @@ module Belts::Assets
 
     def build_default_shader
       vert_shader = GL.CreateShader(GL::VERTEX_SHADER)
-      vpath = File.join(Belts.root, 'lib/belts/assets/shaders/base.vert')
+      vpath = File.join(BeltsOpengl::root, 'lib/belts_opengl/assets/shaders/base.vert')
       vcontent = [File.read(vpath)].pack('p')
       vsize = [File.size(vpath)].pack('I')
       GL.ShaderSource(vert_shader, 1, vcontent, vsize)
       GL.CompileShader(vert_shader)
 
       frag_shader = GL.CreateShader(GL::FRAGMENT_SHADER)
-      fpath = File.join(Belts.root, 'lib/belts/assets/shaders/base.frag')
+      fpath = File.join(BeltsOpengl::root, 'lib/belts_opengl/assets/shaders/base.frag')
       fcontent = [File.read(fpath)].pack('p')
       fsize = [File.size(fpath)].pack('I')
       GL.ShaderSource(frag_shader, 1, fcontent, fsize)
@@ -42,9 +42,9 @@ module Belts::Assets
 
     def build_default_meshes
       default_meshes = {
-        square: Meshes::Square.new,
-        triangle: Meshes::Triangle.new,
-        cube: Meshes::Cube.new
+        square: Assets::Meshes::Square.new,
+        triangle: Assets::Meshes::Triangle.new,
+        cube: Assets::Meshes::Cube.new
       }
 
       @meshes.merge!(default_meshes)

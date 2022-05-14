@@ -1,4 +1,4 @@
-module Belts::Assets
+module BeltsOpengl::Assets
   class Meshes::Cube < Mesh
     def initialize
       common_vertices = [

@@ -23,5 +23,11 @@ module BeltsOpengl
 
     game.systems.register_system(BeltsOpengl::WindowSystem)
     game.systems.register_system(BeltsOpengl::RenderSystem)
+
+    game.register_tool(:asset_manager, BeltsOpengl::AssetManager.new)
+  end
+
+  def self.root
+    File.dirname __dir__
   end
 end
