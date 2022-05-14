@@ -1,5 +1,5 @@
 module BeltsOpengl
-  class WindowSystem < Belts::System
+  class WindowSystem < BeltsEngine::System
     def start
       GLFW.WindowHint(GLFW::ALPHA_BITS, 0)
       @window = GLFW.CreateWindow(640, 480, "Belts Demo", nil, nil)

@@ -1,4 +1,4 @@
-module Belts
+module BeltsEngine
   class Game
     class Time
       attr_reader :delta_time, :uptime

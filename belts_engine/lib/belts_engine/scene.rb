@@ -1,4 +1,4 @@
-module Belts
+module BeltsEngine
   class Scene
     attr_reader :game
 

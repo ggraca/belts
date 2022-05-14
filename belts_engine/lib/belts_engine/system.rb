@@ -1,4 +1,4 @@
-module Belts
+module BeltsEngine
   class System
     include System::CollectionMixin
 

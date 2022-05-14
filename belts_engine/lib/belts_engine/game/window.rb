@@ -1,4 +1,4 @@
-module Belts
+module BeltsEngine
   class Game
     class Window
       attr_reader :ratio, :width, :height, :title

@@ -1,4 +1,4 @@
-module Belts::Ecs
+module BeltsEngine::Ecs
   class EntityManager
     def initialize
       @collections = {}

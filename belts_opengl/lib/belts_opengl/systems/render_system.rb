@@ -1,5 +1,5 @@
 module BeltsOpengl
-  class RenderSystem < Belts::System
+  class RenderSystem < BeltsEngine::System
     collection :cameras,
       with: [:transform, :camera_data]
 

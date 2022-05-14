@@ -1,4 +1,4 @@
-module Belts::Ecs
+module BeltsEngine::Ecs
   class SystemManager
     def initialize(game)
       @game = game

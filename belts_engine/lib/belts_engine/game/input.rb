@@ -1,4 +1,4 @@
-module Belts
+module BeltsEngine
   class Game
     class Input
       KEYS = [:a, :d].freeze

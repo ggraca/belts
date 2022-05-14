@@ -13,5 +13,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.1.2"
 
   s.add_dependency 'opengl-bindings2', '~> 2.0.0'
+  s.add_dependency 'belts_engine', '~> 0.0.0'
   s.add_dependency 'belts_support', '~> 0.0.0'
 end

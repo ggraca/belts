@@ -1,4 +1,4 @@
-module Belts
+module BeltsEngine
   class System
     module CollectionMixin
       class << self

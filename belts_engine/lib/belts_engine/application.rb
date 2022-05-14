@@ -5,7 +5,7 @@ module BeltsEngine
     config.plugins = []
 
     def initialize
-      @game = Belts::Game.new
+      @game = ::Game.new
 
       config.plugins.each do |plugin_class|
         @game.use plugin_class
