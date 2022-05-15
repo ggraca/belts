@@ -25,6 +25,8 @@ module BeltsOpengl
     game.systems.register_system(BeltsOpengl::RenderSystem)
 
     game.register_tool(:asset_manager, BeltsOpengl::AssetManager.new)
+
+    BeltsEngine::Prefab.include BeltsOpengl::Prefab::RendererMixin
   end
 
   def self.root

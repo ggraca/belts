@@ -1,5 +1,5 @@
-module Belts
-  class Prefab
+module BeltsOpengl
+  module Prefab
     module RendererMixin
       class << self
         def included(base)

@@ -1,7 +1,6 @@
-module Belts
+module BeltsEngine
   class Prefab
     include Prefab::ComponentMixin
-    include Prefab::RendererMixin
 
     def self.inherited(subclass)
       super

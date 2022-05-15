@@ -1,4 +1,4 @@
-module Belts
+module BeltsEngine
   class Prefab
     module ComponentMixin
       class << self
