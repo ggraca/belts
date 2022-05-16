@@ -1,5 +1,4 @@
 0.1 Release
-- plugin system
 - keyboard input
 - scaffold new project
 - instantiate/destroy register components and entities properly
@@ -16,6 +15,7 @@
 - debugger
 - system ordering
 - rspec
+- hot reload systems
 
 > 1.0 Release
 - physics
