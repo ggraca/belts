@@ -16,15 +16,19 @@ module BeltsEngine
       init_entities
     end
 
+    def instantiate(prefab_class, position = Vec3.zero, rotation = Vec3.zero, scale = Vec3.one)
+      components = Marshal.load(Marshal.dump(prefab_class.to_s.constantize.components)) # deep copy
+      components[:transform].position = position if position
+      components[:transform].rotation = rotation if rotation
+
+      @game.entities.instantiate(components)
+    end
+
     private
 
     def init_entities
       @@prefabs.each do |prefab|
-        components = Marshal.load(Marshal.dump(prefab[:class_name].components)) # deep copy
-        components[:transform].position = prefab[:position] if prefab[:position]
-        components[:transform].rotation = prefab[:rotation] if prefab[:rotation]
-
-        @game.entities.instantiate(components)
+        instantiate(prefab[:class_name], prefab[:position], prefab[:rotation], prefab[:scale])
       end
     end
   end

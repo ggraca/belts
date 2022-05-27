@@ -18,8 +18,10 @@ module BeltsEngine
     end
 
     def start
-      # Needs game to instantite entities
-      @current_scene = MainScene.new(self) # TODO: Game specific
+      main_scene_class = config.main_scene.to_s.constantize
+      raise 'Main scene not specified' unless main_scene_class
+
+      @current_scene = main_scene_class.new(self)
     end
 
     def update

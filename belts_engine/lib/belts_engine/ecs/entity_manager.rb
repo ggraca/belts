@@ -2,10 +2,6 @@ module BeltsEngine::Ecs
   class EntityManager
     def initialize
       @collections = {}
-
-      # TODO: Move this to renderer
-      register_collection(with: [:transform, :camera_data])
-      register_collection(with: [:transform, :render_data])
     end
 
     def collection(with: [], without: [])

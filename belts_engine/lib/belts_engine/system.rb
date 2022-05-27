@@ -5,8 +5,8 @@ module BeltsEngine
     def initialize(game)
       @game = game
       @entities = game.entities
-      @time = @game.time
-      @input = @game.input
+      @time = game.time
+      @input = game.input
 
       start
     end
