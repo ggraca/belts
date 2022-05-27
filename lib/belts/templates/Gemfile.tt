@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+ruby '<%= options[:ruby_version] %>'
+
+gem 'belts', path: '~/Workspaces/belts'

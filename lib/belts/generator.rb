@@ -1,10 +1,12 @@
 module Belts
-  class Generator < Thor::Group
-    argument :name, type: :string, desc: "The name of the new project"
-    desc "Generate a new project in the current directory with the given NAME"
+  class Generator < Thor
+    default_task :new
 
-    def new
-      pp name
+    desc "new NAME", "Generate a new project in the current directory with the given NAME"
+    def new(name)
+      invoke :engine, name
     end
+
+    register(Belts::Engine, "engine", "engine", "Badjoras")
   end
 end

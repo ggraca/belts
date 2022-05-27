@@ -1,0 +1,16 @@
+class SpinnerSystem < BeltsEngine::System
+  collection :spinners,
+    with: [:transform, :spinner]
+
+  def update
+    speed = @time.delta_time * 30
+
+    spinners.each do |data|
+      data => {transform:}
+
+      transform.rotation.x += speed
+      transform.rotation.y += speed
+      transform.rotation.z += speed
+    end
+  end
+end

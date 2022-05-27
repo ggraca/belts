@@ -1,0 +1,4 @@
+class SpinningCube < BeltsEngine::Prefab
+  renderer :cube, color: Vec3[0, 0, 1]
+  component :spinner, Spinner.new
+end

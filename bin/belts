@@ -3,10 +3,13 @@ require 'thor'
 require 'belts'
 
 class BeltsCLI < Thor
-  register(Belts::Initializer, "start", "start", "Starts the game")
-  register(Belts::Generator, "new", "new NAME", "Generate a new project in the current directory with the given NAME")
-
   default_task :start
+
+  desc "start", "Starts the game"
+  subcommand "start", Belts::Initializer
+
+  desc "new NAME", "Generate a new project in the current directory with the given NAME"
+  subcommand "new", Belts::Generator
 end
 
 BeltsCLI.start

@@ -1,0 +1,4 @@
+class MainScene < BeltsEngine::Scene
+  prefab :Camera3d, position: Vec3.back * 5
+  prefab :SpinningCube, position: Vec3.zero
+end
