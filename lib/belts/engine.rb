@@ -14,17 +14,29 @@ module Belts
       template("templates/Gemfile.tt", "#{name}/Gemfile")
     end
 
-    def create_configs
-      template("templates/config/application.rb.tt", "#{name}/config/application.rb")
-      template("templates/config/game.rb.tt", "#{name}/config/game.rb")
+    def create_config
+      config_files = [
+        "application.rb",
+        "game.rb"
+      ]
+
+      config_files.each do |file|
+        template("templates/config/#{file}.tt", "#{name}/config/#{file}")
+      end
     end
 
     def create_app
-      template("templates/app/components/spinner.rb.tt", "#{name}/app/components/spinner.rb")
-      template("templates/app/prefabs/spinning_cube.rb.tt", "#{name}/app/prefabs/spinning_cube.rb")
-      template("templates/app/prefabs/camera_3d.rb.tt", "#{name}/app/prefabs/camera_3d.rb")
-      template("templates/app/scenes/main_scene.rb.tt", "#{name}/app/scenes/main_scene.rb")
-      template("templates/app/systems/spinner_system.rb.tt", "#{name}/app/systems/spinner_system.rb")
+      app_files = [
+        "components/spinner.rb",
+        "prefabs/spinning_cube.rb",
+        "prefabs/camera_3d.rb",
+        "scenes/main_scene.rb",
+        "systems/spinner_system.rb"
+      ]
+
+      app_files.each do |file|
+        template("templates/app/#{file}.tt", "#{name}/app/#{file}")
+      end
     end
   end
 end
