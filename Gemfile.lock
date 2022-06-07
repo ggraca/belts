@@ -1,7 +1,13 @@
 PATH
+  remote: belts_engine
+  specs:
+    belts_engine (0.0.0)
+
+PATH
   remote: belts_opengl
   specs:
     belts_opengl (0.0.0)
+      belts_engine (~> 0.0.0)
       belts_support (~> 0.0.0)
       opengl-bindings2 (~> 2.0.0)
 
@@ -37,6 +43,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  belts_engine!
   belts_opengl!
   belts_support!
 

@@ -12,12 +12,12 @@ module BeltsEngine
           @collection_keys ||= []
         end
 
-        def collection(name, with: [], without: [])
-          key = {with: with, without: without}
+        def collection(name, **filters)
+          key = Ecs::Collection.new(**filters).key
           register_collection_key(key)
 
           define_method(name) do
-            @entities.collection(**key)
+            @entities.collection(key)
           end
         end
 

@@ -24,7 +24,7 @@ module BeltsOpengl
     def render_entities
       camera_matrix = nil
 
-      cameras.each do |data|
+      cameras.each do |id, data|
         data => {transform:, camera_data:}
 
         # view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, transform.up)
@@ -37,7 +37,7 @@ module BeltsOpengl
         camera_matrix = (proj_matrix * view_matrix)
       end
 
-      objects.each do |data|
+      objects.each do |id, data|
         data => {transform:, render_data:}
 
         model_matrix = transform.to_matrix

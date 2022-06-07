@@ -1,6 +1,5 @@
 0.1 Release
 - keyboard input
-- scaffold new project
 - instantiate/destroy register components and entities properly
 - multiple lights
 - safely close the program (delete assets, stop opengl, etc)
