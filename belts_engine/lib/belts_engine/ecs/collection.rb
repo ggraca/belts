@@ -8,14 +8,21 @@ module BeltsEngine::Ecs
       @key = {with: with, without: without}
     end
 
-    def each
-      # TODO: implement each without the key
-      super
+    def add_entity(entity)
+      return if (@with - entity.keys).any?
+      return if (@without & entity.keys).any?
+
+      self[entity[:id]] = entity.slice(:id, *@with)
     end
 
-    def each_with_id
-      # TODO: implement classic each
-      super
+    def remove_entity(entity_id)
+      self.delete(entity_id)
+    end
+
+    def each_with_components
+      each do |k, v|
+        yield **v
+      end
     end
   end
 end

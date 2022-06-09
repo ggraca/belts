@@ -3,6 +3,7 @@ module BeltsEngine::Ecs
     def initialize
       @next_id = 0
       @collections = CollectionManager.new
+      @entities = {}
     end
 
     # TODO: Use delegation
@@ -16,14 +17,38 @@ module BeltsEngine::Ecs
     end
 
     def instantiate(components)
-      @collections.each do |key, collection|
-        next if (key[:with] - components.keys).any?
+      id = @next_id
+      entity = @entities[id] = Entity.new(id)
+      @next_id += 1
+      entity.merge!(**components)
 
-        common_keys = key[:with] & components.keys
-        collection[@next_id] = components.slice(*common_keys)
+      @collections.values.each do |collection|
+        collection.add_entity(entity)
       end
 
-      @next_id += 1
+      id
+    end
+
+    def add_components(id, components)
+      entity = @entities[id]
+      entity.merge!(**components)
+
+      @collections.values.each do |collection|
+        collection.add_entity(entity)
+      end
+    end
+
+    def remove_components(id, keys)
+      entity = @entities[id]
+
+      keys.each do |key|
+        entity.delete(key)
+      end
+
+      @collections.values.each do |collection|
+        collection.remove_entity(id)
+        collection.add_entity(entity)
+      end
     end
   end
 end

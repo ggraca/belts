@@ -24,6 +24,14 @@ module BeltsEngine
       @game.entities.instantiate(components)
     end
 
+    def add_components(id, components)
+      @game.entities.add_components(id, components)
+    end
+
+    def remove_components(id, keys)
+      @game.entities.remove_components(id, keys)
+    end
+
     private
 
     def init_entities
