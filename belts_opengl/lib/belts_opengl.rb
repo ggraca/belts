@@ -17,9 +17,9 @@ module BeltsOpengl
     require 'belts_opengl/systems/window_system'
     require 'belts_opengl/systems/render_system'
 
-    GLFW.load_lib()
-    GLFW.Init()
-    GL.load_lib()
+    GLFW.load_lib
+    GLFW.Init
+    GL.load_lib
 
     game.systems.register_system(BeltsOpengl::WindowSystem)
     game.systems.register_system(BeltsOpengl::RenderSystem)

@@ -1,7 +1,7 @@
 module BeltsEngine
   class Game
     class Input
-      KEYS = [:a, :d].freeze
+      KEYS = [:w, :a, :s, :d].freeze
 
       def initialize
         @current_state = KEYS.map { |key| [key, false] }.to_h
@@ -18,11 +18,11 @@ module BeltsEngine
       end
 
       def key_up?(key)
-        !@current_state[:key] && @last_state[:key]
+        !@current_state[key] && @last_state[key]
       end
 
       def key_down?(key)
-        @current_state[:key] && !@last_state[:key]
+        @current_state[key] && !@last_state[key]
       end
     end
   end
