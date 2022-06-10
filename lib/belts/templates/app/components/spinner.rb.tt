@@ -1,1 +1,1 @@
-Spinner = Class.new
+Spinner = Struct.new(nil)
