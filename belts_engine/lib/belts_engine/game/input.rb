@@ -5,6 +5,8 @@ module BeltsEngine
 
       def initialize
         @current_state = KEYS.map { |key| [key, false] }.to_h
+        @current_state[:mouse_x] = @current_state[:mouse_y] = 0
+
         @last_state = @current_state.dup
       end
 
