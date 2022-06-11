@@ -1,5 +1,5 @@
 module BeltsEngine
-  class Game
+  module Tools
     class Window
       attr_reader :ratio, :width, :height, :title
 

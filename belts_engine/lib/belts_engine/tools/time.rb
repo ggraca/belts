@@ -1,5 +1,5 @@
 module BeltsEngine
-  class Game
+  module Tools
     class Time
       attr_reader :delta_time, :uptime
 

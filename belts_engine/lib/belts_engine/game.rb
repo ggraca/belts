@@ -6,9 +6,9 @@ module BeltsEngine
     attr_reader :entities, :systems, :current_scene
 
     def initialize
-      register_tool(:time, Game::Time.new)
-      register_tool(:input, Game::Input.new)
-      register_tool(:window, Game::Window.new)
+      register_tool(:time, Tools::Time.new)
+      register_tool(:input, Tools::Input.new)
+      register_tool(:window, Tools::Window.new)
       @entities = Ecs::EntityManager.new
       @systems = Ecs::SystemManager.new(self)
     end
