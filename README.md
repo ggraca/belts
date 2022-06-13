@@ -10,7 +10,7 @@ Belts is designed to be easy to pick up and get something shipped, ideal for hac
 
 # Getting Started
 ## Install
-Install belts globally. Make sure you're running ==ruby > 3.1.2==:
+Install belts globally. Make sure you're running **ruby >= 3.1.2**:
 ```bash
 gem install belts
 ```
@@ -39,6 +39,7 @@ belts start
 [//]: # (Add gif of the demo scene)
 
 # Usage
+## Concepts
 A fresh project comes with a few basic but powerful examples. But to understand them we need to dive into what each of the folders in `app/` represents:
 
 ```
@@ -49,9 +50,8 @@ app/
   systems/
 ```
 
-## Components
-Components are simple structs to hold data. They can also serve as tags if they don't hold any attribtues.
-
+### Components
+Components are just simple structs to hold data. Other tools will be responsible for reading and modifying their data during runtime. They can also serve as tags if they don't hold any attribtues.
 ```ruby
 # built-in component
 Transform = Struct.new(:position, :rotation, :scale)
@@ -60,11 +60,11 @@ Transform = Struct.new(:position, :rotation, :scale)
 Spinner = Struct.new(nil)
 ```
 
-## Entities
+### Entities
 There isn't a folder for entities because they only exist during runtime. They hold any number of Components and represent game objects: the player, the camera, an enemy or a just a cube.
 
-## Prefabs
-Prefabs are blueprints of entities. They can be used to describe what entities should look like and be saved for later use. They can then be used to instantiate new entities during runtime or from scenes.
+### Prefabs
+Prefabs are blueprints of entities. They can be used to describe what entities should look like and be saved for later use. They can then be instantiated during runtime or from scenes.
 ```ruby
 class SpinningCube < BeltsEngine::Prefab
   component :render_data, RenderData.new(:cube, Vec3.right)
@@ -72,7 +72,7 @@ class SpinningCube < BeltsEngine::Prefab
 end
 ```
 
-## Scenes
+### Scenes
 Scenes declare the initial state of a game level. You just need to specify the prefabs to use and where they should be placed.
 ```ruby
 class MainScene < BeltsEngine::Scene
@@ -81,11 +81,10 @@ class MainScene < BeltsEngine::Scene
 end
 ```
 
-## Systems
+### Systems
 Lastly, systems! Systems are where all game logic happens.
 
-Each system is initialised once and then called once each frame:
-
+Each system is initialised once and then called each frame:
 ```ruby
 class FrameCountSystem < BeltsEngine::System
   def start
@@ -99,10 +98,9 @@ class FrameCountSystem < BeltsEngine::System
 end
 ```
 
-While there are some use cases for simple systems like the above, most of the time they will interact with entities and their components.
+While there are some use cases for simple systems like the one above, most of the time they will interact with entities and their components.
 
-They way to do this is by specifying a **collection**. Behind the scenes, collections are automatically updated when components are added or removed from entities or when these are instantiated or destroyed.
-
+They way to do this is by specifying a **collection**. Behind the scenes, collections are automatically updated when components are added or removed from entities or when these are instantiated or destroyed. This ensures a system will only iterate over the small subset of entities it needs to.
 ```ruby
 class SpinnerSystem < BeltsEngine::System
   collection :spinners,
@@ -120,17 +118,28 @@ class SpinnerSystem < BeltsEngine::System
 end
 ```
 
-# Tools
+## Tools
 Tools are libraries, independent from the current scene, that hold global data and can be accessed from systems. Currently, there are only two tools: input and time. Plugins can register other tools and that's the expected way to add new features to the engine (audio, asset management, physics).
 
 The default way to use them is through the `@game` reference (e.g. `@game.time` or using the shortcut `@time`).
 
-## Time
-Time includes two read-only properties:
-- uptime - time since the game started
-- delta_time - time since last frame
+### Entity Management
+In order to change what entities show in collections, you might want to change their components entirely. There are few methods you can use to make this:
+```ruby
+@entities.instantiate()
+@entities.add_components(id, )
+@entities.remove_components(id, )
+@entities.destroy(id)
+```
 
-## Input
+### Time
+Time includes two read-only properties:
+```ruby
+@time.uptime # time since the game started
+@time.delta_time # time since last frame
+```
+
+### Input
 Input gives access to information about the keyboard and mouse state. Examples:
 ```ruby
 @input.key?(:a) # true if A is being pressed
@@ -144,3 +153,25 @@ Input gives access to information about the keyboard and mouse state. Examples:
 @input.mouse(:x) # x position on the screen in pixels (from top-left)
 @input.mouse(:y) # y position on the screen in pixels (from top-left)
 ```
+
+## Managing entities
+
+# Future Work
+Work on Belts is in early stage and things are **very** likely to be renamed, moved or completely rebuilt.
+
+Future work will focus more on the core engine instead of plugins. Today Belts ships with opengl but tomorrow might ship with vulkan or a 2d framework. This is what's planned next:
+- Documentation
+- Scaffold new projects with tests and testing guidelines (and add tests to this repo)
+- Scaffold new projects with standardrb (and add standardrb and code coverage to this repo)
+- Hot Reload for systems (change the logic without restarting the game)
+- Allow specifying systems order
+- C or Rust bindings for demanding snippets
+- Docker?
+
+We'll continue to add basic functionality to plugins though:
+  - Debugger
+  - 2D lib
+  - Audio
+  - OpenGL: lights, mesh loaders, post processing
+  - Physics
+  - Networking / Sync

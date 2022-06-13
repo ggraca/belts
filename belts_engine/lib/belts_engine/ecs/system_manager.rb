@@ -15,7 +15,7 @@ module BeltsEngine::Ecs
       @systems << klass.new(@game) # TODO: Avoid duplicates
 
       klass.collection_keys.each do |key|
-        @game.entities.register_collection(**key)
+        @game.collections.register(**key)
       end
     end
 

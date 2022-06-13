@@ -4,14 +4,20 @@ module BeltsEngine
 
     def initialize(game)
       @game = game
-      @entities = game.entities
-      @time = game.time
-      @input = game.input
+      register_tool_shortcuts
 
       start
     end
 
     def start
+    end
+
+    private
+
+    def register_tool_shortcuts
+      @game.tools.each do |key, value|
+        instance_variable_set("@#{key}", value)
+      end
     end
   end
 end

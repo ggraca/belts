@@ -1,7 +1,7 @@
 module BeltsEngine
   module ToolsManager
     def tools
-      @tools ||= {}
+      @_tools ||= {}
     end
 
     def register_tool(name, obj)

@@ -1,54 +1,51 @@
 module BeltsEngine::Ecs
-  class EntityManager
-    def initialize
+  class EntityManager < Hash
+    def initialize(game)
+      @game = game
       @next_id = 0
-      @collections = CollectionManager.new
-      @entities = {}
     end
 
-    # TODO: Use delegation
-    def collection(key)
-      @collections.get(key)
-    end
-
-    # TODO: Use delegation
-    def register_collection(**filters)
-      @collections.register(**filters)
-    end
-
-    def instantiate(components)
+    def instantiate(prefab_class, position = Vec3.zero, rotation = Vec3.zero, scale = Vec3.one)
       id = @next_id
-      entity = @entities[id] = Entity.new(id)
+      entity = self[id] = Entity.new(id)
       @next_id += 1
-      entity.merge!(**components)
 
-      @collections.values.each do |collection|
-        collection.add_entity(entity)
-      end
+      components = Marshal.load(Marshal.dump(prefab_class.to_s.constantize.components)) # deep copy
+      components[:transform].position = position if position
+      components[:transform].rotation = rotation if rotation
+      add_components(id, components)
 
       id
     end
 
     def add_components(id, components)
-      entity = @entities[id]
+      entity = self[id]
       entity.merge!(**components)
 
-      @collections.values.each do |collection|
+      @game.collections.values.each do |collection|
         collection.add_entity(entity)
       end
     end
 
     def remove_components(id, keys)
-      entity = @entities[id]
+      entity = self[id]
 
       keys.each do |key|
         entity.delete(key)
       end
 
-      @collections.values.each do |collection|
+      @game.collections.values.each do |collection|
         collection.remove_entity(id)
         collection.add_entity(entity)
       end
+    end
+
+    def destroy(id)
+      @game.collections.values.each do |collection|
+        collection.remove_entity(id)
+      end
+
+      self.delete(id)
     end
   end
 end

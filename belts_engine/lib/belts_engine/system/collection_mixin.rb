@@ -17,7 +17,7 @@ module BeltsEngine
           register_collection_key(key)
 
           define_method(name) do
-            @entities.collection(key)
+            @collections.get(key)
           end
         end
 

@@ -3,14 +3,15 @@ module BeltsEngine
     include BeltsSupport::Configuration
     include BeltsEngine::ToolsManager
 
-    attr_reader :entities, :systems, :current_scene
+    attr_reader :current_scene
 
     def initialize
       register_tool(:time, Tools::Time.new)
       register_tool(:input, Tools::Input.new)
       register_tool(:window, Tools::Window.new)
-      @entities = Ecs::EntityManager.new
-      @systems = Ecs::SystemManager.new(self)
+      register_tool(:collections, Ecs::CollectionManager.new)
+      register_tool(:entities, Ecs::EntityManager.new(self))
+      register_tool(:systems, Ecs::SystemManager.new(self))
     end
 
     def use(extension)
@@ -26,7 +27,7 @@ module BeltsEngine
 
     def update
       time.update
-      @systems.update
+      systems.update
     end
   end
 end
