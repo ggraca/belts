@@ -119,16 +119,16 @@ end
 ```
 
 ## Tools
-Tools are libraries, independent from the current scene, that hold global data and can be accessed from systems. Currently, there are only two tools: input and time. Plugins can register other tools and that's the expected way to add new features to the engine (audio, asset management, physics).
+Tools are libraries, independent from the current scene. They are accessible from all systems and can hold global data. Much of the core the engine is built with systems and plugins can register new tools, which is the expected way to add new features in the future (audio, asset management, physics).
 
-The default way to use them is through the `@game` reference (e.g. `@game.time` or using the shortcut `@time`).
+From any system, you can inspect the contents of `@game.tools` to see what tools have been installed. Then you can access any of these tools through the game object (e.g. `@game.time`) or using the short version (e.g. `@time`)
 
-### Entity Management
+### Entities
 In order to change what entities show in collections, you might want to change their components entirely. There are few methods you can use to make this:
 ```ruby
-@entities.instantiate()
-@entities.add_components(id, )
-@entities.remove_components(id, )
+@entities.instantiate(prefab_class, position, rotation)
+@entities.add_components(id, {spinner: Spinner.new, other_component: OtherComponent.new})
+@entities.remove_components(id, [:component_name])
 @entities.destroy(id)
 ```
 
@@ -154,8 +154,6 @@ Input gives access to information about the keyboard and mouse state. Examples:
 @input.mouse(:y) # y position on the screen in pixels (from top-left)
 ```
 
-## Managing entities
-
 # Future Work
 Work on Belts is in early stage and things are **very** likely to be renamed, moved or completely rebuilt.
 
@@ -175,3 +173,9 @@ We'll continue to add basic functionality to plugins though:
   - OpenGL: lights, mesh loaders, post processing
   - Physics
   - Networking / Sync
+
+# Contributing
+Contributions are welcome in three forms:
+- Raising issues and PRs in this repository
+- Creating external plugins (which may be added to the default release or as an option during the project creation)
+- Sharing your demos (which we may link to from this repo)
