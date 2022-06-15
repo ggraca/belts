@@ -1,5 +1,4 @@
-require 'zeitwerk'
-require 'belts_support'
+require 'belts_engine'
 require 'opengl'
 require 'glfw'
 

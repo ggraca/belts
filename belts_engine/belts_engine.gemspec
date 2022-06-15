@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'belts_engine'
-  s.version = '0.0.1'
+  s.version = '0.1.0'
   s.summary = "The core functionality of the Belts game engine"
   s.description = "ECS management, input, time, etc."
   s.author = "Guilherme Graca"
@@ -11,4 +11,6 @@ Gem::Specification.new do |s|
   s.require_path = "lib"
 
   s.required_ruby_version = ">= 3.1.2"
+
+  s.add_dependency 'belts_support', '~> 0.1.0'
 end

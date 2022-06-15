@@ -1,4 +1,3 @@
-require 'zeitwerk'
 require 'belts_support'
 
 # TODO: Load with zeitwerk

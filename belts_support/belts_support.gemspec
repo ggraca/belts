@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'belts_support'
-  s.version = '0.0.1'
+  s.version = '0.1.0'
   s.summary = "Common tools for the Belts game engine"
   s.description = "Common tools for the Belts game engine"
   s.author = "Guilherme Graca"
@@ -15,5 +15,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'activesupport', '~> 7.0.0'
   s.add_dependency 'matrix', '~> 0.4.2'
   s.add_dependency 'zeitwerk', '~> 2.4.2'
-  s.add_dependency 'thor', '~> 1.2.1'
 end
