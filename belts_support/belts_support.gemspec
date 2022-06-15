@@ -8,10 +8,8 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
 
   s.files = Dir.glob("lib/**/*")
-  s.require_path = "lib"
 
   s.required_ruby_version = ">= 3.1.2"
-
   s.add_dependency 'activesupport', '~> 7.0.0'
   s.add_dependency 'matrix', '~> 0.4.2'
   s.add_dependency 'zeitwerk', '~> 2.4.2'
