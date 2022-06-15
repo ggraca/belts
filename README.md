@@ -40,7 +40,7 @@ belts start
 
 # Usage
 ## Concepts
-A fresh project comes with a few basic but powerful examples. But to understand them we need to dive into what each of the folders in `app/` represents:
+A fresh project comes with a few basic examples. But to understand them we need to dive into what each of the folders in `app/` represents:
 
 ```
 app/

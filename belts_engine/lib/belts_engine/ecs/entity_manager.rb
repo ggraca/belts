@@ -47,5 +47,11 @@ module BeltsEngine::Ecs
 
       self.delete(id)
     end
+
+    def destroy_all
+      keys.each do |id|
+        destroy(id)
+      end
+    end
   end
 end
