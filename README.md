@@ -166,7 +166,7 @@ Future work will focus more on the core engine instead of plugins. Today Belts s
 - C or Rust bindings for demanding snippets
 - Docker?
 
-We'll continue to add basic functionality to plugins though:
+We'll continue to add basic functionality to plugins too:
   - Debugger
   - 2D lib
   - Audio

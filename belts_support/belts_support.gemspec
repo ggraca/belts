@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'belts_support'
-  s.version = '0.0.0'
+  s.version = '0.0.1'
   s.summary = "Common tools for the Belts game engine"
   s.description = "Common tools for the Belts game engine"
   s.author = "Guilherme Graca"
