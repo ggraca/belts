@@ -2,7 +2,6 @@ Gem::Specification.new do |s|
   s.name = 'belts_engine'
   s.version = '0.1.0'
   s.summary = "The core functionality of the Belts game engine"
-  s.description = "The core functionality of the Belts game engine"
   s.author = "Guilherme Graca"
   s.homepage = 'https://github.com/ggraca/belts'
   s.license = 'MIT'
