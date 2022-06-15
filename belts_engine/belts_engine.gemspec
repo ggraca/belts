@@ -1,8 +1,8 @@
-version = File.read(File.expand_path("../.belts-version", __dir__)).strip
+VERSION = File.read(File.expand_path("../.belts-version", __dir__)).strip
 
 Gem::Specification.new do |s|
   s.name = 'belts_engine'
-  s.version = version
+  s.version = VERSION
   s.summary = "The core functionality of the Belts game engine"
   s.author = "Guilherme Graca"
   s.homepage = 'https://github.com/ggraca/belts'
@@ -11,5 +11,5 @@ Gem::Specification.new do |s|
   s.files = Dir.glob("lib/**/*")
 
   s.required_ruby_version = ">= 3.1.2"
-  s.add_dependency 'belts_support', version
+  s.add_dependency 'belts_support', VERSION
 end
