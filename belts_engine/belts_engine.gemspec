@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'belts_engine'
-  s.version = '0.1.0'
+  s.version = '0.1.1'
   s.summary = "The core functionality of the Belts game engine"
   s.author = "Guilherme Graca"
   s.homepage = 'https://github.com/ggraca/belts'
@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.files = Dir.glob("lib/**/*")
 
   s.required_ruby_version = ">= 3.1.2"
-  s.add_dependency 'belts_support', '~> 0.1.0'
+  s.add_dependency 'belts_support', '~> 0.1.1'
 end
