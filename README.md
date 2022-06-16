@@ -4,9 +4,9 @@
 
 Belts is a data-oriented game engine for the ruby programming language, heavily inspired by Ruby on Rails and Unity's DOTS.
 
-In data-oriented game development, components hold data and systems hold game logic. Belts takes advantage of this to make code more descriptive and allow plugins to hook into the main loop, enabling or disabling features depending as needed.
+In data-oriented game development, components hold data and systems execute game logic. Belts takes advantage of this to make code more descriptive and allow plugins to hook into the main loop, enabling or disabling features based on the developers' needs.
 
-Belts is designed to be easy to pick up and get something shipped, ideal for hackathons and low demanding games. While performance improvements are welcome, the bulk of the features in the pipeline aim to target developer happiness (scaffolding, testing, plugin support, etc.)
+Belts is designed to be easy to pick up and get something out there, ideal for hackathons and low demanding games. While performance improvements are welcome, the bulk of the features in the pipeline aim to target developer happiness (scaffolding, testing, plugin support, etc.)
 
 # Getting Started
 ## Install
@@ -21,7 +21,7 @@ Run the belts new command line. This will create a new folder with all the neces
 belts new my_game
 ```
 
-After you create the new game, switch to its folder and start the game:
+After you create the new game, switch to its folder and start it:
 ```bash
 cd my_game
 belts start
@@ -42,7 +42,7 @@ app/
 ```
 
 ### Components
-Components are just simple structs to hold data. Other tools will be responsible for reading and modifying their data during runtime. They can also serve as tags if they don't hold any attribtues.
+Components are just simple structs to hold data. Other tools will be responsible for reading and modifying their values during runtime. They can also serve as tags if they don't hold any attribtues.
 ```ruby
 # built-in component
 Transform = Struct.new(:position, :rotation, :scale)
@@ -55,7 +55,7 @@ Spinner = Struct.new(nil)
 There isn't a folder for entities because they only exist during runtime. They hold any number of Components and represent game objects: the player, the camera, an enemy or a just a cube.
 
 ### Prefabs
-Prefabs are blueprints of entities. They can be used to describe what entities should look like and be saved for later use. They can then be instantiated during runtime or from scenes.
+Prefabs are blueprints of entities. They are used to describe what entities should look like and can be saved for later use. They can be instantiated during runtime or from scenes.
 ```ruby
 class SpinningCube < BeltsEngine::Prefab
   component :render_data, RenderData.new(:cube, Vec3.right)
@@ -109,8 +109,8 @@ class SpinnerSystem < BeltsEngine::System
 end
 ```
 
-## Tools
-Tools are libraries, independent from the current scene. They are accessible from all systems and can hold global data. Much of the core the engine is built with systems and plugins can register new tools, which is the expected way to add new features in the future (audio, asset management, physics).
+## Adding functionality to Systems with Tools
+Tools are libraries, independent from the current scene. They are accessible from all systems and can hold global data. The core engine includes a few tools by default but more can be added by plugins, which is the expected way to add new features in the future (audio, asset management, physics).
 
 From any system, you can inspect the contents of `@game.tools` to see what tools have been installed. Then you can access any of these tools through the game object (e.g. `@game.time`) or using the short version (e.g. `@time`)
 
@@ -158,12 +158,12 @@ Future work will focus more on the core engine instead of plugins. Today Belts s
 - Docker?
 
 We'll continue to add basic functionality to plugins too:
-  - Debugger
-  - 2D lib
-  - Audio
-  - OpenGL: lights, mesh loaders, post processing
-  - Physics
-  - Networking / Sync
+- Debugger
+- 2D lib
+- Audio
+- OpenGL: lights, mesh loaders, post processing
+- Physics
+- Networking / Sync
 
 # Contributing
 Contributions are welcome in three forms:
