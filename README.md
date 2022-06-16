@@ -10,7 +10,7 @@ Belts is designed to be easy to pick up and get something shipped, ideal for hac
 
 # Getting Started
 ## Install
-Install belts globally. Make sure you're running **ruby >= 3.1.2**:
+Install belts globally. Make sure you're running **ruby >= 3.1.2** and have [OpenGL/GLFW](https://www.glfw.org/) installed on your system:
 ```bash
 gem install belts
 ```
@@ -21,18 +21,9 @@ Run the belts new command line. This will create a new folder with all the neces
 belts new my_game
 ```
 
-After you create the new game, switch to its folder:
+After you create the new game, switch to its folder and start the game:
 ```bash
 cd my_game
-```
-
-Install dependencies:
-```bash
-bundle install
-```
-
-Start the game:
-```bash
 belts start
 ```
 

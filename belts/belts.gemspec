@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.homepage = 'https://github.com/ggraca/belts'
   s.license = 'MIT'
 
-  s.files = Dir.glob("{lib,bin}/**/*")
+  s.files = Dir.glob("{lib,bin}/**/*", File::FNM_DOTMATCH)
   s.executable = 'belts'
 
   s.required_ruby_version = ">= 3.1.2"
