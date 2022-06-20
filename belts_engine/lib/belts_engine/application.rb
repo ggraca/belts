@@ -13,7 +13,7 @@ module BeltsEngine
 
       @game.start
 
-      while true
+      loop do
         @game.update
       end
     end

@@ -7,7 +7,7 @@ module BeltsEngine
       def initialize
         reset_keyboard_state
         # reset_mouse_state
-        #@current_keys[:mouse_x] = @current_keys[:mouse_y] = 0
+        # @current_keys[:mouse_x] = @current_keys[:mouse_y] = 0
       end
 
       def update(changes)

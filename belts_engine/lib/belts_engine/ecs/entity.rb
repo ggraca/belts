@@ -4,7 +4,7 @@ module BeltsEngine::Ecs
       self[:id] = id
     end
 
-    def add_components()
+    def add_components
       self[name] = value
     end
   end

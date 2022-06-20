@@ -4,7 +4,7 @@ module BeltsOpengl
       GLFW::KEY_W => :w,
       GLFW::KEY_A => :a,
       GLFW::KEY_S => :s,
-      GLFW::KEY_D => :d,
+      GLFW::KEY_D => :d
     }
 
     BUTTON_MAP = {
@@ -34,7 +34,7 @@ module BeltsOpengl
     # issue keeping reference to a local variable or method call, resulting
     # in a segfault
     def key_callback
-      @_key_callback ||= GLFW::create_callback(:GLFWkeyfun) do |window, key, scancode, action, mods|
+      @_key_callback ||= GLFW.create_callback(:GLFWkeyfun) do |window, key, scancode, action, mods|
         key = KEY_MAP[key]
 
         next if key.nil?
@@ -45,14 +45,14 @@ module BeltsOpengl
     end
 
     def cursor_callback
-      @_cursor_callback ||= GLFW::create_callback(:GLFWcursorposfun) do |window, x, y|
+      @_cursor_callback ||= GLFW.create_callback(:GLFWcursorposfun) do |window, x, y|
         @input_changes[:mouse_x] = x
         @input_changes[:mouse_y] = y
       end
     end
 
     def mouse_button_callback
-      @_mouse_button_callback ||= GLFW::create_callback(:GLFWmousebuttonfun) do |window, button, action, mods|
+      @_mouse_button_callback ||= GLFW.create_callback(:GLFWmousebuttonfun) do |window, button, action, mods|
         button = BUTTON_MAP[button]
 
         next if button.nil?

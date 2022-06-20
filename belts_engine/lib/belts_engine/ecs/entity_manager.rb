@@ -45,7 +45,7 @@ module BeltsEngine::Ecs
         collection.remove_entity(id)
       end
 
-      self.delete(id)
+      delete(id)
     end
 
     def destroy_all

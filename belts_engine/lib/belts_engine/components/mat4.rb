@@ -54,13 +54,13 @@ Mat4 = Struct.new(:m) do
 
       y_scale = 1 / Math.tan(fov_rad)
       x_scale = y_scale / aspect
-      frustumLength = far - near
+      frustum_length = far - near
 
       Matrix[
         [x_scale, 0, 0, 0],
         [0, y_scale, 0, 0],
-        [0, 0, -(far + near) / frustumLength, -1],
-        [0, 0, 2 * -(far * near) / frustumLength, 0]
+        [0, 0, -(far + near) / frustum_length, -1],
+        [0, 0, 2 * -(far * near) / frustum_length, 0]
       ].transpose
     end
 
@@ -69,7 +69,7 @@ Mat4 = Struct.new(:m) do
       centerer = translation(- (right + left) / (right - left), - (top + bottom) / (top - bottom), (far - near) / 2.0)
       inverter = scale(1, 1, -1)
 
-      scale * centerer# * inverter
+      scale * centerer # * inverter
     end
 
     def look_at(eye, target, up)

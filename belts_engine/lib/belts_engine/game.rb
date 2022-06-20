@@ -19,7 +19,7 @@ module BeltsEngine
 
     def start
       main_scene_class = config.main_scene.to_s.constantize
-      raise 'Main scene not specified' unless main_scene_class
+      raise "Main scene not specified" unless main_scene_class
 
       scenes.load_scene(main_scene_class)
     end

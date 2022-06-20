@@ -5,7 +5,9 @@ module BeltsEngine
         KEYS = [:w, :a, :s, :d].freeze
 
         def key?(key) = @keyboard_state[key]
+
         def key_down?(key) = @keyboard_state[key] && !@keyboard_previous_state[key]
+
         def key_up?(key) = !@keyboard_state[key] && @keyboard_previous_state[key]
 
         def update_keys(changes)

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
-require 'thor'
-require 'belts'
+require "thor"
+require "belts"
 
 class BeltsCLI < Thor
   default_task :start

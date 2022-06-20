@@ -2,7 +2,7 @@ module BeltsEngine
   class Scene
     attr_reader :game
 
-    self.instance_eval do
+    instance_eval do
       extend Module.new {
         def prefab(class_name, **options)
           @@prefabs ||= []

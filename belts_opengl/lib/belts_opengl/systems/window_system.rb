@@ -20,12 +20,12 @@ module BeltsOpengl
     private
 
     def update_window_size
-      width_ptr = ' ' * 8
-      height_ptr = ' ' * 8
+      width_ptr = " " * 8
+      height_ptr = " " * 8
       GLFW.GetFramebufferSize(@window, width_ptr, height_ptr)
 
-      width = width_ptr.unpack('L')[0]
-      height = height_ptr.unpack('L')[0]
+      width = width_ptr.unpack1("L")
+      height = height_ptr.unpack1("L")
       GL.Viewport(0, 0, width, height)
 
       @game.window.resize(width, height)

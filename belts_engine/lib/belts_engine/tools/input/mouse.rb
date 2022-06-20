@@ -5,8 +5,11 @@ module BeltsEngine
         BUTTONS = [:mouse_1, :mouse_2, :mouse_3].freeze
 
         def button?(button) = @mouse_state[button]
+
         def button_down?(button) = @mouse_state[button] && !@mouse_previous_state[button]
+
         def button_up?(button) = !@mouse_state[button] && @mouse_previous_state[button]
+
         def mouse(axis) = @mouse_state[axis]
 
         def update_buttons(changes)

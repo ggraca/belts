@@ -16,12 +16,12 @@ module BeltsEngine::Ecs
     end
 
     def remove_entity(entity_id)
-      self.delete(entity_id)
+      delete(entity_id)
     end
 
     def each_with_components
       each do |k, v|
-        yield **v
+        yield(**v)
       end
     end
   end

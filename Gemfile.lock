@@ -1,0 +1,78 @@
+PATH
+  remote: .
+  specs:
+    belts_engine (0.2.0)
+      belts_support (= 0.2.0)
+    belts_opengl (0.2.0)
+      belts_engine (= 0.2.0)
+      opengl-bindings2 (~> 2.0.0)
+    belts_support (0.2.0)
+      activesupport (~> 7.0.0)
+      matrix (~> 0.4.2)
+      zeitwerk (~> 2.4.2)
+
+PATH
+  remote: belts
+  specs:
+    belts (0.2.0)
+      belts_engine (= 0.2.0)
+      belts_opengl (= 0.2.0)
+      thor (~> 1.2.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (7.0.3)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    ast (2.4.2)
+    concurrent-ruby (1.1.10)
+    i18n (1.10.0)
+      concurrent-ruby (~> 1.0)
+    matrix (0.4.2)
+    minitest (5.16.0)
+    opengl-bindings2 (2.0.0)
+    parallel (1.22.1)
+    parser (3.1.2.0)
+      ast (~> 2.4.1)
+    rainbow (3.1.1)
+    regexp_parser (2.5.0)
+    rexml (3.2.5)
+    rubocop (1.29.1)
+      parallel (~> 1.10)
+      parser (>= 3.1.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.17.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 3.0)
+    rubocop-ast (1.18.0)
+      parser (>= 3.1.1.0)
+    rubocop-performance (1.13.3)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    ruby-progressbar (1.11.0)
+    standard (1.12.1)
+      rubocop (= 1.29.1)
+      rubocop-performance (= 1.13.3)
+    thor (1.2.1)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
+    unicode-display_width (2.1.0)
+    zeitwerk (2.4.2)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  belts!
+  standard (~> 1.12)
+
+RUBY VERSION
+   ruby 3.1.2p20
+
+BUNDLED WITH
+   2.3.15

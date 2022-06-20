@@ -6,7 +6,7 @@ module BeltsEngine::Ecs
     end
 
     def get(key)
-      raise "Collection not registered: #{key}" unless self.key?(key)
+      raise "Collection not registered: #{key}" unless key?(key)
       self[key]
     end
   end

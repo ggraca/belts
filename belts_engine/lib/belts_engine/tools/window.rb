@@ -5,7 +5,7 @@ module BeltsEngine
 
       DEFAULT_WIDTH = 640
       DEFAULT_HEIGHT = 480
-      DEFAULT_TITLE = 'Belts Demo'.freeze
+      DEFAULT_TITLE = "Belts Demo".freeze
 
       def initialize
         @title = DEFAULT_TITLE

@@ -23,6 +23,8 @@ Transform = Struct.new(:position, :rotation, :scale) do
   end
 
   def back = -forward
+
   def left = -right
+
   def down = -up
 end
