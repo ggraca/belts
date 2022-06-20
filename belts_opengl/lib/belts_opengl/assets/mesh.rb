@@ -34,7 +34,7 @@ module BeltsOpengl::Assets
 
     def draw
       GL.BindVertexArray(@vao)
-      GL.DrawElements(GL::TRIANGLES, @indexes.size, GL::UNSIGNED_INT, 0)
+      GL.DrawElements(GL::TRIANGLES, @indexes.size, GL::UNSIGNED_INT, @indexes.pack("L*"))
     end
 
     def destroy
