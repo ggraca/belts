@@ -21,5 +21,9 @@ module BeltsEngine
 
       tools[name]
     end
+
+    def respond_to_missing?(name, *args)
+      tools[name] || super
+    end
   end
 end

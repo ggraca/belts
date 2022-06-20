@@ -67,7 +67,7 @@ Mat4 = Struct.new(:m) do
     def orthographic(left, right, bottom, top, near, far)
       scale = scale(2.0 / (right - left), 2.0 / (top - bottom), 2.0 / (far - near))
       centerer = translation(- (right + left) / (right - left), - (top + bottom) / (top - bottom), (far - near) / 2.0)
-      inverter = scale(1, 1, -1)
+      # inverter = scale(1, 1, -1)
 
       scale * centerer # * inverter
     end

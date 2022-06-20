@@ -16,4 +16,5 @@ Gem::Specification.new do |s|
   s.add_dependency "belts_opengl", VERSION
   s.add_dependency "thor", "~> 1.2.1"
   s.add_development_dependency "standard", "~> 1.12"
+  s.add_development_dependency "rubocop-rspec", "~> 2.11"
 end

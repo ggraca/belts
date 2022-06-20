@@ -39,6 +39,10 @@ module BeltsSupport
           super
         end
       end
+
+      def respond_to_missing?(name, *args)
+        @@options[name] || super
+      end
     end
   end
 end

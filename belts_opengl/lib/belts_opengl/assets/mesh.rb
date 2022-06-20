@@ -46,7 +46,7 @@ module BeltsOpengl::Assets
     private
 
     def upload_vertice_data
-      values_per_vertex = 3
+      # values_per_vertex = 3
 
       GL.BindVertexArray(@vao)
       GL.BindBuffer(GL::ARRAY_BUFFER, @vbo)

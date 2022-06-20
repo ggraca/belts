@@ -1,0 +1,11 @@
+inherit_gem:
+  standard: config/base.yml
+
+require:
+  - standard
+  - rubocop-rspec
+  - rubocop-performance
+
+AllCops:
+  TargetRubyVersion: 3.1.2
+  NewCops: enable

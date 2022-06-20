@@ -54,6 +54,8 @@ GEM
     rubocop-performance (1.13.3)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
+    rubocop-rspec (2.11.1)
+      rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     standard (1.12.1)
       rubocop (= 1.29.1)
@@ -69,6 +71,7 @@ PLATFORMS
 
 DEPENDENCIES
   belts!
+  rubocop-rspec (~> 2.11)
   standard (~> 1.12)
 
 RUBY VERSION

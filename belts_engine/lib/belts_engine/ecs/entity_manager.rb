@@ -7,12 +7,13 @@ module BeltsEngine::Ecs
 
     def instantiate(prefab_class, position = Vec3.zero, rotation = Vec3.zero, scale = Vec3.one)
       id = @next_id
-      entity = self[id] = Entity.new(id)
+      self[id] = Entity.new(id)
       @next_id += 1
 
       components = Marshal.load(Marshal.dump(prefab_class.to_s.constantize.components)) # deep copy
       components[:transform].position = position if position
       components[:transform].rotation = rotation if rotation
+      components[:transform].scale = scale if scale
       add_components(id, components)
 
       id
