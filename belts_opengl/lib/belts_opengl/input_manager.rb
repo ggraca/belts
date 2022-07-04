@@ -30,7 +30,7 @@ module BeltsOpengl
 
     private
 
-    # NOTE: registering the callback with memoization because the gem has an
+    # NOTE: registering the callbacks with memoization because the gem has an
     # issue keeping reference to a local variable or method call, resulting
     # in a segfault
     def key_callback

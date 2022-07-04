@@ -6,3 +6,5 @@ path "." do
 end
 
 gemspec path: "./belts"
+
+gem "rspec"

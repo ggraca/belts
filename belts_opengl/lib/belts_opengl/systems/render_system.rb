@@ -24,7 +24,7 @@ module BeltsOpengl
     def render_entities
       camera_matrix = nil
 
-      cameras.each_with_components do |transform:, _camera_data:, **|
+      cameras.each_with_components do |transform:, camera_data:, **|
         # view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, transform.up)
         view_matrix = Mat4.rotation(*-transform.rotation) * Mat4.scale(1, 1, -1) * Mat4.translation(*-transform.position)
         proj_matrix = Mat4.perspective(45, @game.window.ratio, 0.1, 100)
