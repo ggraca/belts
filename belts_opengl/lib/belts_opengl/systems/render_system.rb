@@ -25,17 +25,14 @@ module BeltsOpengl
       flatten_camera_matrix = camera_matrix.transpose.to_a.flatten.pack("F*")
 
       objects.each_with_components do |transform:, render_data:, **|
-        model_matrix = transform.to_matrix
-        normal_matrix = model_matrix.inverse.transpose
-
         camera_loc = GL.GetUniformLocation(default_shader, "camera_matrix")
         GL.UniformMatrix4fv(camera_loc, 1, GL::FALSE, flatten_camera_matrix)
 
         model_loc = GL.GetUniformLocation(default_shader, "model_matrix")
-        GL.UniformMatrix4fv(model_loc, 1, GL::FALSE, model_matrix.transpose.to_a.flatten.pack("F*"))
+        GL.UniformMatrix4fv(model_loc, 1, GL::FALSE, transform.flatten_matrix)
 
         normal_loc = GL.GetUniformLocation(default_shader, "normal_matrix")
-        GL.UniformMatrix4fv(normal_loc, 1, GL::FALSE, normal_matrix.transpose.to_a.flatten.pack("F*"))
+        GL.UniformMatrix4fv(normal_loc, 1, GL::FALSE, transform.flatten_normal_matrix)
 
         mesh = @game.asset_manager.get_mesh(render_data.type)
         mesh.draw
