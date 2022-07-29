@@ -57,9 +57,9 @@ Transform = Struct.new(:position, :rotation, :scale, :matrix, :flatten_matrix, :
 
   def set_matrix
     self.matrix =
-      Mat4.translation(*position) *
-      Mat4.rotation(*rotation) *
-      Mat4.scale(*scale)
+      Mat4.translation(position) *
+      Mat4.rotation(rotation) *
+      Mat4.scale(scale)
 
     self.flatten_matrix = matrix.transpose.to_a.flatten.pack("F*")
     self.flatten_normal_matrix = matrix.inverse.to_a.flatten.pack("F*")

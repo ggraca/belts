@@ -45,12 +45,8 @@ module BeltsOpengl
 
     def camera_matrix
       cameras.each_with_components do |transform:, camera_data:, **|
-        # view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, transform.up)
-        view_matrix = Mat4.rotation(*-transform.rotation) * Mat4.scale(1, 1, -1) * Mat4.translation(*-transform.position)
+        view_matrix = Mat4.rotation(-transform.rotation) * Mat4.scale(Vec3[1, 1, -1]) * Mat4.translation(-transform.position)
         proj_matrix = Mat4.perspective(45, @game.window.ratio, 0.1, 100)
-
-        # ortho_size = 5
-        # orth_matrix = Mat4.orthographic(-ortho_size * @game.window.ratio, ortho_size * @game.window.ratio, -ortho_size, ortho_size, 0, 10)
 
         return (proj_matrix * view_matrix)
       end
