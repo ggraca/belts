@@ -34,7 +34,11 @@ class Vec2
   end
 
   def to_s
-    @val[:values].to_a.join(", ")
+    to_a.join(", ")
+  end
+
+  def to_a
+    @val[:values].to_a
   end
 
   private
