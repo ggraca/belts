@@ -25,6 +25,7 @@ module Glm
   attach_function :glmc_mat4_inv, [Glm::Mat4.by_ref, Glm::Mat4.by_ref], :void
 
   attach_function :glmc_translate, [Glm::Mat4.by_ref, Glm::Vec3.by_ref], :void
+  attach_function :glmc_translate_to, [Glm::Mat4.by_ref, Glm::Vec3.by_ref, Glm::Mat4.by_ref], :void
   attach_function :glmc_scale, [Glm::Mat4.by_ref, Glm::Vec3.by_ref], :void
   attach_function :glmc_rotate_x, [Glm::Mat4.by_ref, :float, Glm::Mat4.by_ref], :void
   attach_function :glmc_rotate_y, [Glm::Mat4.by_ref, :float, Glm::Mat4.by_ref], :void

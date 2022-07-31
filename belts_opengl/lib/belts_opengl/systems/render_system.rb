@@ -22,17 +22,20 @@ module BeltsOpengl
     private
 
     def render_entities
-      flatten_camera_matrix = camera_matrix.transpose.to_a.flatten.pack("F*")
+      flatten_camera_matrix = camera_matrix.to_a.flatten.pack("F*")
 
       objects.each_with_components do |transform:, render_data:, **|
+        flatten_model_matrix = transform.matrix.to_a.flatten.pack("F*")
+        flatten_normal_matrix = transform.matrix.inverse.to_a.flatten.pack("F*")
+
         camera_loc = GL.GetUniformLocation(default_shader, "camera_matrix")
         GL.UniformMatrix4fv(camera_loc, 1, GL::FALSE, flatten_camera_matrix)
 
         model_loc = GL.GetUniformLocation(default_shader, "model_matrix")
-        GL.UniformMatrix4fv(model_loc, 1, GL::FALSE, transform.flatten_matrix)
+        GL.UniformMatrix4fv(model_loc, 1, GL::FALSE, flatten_model_matrix)
 
         normal_loc = GL.GetUniformLocation(default_shader, "normal_matrix")
-        GL.UniformMatrix4fv(normal_loc, 1, GL::FALSE, transform.flatten_normal_matrix)
+        GL.UniformMatrix4fv(normal_loc, 1, GL::FALSE, flatten_normal_matrix)
 
         mesh = @game.asset_manager.get_mesh(render_data.type)
         mesh.draw
@@ -45,10 +48,10 @@ module BeltsOpengl
 
     def camera_matrix
       cameras.each_with_components do |transform:, camera_data:, **|
-        view_matrix = Mat4.rotation(-transform.rotation) * Mat4.scale(Vec3[1, 1, -1]) * Mat4.translation(-transform.position)
-        proj_matrix = Mat4.perspective(45, @game.window.ratio, 0.1, 100)
+        view_matrix = Mat4.scale(Vec3[1, 1, -1]) * Mat4.rotation(-transform.rotation) * Mat4.translation(-transform.position)
+        proj_matrix = Mat4.perspective(45.0 * Math::PI / 180, @game.window.ratio, 0.1, 100)
 
-        return (proj_matrix * view_matrix)
+        return proj_matrix * view_matrix
       end
     end
   end

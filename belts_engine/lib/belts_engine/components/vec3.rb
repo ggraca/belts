@@ -25,7 +25,7 @@ class Vec3
     @val = Glm::Vec3.new
     @val[:values][0] = x
     @val[:values][1] = y
-    @val[:values][2] = y
+    @val[:values][2] = z
   end
 
   def x = @val[:values][0]

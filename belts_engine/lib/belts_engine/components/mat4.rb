@@ -4,23 +4,41 @@ class Mat4
   class << self
     def [](*values) = new(values)
 
+    def identity
+      Mat4[
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, 0, 0, 1
+      ]
+    end
+
+    def zero
+      Mat4[
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+      ]
+    end
+
     def translation(vec3)
-      dest = Mat4.new([])
+      dest = Mat4.identity
       Glm.glmc_translate(dest.val, vec3.val)
       dest
     end
 
     def scale(vec3)
-      dest = Mat4.new([])
+      dest = Mat4.identity
       Glm.glmc_scale(dest.val, vec3.val)
       dest
     end
 
     def rotation(vec3)
-      identity = Mat4.new([])
-      dest_x = Mat4.new([])
-      dest_y = Mat4.new([])
-      dest_z = Mat4.new([])
+      identity = Mat4.identity
+      dest_x = Mat4.zero
+      dest_y = Mat4.zero
+      dest_z = Mat4.zero
       Glm.glmc_rotate_x(identity.val, vec3.to_a[0] * Math::PI / 180, dest_x.val)
       Glm.glmc_rotate_y(identity.val, vec3.to_a[1] * Math::PI / 180, dest_y.val)
       Glm.glmc_rotate_z(identity.val, vec3.to_a[2] * Math::PI / 180, dest_z.val)
@@ -28,9 +46,9 @@ class Mat4
       dest_x * dest_y * dest_z
     end
 
-    def perspective(fovy, aspect, nearVal, farVal)
-      dest = Mat4.new([])
-      Glm.glmc_perspective(fovy, aspect, nearVal, farVal, dest.val)
+    def perspective(fovy, aspect, near_val, far_val)
+      dest = Mat4.identity
+      Glm.glmc_perspective(fovy, aspect, near_val, far_val, dest.val)
       dest
     end
   end
@@ -52,19 +70,19 @@ class Mat4
   end
 
   def *(other)
-    dest = Mat4.new([])
+    dest = Mat4.identity
     Glm.glmc_mat4_mul(@val, other.val, dest.val)
     dest
   end
 
   def transpose
-    dest = Mat4.new([])
+    dest = Mat4.identity
     Glm.glmc_mat4_transpose_to(@val, dest.val)
     dest
   end
 
   def inverse
-    dest = Mat4.new([])
+    dest = Mat4.identity
     Glm.glmc_mat4_inv(@val, dest.val)
     dest
   end
