@@ -55,10 +55,7 @@ class Mat4
 
   def initialize(values)
     @val = Glm::Mat4.new
-
-    (0..15).each do |i|
-      @val[:values][i] = values[i] || 0
-    end
+    @val[:values].to_ptr.write_array_of_float(values)
   end
 
   def to_s

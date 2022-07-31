@@ -22,11 +22,11 @@ module BeltsOpengl
     private
 
     def render_entities
-      flatten_camera_matrix = camera_matrix.to_a.flatten.pack("F*")
+      flatten_camera_matrix = camera_matrix.val.to_ptr.address
 
       objects.each_with_components do |transform:, render_data:, **|
-        flatten_model_matrix = transform.matrix.to_a.flatten.pack("F*")
-        flatten_normal_matrix = transform.matrix.inverse.to_a.flatten.pack("F*")
+        flatten_model_matrix = transform.matrix.val.to_ptr.address
+        flatten_normal_matrix = transform.matrix.inverse.val.to_ptr.address
 
         camera_loc = GL.GetUniformLocation(default_shader, "camera_matrix")
         GL.UniformMatrix4fv(camera_loc, 1, GL::FALSE, flatten_camera_matrix)
@@ -48,7 +48,13 @@ module BeltsOpengl
 
     def camera_matrix
       cameras.each_with_components do |transform:, camera_data:, **|
-        view_matrix = Mat4.scale(Vec3[1, 1, -1]) * Mat4.rotation(-transform.rotation) * Mat4.translation(-transform.position)
+        invert_z_axis_matrix = Mat4.scale(Vec3[1, 1, -1])
+
+        view_matrix =
+          invert_z_axis_matrix *
+          Mat4.rotation(-transform.rotation) *
+          Mat4.translation(-transform.position)
+
         proj_matrix = Mat4.perspective(45.0 * Math::PI / 180, @game.window.ratio, 0.1, 100)
 
         return proj_matrix * view_matrix
