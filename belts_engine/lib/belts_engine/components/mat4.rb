@@ -39,9 +39,9 @@ class Mat4
       dest_x = Mat4.zero
       dest_y = Mat4.zero
       dest_z = Mat4.zero
-      Glm.glmc_rotate_x(identity.val, vec3.to_a[0] * Math::PI / 180, dest_x.val)
-      Glm.glmc_rotate_y(identity.val, vec3.to_a[1] * Math::PI / 180, dest_y.val)
-      Glm.glmc_rotate_z(identity.val, vec3.to_a[2] * Math::PI / 180, dest_z.val)
+      Glm.glmc_rotate_x(identity.val, vec3.x * Math::PI / 180, dest_x.val)
+      Glm.glmc_rotate_y(identity.val, vec3.y * Math::PI / 180, dest_y.val)
+      Glm.glmc_rotate_z(identity.val, vec3.z * Math::PI / 180, dest_z.val)
 
       dest_x * dest_y * dest_z
     end
