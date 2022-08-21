@@ -2,7 +2,7 @@ module BeltsEngine
   module Tools
     class Input
       module Keyboard
-        KEYS = [:w, :a, :s, :d].freeze
+        KEYS = [:w, :a, :s, :d, :space].freeze
 
         def key?(key) = @keyboard_state[key]
 

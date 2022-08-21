@@ -1,5 +1,6 @@
 require "active_support/inflector"
 require "active_support/core_ext/module/delegation"
+require "cglm_bindings"
 require "matrix"
 require "zeitwerk"
 

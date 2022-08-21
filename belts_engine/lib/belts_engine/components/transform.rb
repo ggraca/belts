@@ -1,30 +1,46 @@
-Transform = Struct.new(:position, :rotation, :scale) do
-  def initialize(position: Vec3.zero, rotation: Vec3.zero, scale: Vec3.one) = super(position, rotation, scale)
-
-  def to_matrix
-    Mat4.translation(*position) *
-      Mat4.rotation(*rotation) *
-      Mat4.scale(*scale)
+Transform = Struct.new(:position, :rotation, :scale, :matrix) do
+  def initialize(position: Vec3.zero, rotation: Vec3.zero, scale: Vec3.one)
+    super(position, rotation, scale, nil)
+    set_matrix
   end
 
-  def forward
-    matrix = to_matrix
-    Vec3[matrix[0, 2], matrix[1, 2], matrix[2, 2]]
+  def move(x, y, z)
+    self.position = Vec3[
+      position.x + x,
+      position.y + y,
+      position.z + z
+    ]
   end
 
-  def right
-    matrix = to_matrix
-    Vec3[matrix[0, 0], matrix[1, 0], matrix[2, 0]]
+  def rotate(x, y, z)
+    self.rotation = Vec3[
+      rotation.x + x,
+      rotation.y + y,
+      rotation.z + z
+    ]
   end
 
-  def up
-    matrix = to_matrix
-    Vec3[matrix[0, 1], matrix[1, 1], matrix[2, 1]]
+  def position=(val)
+    self[:position] = val
+    set_matrix
   end
 
-  def back = -forward
+  def rotation=(val)
+    self[:rotation] = val
+    set_matrix
+  end
 
-  def left = -right
+  def scale=(val)
+    self[:scale] = val
+    set_matrix
+  end
 
-  def down = -up
+  private
+
+  def set_matrix
+    self.matrix =
+      Mat4.translation(position) *
+      Mat4.rotation(rotation) *
+      Mat4.scale(scale)
+  end
 end

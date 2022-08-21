@@ -1,15 +1,3 @@
 #!/usr/bin/env ruby
-require "thor"
-require "belts"
-
-class BeltsCLI < Thor
-  default_task :start
-
-  desc "start", "Starts the game"
-  subcommand "start", Belts::Initializer
-
-  desc "new NAME", "Generate a new project in the current directory with the given NAME"
-  subcommand "new", Belts::Generator
-end
-
-BeltsCLI.start
+require "belts_cli"
+BeltsCli.start

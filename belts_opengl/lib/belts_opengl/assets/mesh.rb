@@ -34,7 +34,7 @@ module BeltsOpengl::Assets
 
     def draw
       GL.BindVertexArray(@vao)
-      GL.DrawElements(GL::TRIANGLES, @indexes.size, GL::UNSIGNED_INT, @indexes.pack("L*"))
+      GL.DrawElements(GL::TRIANGLES, @indexes.size, GL::UNSIGNED_INT, 0)
     end
 
     def destroy
@@ -46,8 +46,6 @@ module BeltsOpengl::Assets
     private
 
     def upload_vertice_data
-      # values_per_vertex = 3
-
       GL.BindVertexArray(@vao)
       GL.BindBuffer(GL::ARRAY_BUFFER, @vbo)
 
@@ -56,8 +54,11 @@ module BeltsOpengl::Assets
       GL.BindBuffer(GL::ELEMENT_ARRAY_BUFFER, @ebo)
       GL.BufferData(GL::ELEMENT_ARRAY_BUFFER, @indexes.size * Fiddle::SIZEOF_INT, @indexes.pack("L*"), GL::STATIC_DRAW)
 
+      # Vertices
       GL.VertexAttribPointer(0, 3, GL::FLOAT, GL::FALSE, 6 * Fiddle::SIZEOF_FLOAT, 0)
+      # Normals
       GL.VertexAttribPointer(1, 3, GL::FLOAT, GL::FALSE, 6 * Fiddle::SIZEOF_FLOAT, 3 * Fiddle::SIZEOF_FLOAT)
+
       GL.EnableVertexAttribArray(0)
       GL.EnableVertexAttribArray(1)
 

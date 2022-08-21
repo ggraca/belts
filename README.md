@@ -10,7 +10,7 @@ Belts is designed to be easy to pick up and get something out there, ideal for h
 
 # Getting Started
 ## Install
-Install belts globally. Make sure you're running **ruby >= 3.1.2** and have [OpenGL/GLFW](https://www.glfw.org/) installed on your system:
+Install belts globally. Make sure you're running **ruby >= 3.1.2** and have [OpenGL/GLFW](https://www.glfw.org/) and [CGLM](https://github.com/recp/cglm) available in your system:
 ```bash
 gem install belts
 ```
@@ -101,9 +101,7 @@ class SpinnerSystem < BeltsEngine::System
     speed = @time.delta_time * 30
 
     spinners.each_with_components do |transform:, **|
-      transform.rotation.x += speed
-      transform.rotation.y += speed
-      transform.rotation.z += speed
+      transform.rotate(speed, speed, speed)
     end
   end
 end

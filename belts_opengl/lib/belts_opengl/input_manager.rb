@@ -4,7 +4,8 @@ module BeltsOpengl
       GLFW::KEY_W => :w,
       GLFW::KEY_A => :a,
       GLFW::KEY_S => :s,
-      GLFW::KEY_D => :d
+      GLFW::KEY_D => :d,
+      GLFW::KEY_SPACE => :space
     }
 
     BUTTON_MAP = {
@@ -30,7 +31,7 @@ module BeltsOpengl
 
     private
 
-    # NOTE: registering the callback with memoization because the gem has an
+    # NOTE: registering the callbacks with memoization because the gem has an
     # issue keeping reference to a local variable or method call, resulting
     # in a segfault
     def key_callback
