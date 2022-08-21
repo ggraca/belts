@@ -56,7 +56,9 @@ module BeltsOpengl::Assets
       GL.BindBuffer(GL::ELEMENT_ARRAY_BUFFER, @ebo)
       GL.BufferData(GL::ELEMENT_ARRAY_BUFFER, @indexes.size * Fiddle::SIZEOF_INT, @indexes.pack("L*"), GL::STATIC_DRAW)
 
+      # Vertices
       GL.VertexAttribPointer(0, 3, GL::FLOAT, GL::FALSE, 6 * Fiddle::SIZEOF_FLOAT, 0)
+      # Normals
       GL.VertexAttribPointer(1, 3, GL::FLOAT, GL::FALSE, 6 * Fiddle::SIZEOF_FLOAT, 3 * Fiddle::SIZEOF_FLOAT)
       GL.EnableVertexAttribArray(0)
       GL.EnableVertexAttribArray(1)

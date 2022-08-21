@@ -4,7 +4,8 @@ module BeltsOpengl
       GLFW::KEY_W => :w,
       GLFW::KEY_A => :a,
       GLFW::KEY_S => :s,
-      GLFW::KEY_D => :d
+      GLFW::KEY_D => :d,
+      GLFW::KEY_SPACE => :space
     }
 
     BUTTON_MAP = {

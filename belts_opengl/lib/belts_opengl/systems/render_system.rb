@@ -26,16 +26,12 @@ module BeltsOpengl
 
       objects.each_with_components do |transform:, render_data:, **|
         model_matrix_addr = transform.matrix.val.to_ptr.address
-        normal_matrix_addr = transform.matrix.inverse.val.to_ptr.address
 
         camera_loc = GL.GetUniformLocation(default_shader, "camera_matrix")
         GL.UniformMatrix4fv(camera_loc, 1, GL::FALSE, camera_matrix_addr)
 
         model_loc = GL.GetUniformLocation(default_shader, "model_matrix")
         GL.UniformMatrix4fv(model_loc, 1, GL::FALSE, model_matrix_addr)
-
-        normal_loc = GL.GetUniformLocation(default_shader, "normal_matrix")
-        GL.UniformMatrix4fv(normal_loc, 1, GL::FALSE, normal_matrix_addr)
 
         mesh = @game.asset_manager.get_mesh(render_data.type)
         mesh.draw
