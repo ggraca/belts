@@ -1,4 +1,4 @@
-module BeltsOpengl
+module BeltsOpenGL
   module Prefab
     module RendererMixin
       class << self

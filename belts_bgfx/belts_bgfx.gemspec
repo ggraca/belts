@@ -13,5 +13,5 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.1.2"
   s.add_dependency "belts_engine", VERSION
   s.add_dependency "bgfx_bindings", "~> 0.1.0"
-  s.add_dependency "sdl2-bindings", "~> 0.1.0"
+  s.add_dependency "sdl2-bindings", "~> 0.1.4"
 end

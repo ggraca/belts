@@ -1,4 +1,4 @@
-module BeltsOpengl::Assets
+module BeltsOpenGL::Assets
   class Meshes::Triangle < Mesh
     def initialize
       vertices = [

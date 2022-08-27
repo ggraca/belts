@@ -1,4 +1,4 @@
-module BeltsOpengl
+module BeltsOpenGL
   class InputManager
     KEY_MAP = {
       GLFW::KEY_W => :w,

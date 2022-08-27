@@ -1,11 +1,11 @@
-module BeltsOpengl
+module BeltsOpenGL
   class WindowSystem < BeltsEngine::System
     def start
       GLFW.WindowHint(GLFW::ALPHA_BITS, 0)
       @window = GLFW.CreateWindow(640, 480, "Belts Demo", nil, nil)
       GLFW.MakeContextCurrent(@window)
 
-      @input_manager = BeltsOpengl::InputManager.new(@game, @window)
+      @input_manager = BeltsOpenGL::InputManager.new(@game, @window)
     end
 
     def update
