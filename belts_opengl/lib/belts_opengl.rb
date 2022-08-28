@@ -10,8 +10,6 @@ module BeltsOpenGL
   extend BeltsSupport::Extension
 
   def self.install(game)
-    require "belts_opengl/components/camera_data"
-    require "belts_opengl/components/light_data"
     require "belts_opengl/components/render_data"
 
     require "belts_opengl/systems/window_system"

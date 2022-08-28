@@ -1,7 +1,7 @@
 module BeltsOpenGL
   class RenderSystem < BeltsEngine::System
     collection :cameras,
-      with: [:transform, :camera_data]
+      with: [:transform, :camera]
 
     collection :objects,
       with: [:transform, :render_data]
@@ -23,7 +23,7 @@ module BeltsOpenGL
     private
 
     def upload_camera_data
-      cameras.each_with_components do |transform:, camera_data:, **|
+      cameras.each_with_components do |transform:, camera:, **|
         invert_z_axis_matrix = Mat4.scale(Vec3[1, 1, -1])
 
         view_matrix =
