@@ -2,18 +2,12 @@ module BeltsOpenGL
   class AssetManager
     def initialize
       @shaders = {}
-      @meshes = {}
 
       build_default_shader
-      build_default_meshes
     end
 
     def get_shader(key)
       @shaders[key]
-    end
-
-    def get_mesh(key)
-      @meshes[key]
     end
 
     def build_default_shader
@@ -38,16 +32,6 @@ module BeltsOpenGL
 
       GL.DeleteShader(vert_shader)
       GL.DeleteShader(frag_shader)
-    end
-
-    def build_default_meshes
-      default_meshes = {
-        square: Assets::Meshes::Square.new,
-        triangle: Assets::Meshes::Triangle.new,
-        cube: Assets::Meshes::Cube.new
-      }
-
-      @meshes.merge!(default_meshes)
     end
   end
 end

@@ -1,5 +1,32 @@
 module BeltsOpenGL::Assets
-  module BufferHelpers
+  class MeshLoader
+    attr_reader :vao, :vbo, :ebo
+
+    def initialize(vertices, indexes)
+      @vertices = vertices
+      @indexes = indexes
+
+      unload
+    end
+
+    def load
+      @vao = create_vertex_array_buffer
+      @vbo = create_buffer
+      @ebo = create_buffer
+
+      upload_vertice_data
+    end
+
+    def unload
+      GL.DeleteVertexArrays(1, [@vao].pack("L")) if @vao
+      GL.DeleteBuffers(1, [@vbo].pack("L")) if @vbo
+      GL.DeleteBuffers(1, [@ebo].pack("L")) if @ebo
+
+      @vao = nil
+      @vbo = nil
+      @ebo = nil
+    end
+
     private
 
     def create_buffer
@@ -13,37 +40,6 @@ module BeltsOpenGL::Assets
       GL.GenVertexArrays(1, temp)
       temp.unpack1("L")
     end
-  end
-
-  class Mesh
-    include BufferHelpers
-
-    U = 1.0 # Unit size
-    HU = U / 2 # Half unit size
-
-    def initialize(vertices, indexes)
-      @vertices = vertices
-      @indexes = indexes
-
-      @vao = create_vertex_array_buffer
-      @vbo = create_buffer
-      @ebo = create_buffer
-
-      upload_vertice_data
-    end
-
-    def draw
-      GL.BindVertexArray(@vao)
-      GL.DrawElements(GL::TRIANGLES, @indexes.size, GL::UNSIGNED_INT, 0)
-    end
-
-    def destroy
-      GL.DeleteVertexArrays(1, [@vao].pack("L"))
-      GL.DeleteBuffers(1, [@vbo].pack("L"))
-      GL.DeleteBuffers(1, [@ebo].pack("L"))
-    end
-
-    private
 
     def upload_vertice_data
       GL.BindVertexArray(@vao)
