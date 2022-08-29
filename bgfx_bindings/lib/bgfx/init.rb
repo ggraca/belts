@@ -1,6 +1,7 @@
 module BGFX
   class Init < FFI::Struct
-    layout type: RendererType,
+    layout(
+      type: RendererType,
       vendorId: :ushort,
       deviceId: :ushort,
       capabilities: :ulong,
@@ -11,6 +12,7 @@ module BGFX
       limits: InitLimits,
       callback: :pointer,
       allocator: :pointer
+    )
 
     def initialize(resolution:)
       super()

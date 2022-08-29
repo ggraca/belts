@@ -1,11 +1,13 @@
 module BGFX
   class Resolution < FFI::Struct
-    layout format: TextureFormat,
+    layout(
+      format: TextureFormat,
       width: :uint,
       height: :uint,
       reset: :uint,
       numBackBuffers: :uint8,
       maxFrameLatency: :uint8
+    )
 
     def initialize(width:, height:, reset:)
       super()

@@ -14,9 +14,11 @@ module BeltsBGFX
     require "belts_bgfx/systems/render_system"
 
     # TODO: Automatically find the lib based on the platform
-    SDL.load_lib('libSDL2.so')
+    SDL.load_lib("libSDL2.so")
 
     game.systems.register_system(BeltsBGFX::WindowSystem)
     game.systems.register_system(BeltsBGFX::RenderSystem)
+
+    game.assets.meshes.register_loader(:bgfx, BeltsBGFX::Assets::MeshLoader)
   end
 end
