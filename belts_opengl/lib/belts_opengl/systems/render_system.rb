@@ -48,7 +48,7 @@ module BeltsOpenGL
         model_loc = GL.GetUniformLocation(default_shader, "model_matrix")
         GL.UniformMatrix4fv(model_loc, 1, GL::FALSE, model_matrix_addr)
 
-        mesh = @assets.meshes[render_data.type]
+        mesh = @assets.meshes[render_data.mesh]
         GL.BindVertexArray(mesh[:opengl].vao)
         GL.DrawElements(GL::TRIANGLES, mesh[:total_indices], GL::UNSIGNED_INT, 0)
       end
