@@ -21,7 +21,7 @@ module BeltsOpenGL
     game.systems.register_system(BeltsOpenGL::RenderSystem)
 
     game.assets.meshes.register_loader(:opengl, BeltsOpenGL::Assets::MeshLoader)
-    game.register_tool(:asset_manager, BeltsOpenGL::AssetManager.new)
+    game.register_tool(:opengl_shaders, BeltsOpenGL::Tools::ShaderManager.new)
 
     BeltsEngine::Prefab.include BeltsOpenGL::Prefab::RendererMixin
   end

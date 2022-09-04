@@ -19,5 +19,9 @@ module BeltsBGFX
       BGFX.touch(0)
       BGFX.frame(false)
     end
+
+    def default_shader
+      @game.bgfx_shaders.get_shader(:default)
+    end
   end
 end

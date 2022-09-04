@@ -16,6 +16,7 @@ module BeltsBGFX::Assets
       BGFX.vertex_layout_add(@vah, BGFX::Attrib[:Normal], 3, BGFX::AttribType[:Float], false, false)
       BGFX.vertex_layout_end(@vah)
 
+      # TODO: review sizes
       float_size = 4 # 4 bytes
       buffer = FFI::MemoryPointer.new(:float, @vertices.size * float_size)
       buffer.write_array_of_float(@vertices)

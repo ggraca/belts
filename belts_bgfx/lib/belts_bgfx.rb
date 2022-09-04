@@ -20,5 +20,10 @@ module BeltsBGFX
     game.systems.register_system(BeltsBGFX::RenderSystem)
 
     game.assets.meshes.register_loader(:bgfx, BeltsBGFX::Assets::MeshLoader)
+    game.register_tool(:bgfx_shaders, BeltsBGFX::Tools::ShaderManager.new)
+  end
+
+  def self.root
+    File.dirname __dir__
   end
 end

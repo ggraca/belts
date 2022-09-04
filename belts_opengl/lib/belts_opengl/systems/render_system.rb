@@ -55,7 +55,7 @@ module BeltsOpenGL
     end
 
     def default_shader
-      @game.asset_manager.get_shader(:default)
+      @game.opengl_shaders.get_shader(:default)
     end
   end
 end

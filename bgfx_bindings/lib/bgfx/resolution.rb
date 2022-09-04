@@ -5,8 +5,8 @@ module BGFX
       width: :uint,
       height: :uint,
       reset: :uint,
-      numBackBuffers: :uint8,
-      maxFrameLatency: :uint8
+      numBackBuffers: :ubyte,
+      maxFrameLatency: :ubyte
     )
 
     def initialize(width:, height:, reset:)
