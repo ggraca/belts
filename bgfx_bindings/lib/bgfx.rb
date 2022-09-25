@@ -15,15 +15,16 @@ module BGFX
 
   typedef :ushort, :view_id
   typedef :uint8, :ubyte
+  typedef :uint64, :ulong
 
   attach_function :init, :bgfx_init, [Init], :bool
   attach_function :set_debug, :bgfx_set_debug, [:uint], :void
-  attach_function :set_view_clear, :bgfx_set_view_clear, [:view_id, :ushort, :uint, :float, :ubyte], :void
   attach_function :frame, :bgfx_frame, [:bool], :uint
-  attach_function :set_view_rect, :bgfx_set_view_rect, [:view_id, :ushort, :ushort, :ushort, :ushort], :void
   attach_function :touch, :bgfx_touch, [:view_id], :void
   attach_function :set_platform_data, :bgfx_set_platform_data, [PlatformData.by_ref], :void
   attach_function :render_frame, :bgfx_render_frame, [:int], :ubyte
+  attach_function :set_state, :bgfx_set_state, [:ulong, :uint], :void
+  attach_function :submit, :bgfx_submit, [:view_id, ProgramHandle, :int, :ubyte], :void
 
   attach_function :make_ref, :bgfx_make_ref, [:pointer, :uint], Memory.by_ref
   attach_function :copy, :bgfx_copy, [:pointer, :uint], Memory.by_ref
@@ -38,4 +39,9 @@ module BGFX
 
   attach_function :create_shader, :bgfx_create_shader, [Memory.by_ref], ShaderHandle
   attach_function :create_program, :bgfx_create_program, [ShaderHandle, ShaderHandle, :bool], ProgramHandle
+
+  attach_function :set_transform, :bgfx_set_transform, [:pointer, :ushort], :void
+  attach_function :set_view_clear, :bgfx_set_view_clear, [:view_id, :ushort, :uint, :float, :ubyte], :void
+  attach_function :set_view_rect, :bgfx_set_view_rect, [:view_id, :ushort, :ushort, :ushort, :ushort], :void
+  attach_function :set_view_transform, :bgfx_set_view_transform, [:view_id, :pointer, :pointer], :void
 end
