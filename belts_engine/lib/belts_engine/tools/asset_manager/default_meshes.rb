@@ -86,9 +86,9 @@ module BeltsEngine::Tools
 
       def self.triangle
         vertices = [
-          0, HU, 0,
-          -HU, -HU, 0,
-          HU, -HU, 0
+          0, HU, 0, *Vec3.back,
+          -HU, -HU, 0, *Vec3.back,
+          HU, -HU, 0, *Vec3.back
         ]
 
         indexes = [
