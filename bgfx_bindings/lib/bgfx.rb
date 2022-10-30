@@ -50,5 +50,6 @@ module BGFX
   attach_function :set_view_rect, :bgfx_set_view_rect, [:view_id, :ushort, :ushort, :ushort, :ushort], :void
   attach_function :set_view_transform, :bgfx_set_view_transform, [:view_id, :pointer, :pointer], :void
 
+  attach_function :reset, :bgfx_reset, [:uint, :uint, :uint, TextureFormat], :void
   attach_function :shutdown, :bgfx_shutdown, [], :void
 end

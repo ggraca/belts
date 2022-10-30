@@ -7,7 +7,6 @@ module BeltsBGFX
       with: [:transform, :render_data]
 
     def start
-      BGFX.set_view_rect(0, 0, 0, 640, 480)
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
     end
 

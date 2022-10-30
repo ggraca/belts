@@ -4,6 +4,7 @@ module BeltsEngine
     include BeltsEngine::ToolsManager
 
     def initialize
+      @running = true
       register_tool(:time, Tools::Time.new)
       register_tool(:input, Tools::Input.new)
       register_tool(:window, Tools::Window.new)
@@ -12,10 +13,6 @@ module BeltsEngine
       register_tool(:scenes, Tools::SceneManager.new(self))
       register_tool(:systems, Ecs::SystemManager.new(self))
       register_tool(:assets, Tools::AssetManager.new)
-    end
-
-    def use(extension)
-      extension.install(self)
     end
 
     def start
@@ -32,6 +29,17 @@ module BeltsEngine
     def update
       time.update
       systems.update
+    end
+
+    def running?
+      @running
+    end
+
+    def stop
+      @running = false
+    end
+
+    def quit
     end
   end
 end
