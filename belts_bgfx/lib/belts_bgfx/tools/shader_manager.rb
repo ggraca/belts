@@ -12,8 +12,17 @@ module BeltsBGFX
       end
 
       def build_default_shader
-        vertex = File.join(BeltsBGFX.root, "lib/belts_bgfx/tools/shaders/v_simple.bin")
-        fragment = File.join(BeltsBGFX.root, "lib/belts_bgfx/tools/shaders/f_simple.bin")
+        shader_folder = File.join(BeltsBGFX.root, "lib/belts_bgfx/tools/shaders")
+
+        # TODO: Build a task to this (e.g. belts build:shaders)
+        # TODO: Build in a tmp folder
+        system "echo 'Building default shader...'"
+        system "bgfx-shaderc -f #{shader_folder}/v_simple.sc -o #{shader_folder}/v_simple.bin --type vertex -i /usr/include/bgfx"
+        system "bgfx-shaderc -f #{shader_folder}/f_simple.sc -o #{shader_folder}/f_simple.bin --type fragment -i /usr/include/bgfx"
+        system "echo 'Default shader built!'"
+
+        vertex = File.join(shader_folder, "v_simple.bin")
+        fragment = File.join(shader_folder, "f_simple.bin")
 
         @shaders[:default] = BGFX.create_program(
           load_shader(vertex),

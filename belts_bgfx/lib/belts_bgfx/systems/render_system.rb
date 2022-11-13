@@ -8,6 +8,7 @@ module BeltsBGFX
 
     def start
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
+      # BGFX.set_debug(BGFX::DEBUG_WIREFRAME)
     end
 
     def update
@@ -29,9 +30,9 @@ module BeltsBGFX
         mesh = @assets.meshes[render_data.mesh]
 
         BGFX.set_transform(transform.matrix.val, 1)
-        BGFX.set_vertex_buffer(0, mesh[:bgfx].vbh, 0, mesh[:total_vertices] + 10000)
-        BGFX.set_index_buffer(mesh[:bgfx].ibh, 0, mesh[:total_indices] + 10000)
-        BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CCW | BGFX::STATE_PT_TRISTRIP , 0)
+        BGFX.set_vertex_buffer(0, mesh[:bgfx].vbh, 0, mesh[:total_vertices] / 10)
+        BGFX.set_index_buffer(mesh[:bgfx].ibh, 0, mesh[:total_indices])
+        BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CW, 1)
         BGFX.submit(0, default_shader, 0, 0)
       end
 

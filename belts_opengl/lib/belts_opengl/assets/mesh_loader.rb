@@ -50,10 +50,14 @@ module BeltsOpenGL::Assets
       GL.BindBuffer(GL::ELEMENT_ARRAY_BUFFER, @ebo)
       GL.BufferData(GL::ELEMENT_ARRAY_BUFFER, @indexes.size * Fiddle::SIZEOF_INT, @indexes.pack("L*"), GL::STATIC_DRAW)
 
+      stride = 3 * Fiddle::SIZEOF_FLOAT + 3 * Fiddle::SIZEOF_FLOAT + 4 * Fiddle::SIZEOF_FLOAT
+
       # Vertices
-      GL.VertexAttribPointer(0, 3, GL::FLOAT, GL::FALSE, 6 * Fiddle::SIZEOF_FLOAT, 0)
+      GL.VertexAttribPointer(0, 3, GL::FLOAT, GL::FALSE, stride, 0)
       # Normals
-      GL.VertexAttribPointer(1, 3, GL::FLOAT, GL::FALSE, 6 * Fiddle::SIZEOF_FLOAT, 3 * Fiddle::SIZEOF_FLOAT)
+      GL.VertexAttribPointer(1, 3, GL::FLOAT, GL::FALSE, stride, 3 * Fiddle::SIZEOF_FLOAT)
+      # Colors
+      GL.VertexAttribPointer(2, 4, GL::FLOAT, GL::FALSE, stride, 7 * Fiddle::SIZEOF_FLOAT)
 
       GL.EnableVertexAttribArray(0)
       GL.EnableVertexAttribArray(1)

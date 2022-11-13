@@ -21,40 +21,40 @@ module BeltsEngine::Tools
 
         vertices = [
           # Back face
-          *common_vertices[0], *Vec3.back,
-          *common_vertices[1], *Vec3.back,
-          *common_vertices[2], *Vec3.back,
-          *common_vertices[3], *Vec3.back,
+          *common_vertices[0], *Vec3.back, 1, 1, 0, 1,
+          *common_vertices[1], *Vec3.back, 1, 1, 0, 1,
+          *common_vertices[2], *Vec3.back, 1, 1, 0, 1,
+          *common_vertices[3], *Vec3.back, 1, 1, 0, 1,
 
           # Right face
-          *common_vertices[3], *Vec3.right,
-          *common_vertices[2], *Vec3.right,
-          *common_vertices[5], *Vec3.right,
-          *common_vertices[4], *Vec3.right,
+          *common_vertices[3], *Vec3.right, *Vec3.right, 1,
+          *common_vertices[2], *Vec3.right, *Vec3.right, 1,
+          *common_vertices[5], *Vec3.right, *Vec3.right, 1,
+          *common_vertices[4], *Vec3.right, *Vec3.right, 1,
 
           # Front face
-          *common_vertices[4], *Vec3.forward,
-          *common_vertices[5], *Vec3.forward,
-          *common_vertices[6], *Vec3.forward,
-          *common_vertices[7], *Vec3.forward,
+          *common_vertices[4], *Vec3.forward, *Vec3.forward, 1,
+          *common_vertices[5], *Vec3.forward, *Vec3.forward, 1,
+          *common_vertices[6], *Vec3.forward, *Vec3.forward, 1,
+          *common_vertices[7], *Vec3.forward, *Vec3.forward, 1,
 
           # Left face
-          *common_vertices[7], *Vec3.left,
-          *common_vertices[6], *Vec3.left,
-          *common_vertices[1], *Vec3.left,
-          *common_vertices[0], *Vec3.left,
+          *common_vertices[7], *Vec3.left, 0, 1, 1, 1,
+          *common_vertices[6], *Vec3.left, 0, 1, 1, 1,
+          *common_vertices[1], *Vec3.left, 0, 1, 1, 1,
+          *common_vertices[0], *Vec3.left, 0, 1, 1, 1,
 
           # Top face
-          *common_vertices[7], *Vec3.up,
-          *common_vertices[0], *Vec3.up,
-          *common_vertices[3], *Vec3.up,
-          *common_vertices[4], *Vec3.up,
+          *common_vertices[7], *Vec3.up, *Vec3.up, 1,
+          *common_vertices[0], *Vec3.up, *Vec3.up, 1,
+          *common_vertices[3], *Vec3.up, *Vec3.up, 1,
+          *common_vertices[4], *Vec3.up, *Vec3.up, 1,
 
           # Bottom face
-          *common_vertices[1], *Vec3.down,
-          *common_vertices[6], *Vec3.down,
-          *common_vertices[5], *Vec3.down,
-          *common_vertices[2], *Vec3.down
+          *common_vertices[1], *Vec3.down, 1, 0, 1, 1,
+          *common_vertices[6], *Vec3.down, 1, 0, 1, 1,
+          *common_vertices[5], *Vec3.down, 1, 0, 1, 1,
+          *common_vertices[2], *Vec3.down, 1, 0, 1, 1
         ]
 
         indexes = (0..5).map do |i|
@@ -71,10 +71,10 @@ module BeltsEngine::Tools
 
       def self.square
         vertices = [
-          -HU, HU, 0, *Vec3.back,
-          -HU, -HU, 0, *Vec3.back,
-          HU, -HU, 0, *Vec3.back,
-          HU, HU, 0, *Vec3.back
+          -HU, HU, 0, *Vec3.back, 1, 1, 0, 1,
+          -HU, -HU, 0, *Vec3.back, 1, 1, 0, 1,
+          HU, -HU, 0, *Vec3.back, 1, 1, 0, 1,
+          HU, HU, 0, *Vec3.back, 1, 1, 0, 1
         ]
 
         indexes = [
@@ -86,9 +86,9 @@ module BeltsEngine::Tools
 
       def self.triangle
         vertices = [
-          0, HU, 0, *Vec3.back,
-          -HU, -HU, 0, *Vec3.back,
-          HU, -HU, 0, *Vec3.back
+          0, HU, 0, *Vec3.back, 1, 1, 0, 1,
+          -HU, -HU, 0, *Vec3.back, 1, 1, 0, 1,
+          HU, -HU, 0, *Vec3.back, 1, 1, 0, 1
         ]
 
         indexes = [
