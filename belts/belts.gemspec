@@ -1,4 +1,4 @@
-VERSION = File.read(File.expand_path("../.belts-version", __dir__)).strip
+VERSION ||= File.read(File.expand_path("../.belts-version", __dir__)).strip
 
 Gem::Specification.new do |s|
   s.name = "belts"
@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 3.1.2"
   s.add_dependency "belts_engine", VERSION
   s.add_dependency "belts_opengl", VERSION
+  s.add_dependency "belts_bgfx", VERSION
   s.add_dependency "thor", "~> 1.2.1"
   s.add_development_dependency "standard", "~> 1.12"
   s.add_development_dependency "rubocop-rspec", "~> 2.11"

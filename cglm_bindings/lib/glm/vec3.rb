@@ -1,4 +1,4 @@
-module Glm
+module GLM
   class Vec3 < FFI::Struct
     layout :values, [:float, 3]
   end

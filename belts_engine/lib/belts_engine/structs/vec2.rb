@@ -18,7 +18,7 @@ class Vec2
   end
 
   def initialize(x = 0, y = 0)
-    @val = Glm::Vec2.new
+    @val = GLM::Vec2.new
     @val[:values][0] = x
     @val[:values][1] = y
   end
@@ -45,25 +45,25 @@ class Vec2
 
   def scalar_sum(scalar)
     dest = Vec2.new
-    Glm.glmc_vec2_adds(@val, scalar, dest.val)
+    GLM.glmc_vec2_adds(@val, scalar, dest.val)
     dest
   end
 
   def vector_sum(vec2)
     dest = Vec2.new
-    Glm.glmc_vec2_add(@val, vec2.val, dest.val)
+    GLM.glmc_vec2_add(@val, vec2.val, dest.val)
     dest
   end
 
   def scalar_mul(scalar)
     dest = Vec2.new
-    Glm.glmc_vec2_scale(@val, scalar, dest.val)
+    GLM.glmc_vec2_scale(@val, scalar, dest.val)
     dest
   end
 
   def vector_mul(vec2)
     dest = Vec2.new
-    Glm.glmc_vec2_mul(@val, vec2.val, dest.val)
+    GLM.glmc_vec2_mul(@val, vec2.val, dest.val)
     dest
   end
 end

@@ -8,14 +8,16 @@ module BeltsEngine
       @game = ::Game.new
 
       config.plugins.each do |plugin_class|
-        @game.use plugin_class
+        plugin_class.install(@game)
       end
 
       @game.start
 
-      loop do
+      while @game.running?
         @game.update
       end
+
+      @game.quit
     end
   end
 end

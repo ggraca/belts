@@ -1,7 +1,7 @@
-module BeltsOpengl
+module BeltsOpenGL
   class RenderSystem < BeltsEngine::System
     collection :cameras,
-      with: [:transform, :camera_data]
+      with: [:transform, :camera]
 
     collection :objects,
       with: [:transform, :render_data]
@@ -23,7 +23,7 @@ module BeltsOpengl
     private
 
     def upload_camera_data
-      cameras.each_with_components do |transform:, camera_data:, **|
+      cameras.each_with_components do |transform:, camera:, **|
         invert_z_axis_matrix = Mat4.scale(Vec3[1, 1, -1])
 
         view_matrix =
@@ -48,13 +48,14 @@ module BeltsOpengl
         model_loc = GL.GetUniformLocation(default_shader, "model_matrix")
         GL.UniformMatrix4fv(model_loc, 1, GL::FALSE, model_matrix_addr)
 
-        mesh = @game.asset_manager.get_mesh(render_data.type)
-        mesh.draw
+        mesh = @assets.meshes[render_data.mesh]
+        GL.BindVertexArray(mesh[:opengl].vao)
+        GL.DrawElements(GL::TRIANGLES, mesh[:total_indices], GL::UNSIGNED_INT, 0)
       end
     end
 
     def default_shader
-      @game.asset_manager.get_shader(:default)
+      @game.opengl_shaders.get_shader(:default)
     end
   end
 end

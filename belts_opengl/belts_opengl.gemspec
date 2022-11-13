@@ -1,4 +1,4 @@
-VERSION = File.read(File.expand_path("../.belts-version", __dir__)).strip
+VERSION ||= File.read(File.expand_path("../.belts-version", __dir__)).strip
 
 Gem::Specification.new do |s|
   s.name = "belts_opengl"

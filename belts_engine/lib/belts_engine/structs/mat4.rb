@@ -24,13 +24,13 @@ class Mat4
 
     def translation(vec3)
       dest = Mat4.identity
-      Glm.glmc_translate(dest.val, vec3.val)
+      GLM.glmc_translate(dest.val, vec3.val)
       dest
     end
 
     def scale(vec3)
       dest = Mat4.identity
-      Glm.glmc_scale(dest.val, vec3.val)
+      GLM.glmc_scale(dest.val, vec3.val)
       dest
     end
 
@@ -39,22 +39,22 @@ class Mat4
       dest_x = Mat4.zero
       dest_y = Mat4.zero
       dest_z = Mat4.zero
-      Glm.glmc_rotate_x(identity.val, vec3.x * Math::PI / 180, dest_x.val)
-      Glm.glmc_rotate_y(identity.val, vec3.y * Math::PI / 180, dest_y.val)
-      Glm.glmc_rotate_z(identity.val, vec3.z * Math::PI / 180, dest_z.val)
+      GLM.glmc_rotate_x(identity.val, vec3.x * Math::PI / 180, dest_x.val)
+      GLM.glmc_rotate_y(identity.val, vec3.y * Math::PI / 180, dest_y.val)
+      GLM.glmc_rotate_z(identity.val, vec3.z * Math::PI / 180, dest_z.val)
 
       dest_x * dest_y * dest_z
     end
 
     def perspective(fovy, aspect, near_val, far_val)
       dest = Mat4.identity
-      Glm.glmc_perspective(fovy, aspect, near_val, far_val, dest.val)
+      GLM.glmc_perspective(fovy, aspect, near_val, far_val, dest.val)
       dest
     end
   end
 
   def initialize(values)
-    @val = Glm::Mat4.new
+    @val = GLM::Mat4.new
     @val[:values].to_ptr.write_array_of_float(values)
   end
 
@@ -68,19 +68,19 @@ class Mat4
 
   def *(other)
     dest = Mat4.identity
-    Glm.glmc_mat4_mul(@val, other.val, dest.val)
+    GLM.glmc_mat4_mul(@val, other.val, dest.val)
     dest
   end
 
   def transpose
     dest = Mat4.identity
-    Glm.glmc_mat4_transpose_to(@val, dest.val)
+    GLM.glmc_mat4_transpose_to(@val, dest.val)
     dest
   end
 
   def inverse
     dest = Mat4.identity
-    Glm.glmc_mat4_inv(@val, dest.val)
+    GLM.glmc_mat4_inv(@val, dest.val)
     dest
   end
 
@@ -91,7 +91,7 @@ class Mat4
   end
 
   def marshal_load(serialized_values)
-    @val = Glm::Mat4.new
+    @val = GLM::Mat4.new
 
     (0..15).each do |i|
       @val[:values][i] = serialized_values[i] || 0

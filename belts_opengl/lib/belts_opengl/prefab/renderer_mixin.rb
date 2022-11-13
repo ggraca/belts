@@ -1,4 +1,4 @@
-module BeltsOpengl
+module BeltsOpenGL
   module Prefab
     module RendererMixin
       class << self
@@ -8,8 +8,8 @@ module BeltsOpengl
       end
 
       module ClassMethods
-        def renderer(type, **options)
-          set_component(:render_data, RenderData.new(type, options[:color]))
+        def renderer(**options)
+          set_component(:render_data, RenderData.new(options.slice(:mesh, :color)))
         end
       end
     end

@@ -3,16 +3,13 @@ require "opengl"
 require "glfw"
 
 loader = Zeitwerk::Loader.for_gem
+loader.inflector.inflect "belts_opengl" => "BeltsOpenGL"
 loader.setup
 
-module BeltsOpengl
+module BeltsOpenGL
   extend BeltsSupport::Extension
 
   def self.install(game)
-    require "belts_opengl/components/camera_data"
-    require "belts_opengl/components/light_data"
-    require "belts_opengl/components/render_data"
-
     require "belts_opengl/systems/window_system"
     require "belts_opengl/systems/render_system"
 
@@ -20,12 +17,13 @@ module BeltsOpengl
     GLFW.Init
     GL.load_lib
 
-    game.systems.register_system(BeltsOpengl::WindowSystem)
-    game.systems.register_system(BeltsOpengl::RenderSystem)
+    game.systems.register_system(BeltsOpenGL::WindowSystem)
+    game.systems.register_system(BeltsOpenGL::RenderSystem)
 
-    game.register_tool(:asset_manager, BeltsOpengl::AssetManager.new)
+    game.assets.meshes.register_loader(:opengl, BeltsOpenGL::Assets::MeshLoader)
+    game.register_tool(:opengl_shaders, BeltsOpenGL::Tools::ShaderManager.new)
 
-    BeltsEngine::Prefab.include BeltsOpengl::Prefab::RendererMixin
+    BeltsEngine::Prefab.include BeltsOpenGL::Prefab::RendererMixin
   end
 
   def self.root
