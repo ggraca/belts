@@ -5,7 +5,7 @@ module BeltsEngine::Ecs
       @next_id = 0
     end
 
-    def instantiate(prefab_class, position = Vec3.zero, rotation = Vec3.zero, scale = Vec3.one)
+    def instantiate(prefab_class, position = Vec3.zero, rotation = Quat.identity, scale = Vec3.one)
       id = @next_id
       self[id] = Entity.new(id)
       @next_id += 1

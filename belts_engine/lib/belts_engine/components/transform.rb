@@ -1,5 +1,5 @@
 Transform = Struct.new(:position, :rotation, :scale, :matrix) do
-  def initialize(position: Vec3.zero, rotation: Vec3.zero, scale: Vec3.one)
+  def initialize(position: Vec3.zero, rotation: Quat.identity, scale: Vec3.one)
     super(position, rotation, scale, nil)
     set_matrix
   end
@@ -13,11 +13,7 @@ Transform = Struct.new(:position, :rotation, :scale, :matrix) do
   end
 
   def rotate(x, y, z)
-    self.rotation = Vec3[
-      rotation.x + x,
-      rotation.y + y,
-      rotation.z + z
-    ]
+    self.rotation *= Quat.from_euler(x, y, z)
   end
 
   def position=(val)
