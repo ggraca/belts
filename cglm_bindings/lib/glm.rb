@@ -21,6 +21,12 @@ module GLM
   attach_function :glmc_vec3_scale, [GLM::Vec3.by_ref, :float, GLM::Vec3.by_ref], :void
   attach_function :glmc_vec3_mul, [GLM::Vec3.by_ref, GLM::Vec3.by_ref, GLM::Vec3.by_ref], :void
 
+  attach_function :glmc_quat_identity, [GLM::Quat.by_ref], :void
+  attach_function :glmc_quat_mat4, [GLM::Quat.by_ref, GLM::Mat4.by_ref], :void
+  attach_function :glmc_quat_inv, [GLM::Quat.by_ref, GLM::Quat.by_ref], :void
+  attach_function :glmc_quatv, [GLM::Quat.by_ref, :float, GLM::Vec3.by_ref], :void
+  attach_function :glmc_quat_mul, [GLM::Quat.by_ref, GLM::Quat.by_ref, GLM::Quat.by_ref], :void
+
   attach_function :glmc_mat4_mul, [GLM::Mat4.by_ref, GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_transpose_to, [GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_inv, [GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void

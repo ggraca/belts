@@ -34,16 +34,10 @@ class Mat4
       dest
     end
 
-    def rotation(vec3)
-      identity = Mat4.identity
-      dest_x = Mat4.zero
-      dest_y = Mat4.zero
-      dest_z = Mat4.zero
-      GLM.glmc_rotate_x(identity.val, vec3.x * Math::PI / 180, dest_x.val)
-      GLM.glmc_rotate_y(identity.val, vec3.y * Math::PI / 180, dest_y.val)
-      GLM.glmc_rotate_z(identity.val, vec3.z * Math::PI / 180, dest_z.val)
-
-      dest_x * dest_y * dest_z
+    def rotation(quat)
+      dest = Mat4.zero
+      GLM.glmc_quat_mat4(quat.val, dest.val)
+      dest
     end
 
     def perspective(fovy, aspect, near_val, far_val)
