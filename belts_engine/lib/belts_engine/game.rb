@@ -19,6 +19,7 @@ module BeltsEngine
       assets.meshes.add_mesh(:cube, *Tools::AssetManager::DefaultMeshes.cube)
       assets.meshes.add_mesh(:square, *Tools::AssetManager::DefaultMeshes.square)
       assets.meshes.add_mesh(:triangle, *Tools::AssetManager::DefaultMeshes.triangle)
+      assets.meshes.add_mesh(:bunny, *Tools::AssetManager::DefaultMeshes.bunny)
 
       main_scene_class = config.main_scene.to_s.constantize
       raise "Main scene not specified" unless main_scene_class
