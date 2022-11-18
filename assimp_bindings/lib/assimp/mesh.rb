@@ -12,7 +12,7 @@ module Assimp
       mNumVertices: :uint,
       mNumFaces: :uint,
       mVertices: Vector3D.ptr, # TODO: Vector3D.ptr
-      mNormals: :pointer, # TODO: Vector3D.ptr
+      mNormals: Vector3D.ptr, # TODO: Vector3D.ptr
       mTangents: :pointer, # TODO: Vector3D.ptr
       mBitangents: :pointer, # TODO: Vector3D.ptr
       mColors: [:pointer, AI_MAX_NUMBER_OF_COLOR_SETS], # TODO: Color4D.ptr
