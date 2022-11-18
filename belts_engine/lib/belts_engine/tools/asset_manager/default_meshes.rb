@@ -97,25 +97,6 @@ module BeltsEngine::Tools
 
         [vertices, indexes]
       end
-
-      def self.bunny
-        @scene = Assimp.aiImportFile('/home/ggraca/Workspaces/belts-snake/bunny.obj', 32779)
-        mesh = @scene[:mMeshes][:pointer]
-
-        verts = mesh[:mVertices].to_ptr.read_array_of_float(mesh[:mNumVertices] * 3)
-        norms = mesh[:mNormals].to_ptr.read_array_of_float(mesh[:mNumVertices] * 3)
-
-        vertices = mesh[:mNumVertices].times.map do |i|
-          [verts[i * 3], verts[i * 3 + 1], verts[i * 3 + 2], norms[i * 3], norms[i * 3 + 1], norms[i * 3 + 2], 1, 0, 0, 1]
-        end
-
-        indexes = mesh[:mNumFaces].times.map do |i|
-          face = Assimp::Face.new(mesh[:mFaces] + i * Assimp::Face.size)
-          face[:mIndices].to_ptr.read_array_of_uint(face[:mNumIndices])
-        end
-
-        [vertices.flatten, indexes.flatten]
-      end
     end
   end
 end
