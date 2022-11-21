@@ -1,4 +1,5 @@
 require "belts_support"
+require "belts_assets"
 
 # TODO: Load with zeitwerk
 require_relative "./belts_engine/structs/vec2"

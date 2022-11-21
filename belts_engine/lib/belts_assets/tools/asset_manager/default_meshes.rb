@@ -1,4 +1,4 @@
-module BeltsEngine::Tools
+module BeltsAssets::Tools
   class AssetManager
     class DefaultMeshes
       U = 1.0 # Unit size

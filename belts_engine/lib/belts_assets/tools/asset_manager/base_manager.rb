@@ -1,4 +1,4 @@
-module BeltsEngine
+module BeltsAssets
   module Tools
     class AssetManager
       class BaseManager < Hash

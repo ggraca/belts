@@ -12,15 +12,9 @@ module BeltsEngine
       register_tool(:entities, Ecs::EntityManager.new(self))
       register_tool(:scenes, Tools::SceneManager.new(self))
       register_tool(:systems, Ecs::SystemManager.new(self))
-      register_tool(:assets, Tools::AssetManager.new)
     end
 
     def start
-      assets.meshes.add_mesh(:cube, *Tools::AssetManager::DefaultMeshes.cube)
-      assets.meshes.add_mesh(:square, *Tools::AssetManager::DefaultMeshes.square)
-      assets.meshes.add_mesh(:triangle, *Tools::AssetManager::DefaultMeshes.triangle)
-      assets.models.add_model(:bunny, '/home/ggraca/Workspaces/belts-snake/bunny.obj')
-
       main_scene_class = config.main_scene.to_s.constantize
       raise "Main scene not specified" unless main_scene_class
 

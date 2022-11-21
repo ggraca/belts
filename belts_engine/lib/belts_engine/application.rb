@@ -2,13 +2,19 @@ module BeltsEngine
   class Application
     include BeltsSupport::Configuration
 
-    config.plugins = []
+    config.plugins = [
+      ::BeltsAssets
+    ]
 
     def initialize
       @game = ::Game.new
 
       config.plugins.each do |plugin_class|
         plugin_class.install(@game)
+      end
+
+      config.plugins.each do |plugin_class|
+        plugin_class.init(@game)
       end
 
       @game.start
