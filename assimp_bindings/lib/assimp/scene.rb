@@ -1,6 +1,6 @@
 module Assimp
-  class MeshPtr < FFI::Struct
-    layout pointer: Mesh.ptr
+  class MeshList < FFI::Struct
+    layout mesh: Mesh.ptr
   end
 
   class Scene < FFI::Struct
@@ -8,7 +8,7 @@ module Assimp
       mFlags: :uint,
       mRootNode: :pointer, # TODO: Node.ptr
       mNumMeshes: :uint,
-      mMeshes: MeshPtr.ptr, # TODO: Mesh.ptr
+      mMeshes: MeshList.ptr, # TODO: Mesh.ptr
       mNumMaterials: :uint,
       mMaterials: :pointer, # TODO: Material.ptr
       mNumAnimations: :uint,

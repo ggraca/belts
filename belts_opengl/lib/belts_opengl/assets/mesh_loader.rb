@@ -2,9 +2,9 @@ module BeltsOpenGL::Assets
   class MeshLoader
     attr_reader :vao, :vbo, :ebo
 
-    def initialize(vertices, indexes)
+    def initialize(vertices, indices)
       @vertices = vertices
-      @indexes = indexes
+      @indices = indices
 
       unload
     end
@@ -48,7 +48,7 @@ module BeltsOpenGL::Assets
       GL.BufferData(GL::ARRAY_BUFFER, @vertices.size * Fiddle::SIZEOF_FLOAT, @vertices.pack("F*"), GL::STATIC_DRAW)
 
       GL.BindBuffer(GL::ELEMENT_ARRAY_BUFFER, @ebo)
-      GL.BufferData(GL::ELEMENT_ARRAY_BUFFER, @indexes.size * Fiddle::SIZEOF_INT, @indexes.pack("L*"), GL::STATIC_DRAW)
+      GL.BufferData(GL::ELEMENT_ARRAY_BUFFER, @indices.size * Fiddle::SIZEOF_INT, @indices.pack("L*"), GL::STATIC_DRAW)
 
       stride = 3 * Fiddle::SIZEOF_FLOAT + 3 * Fiddle::SIZEOF_FLOAT + 4 * Fiddle::SIZEOF_FLOAT
 

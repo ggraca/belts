@@ -12,6 +12,14 @@ module BeltsBGFX
     end
 
     def update
+      update_camera_data
+      upload_object_data
+      BGFX.frame(false)
+    end
+
+    private
+
+    def update_camera_data
       cameras.each_with_components do |transform:, camera:, **|
         invert_z_axis_matrix = Mat4.scale(Vec3[1, 1, -1])
 
@@ -25,22 +33,28 @@ module BeltsBGFX
         BGFX.set_view_transform(0, view_matrix.val, proj_matrix.val)
         BGFX.touch(0)
       end
-
-      objects.each_with_components do |transform:, render_data:, **|
-        mesh = @assets.meshes[render_data.mesh]
-
-        BGFX.set_transform(transform.matrix.val, 1)
-        BGFX.set_vertex_buffer(0, mesh[:bgfx].vbh, 0, mesh[:total_vertices] / 10)
-        BGFX.set_index_buffer(mesh[:bgfx].ibh, 0, mesh[:total_indices])
-        BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CW, 1)
-        BGFX.submit(0, default_shader, 0, 0)
-      end
-
-      BGFX.frame(false)
     end
 
-    def default_shader
-      @game.bgfx_shaders.get_shader(:default)
+    def upload_object_data
+      objects.each_with_components do |transform:, render_data:, **|
+        BGFX.set_transform(transform.matrix.val, 1)
+        render_model(render_data.model)
+      end
+    end
+
+    def render_model(model_name)
+      model = @assets.models[model_name]
+      model[:meshes].each do |mesh|
+        render_mesh(mesh)
+      end
+    end
+
+    def render_mesh(mesh_name)
+      mesh = @assets.meshes[mesh_name]
+      BGFX.set_vertex_buffer(0, mesh[:bgfx].vbh, 0, mesh[:total_vertices] / 10)
+      BGFX.set_index_buffer(mesh[:bgfx].ibh, 0, mesh[:total_indices])
+      BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CW, 1)
+      BGFX.submit(0, @game.bgfx_shaders.get_shader(:default), 0, 0)
     end
   end
 end

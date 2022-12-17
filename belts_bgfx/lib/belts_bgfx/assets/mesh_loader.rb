@@ -2,12 +2,12 @@ module BeltsBGFX::Assets
   class MeshLoader
     attr_reader :vah, :vbh, :ibh
 
-    def initialize(vertices, indexes)
+    def initialize(vertices, indices)
       @vert_buffer = FFI::MemoryPointer.new(:float, vertices.size)
       @vert_buffer.write_array_of_float(vertices)
 
-      @index_buffer = FFI::MemoryPointer.new(:uint16, indexes.size)
-      @index_buffer.write_array_of_type(:uint16, :put_uint16, indexes)
+      @index_buffer = FFI::MemoryPointer.new(:uint16, indices.size)
+      @index_buffer.write_array_of_type(:uint16, :put_uint16, indices)
 
       @vah = BGFX::VertexLayout.new
       BGFX.vertex_layout_begin(@vah, 0)

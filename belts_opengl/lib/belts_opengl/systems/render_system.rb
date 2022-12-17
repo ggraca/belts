@@ -48,10 +48,22 @@ module BeltsOpenGL
         model_loc = GL.GetUniformLocation(default_shader, "model_matrix")
         GL.UniformMatrix4fv(model_loc, 1, GL::FALSE, model_matrix_addr)
 
-        mesh = @assets.meshes[render_data.mesh]
-        GL.BindVertexArray(mesh[:opengl].vao)
-        GL.DrawElements(GL::TRIANGLES, mesh[:total_indices], GL::UNSIGNED_INT, 0)
+        render_model(render_data.model)
       end
+    end
+
+    def render_model(model_name)
+      model = @assets.models[model_name]
+      model[:meshes].each do |mesh|
+        render_mesh(mesh)
+      end
+    end
+
+    def render_mesh(mesh_name)
+      mesh = @assets.meshes[mesh_name]
+      GL.BindVertexArray(mesh[:opengl].vao)
+      GL.DrawElements(GL::TRIANGLES, mesh[:total_indices], GL::UNSIGNED_INT, 0)
+
     end
 
     def default_shader

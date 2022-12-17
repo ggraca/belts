@@ -9,7 +9,7 @@ module BeltsOpenGL
 
       module ClassMethods
         def renderer(**options)
-          set_component(:render_data, RenderData.new(options.slice(:mesh, :color)))
+          set_component(:render_data, RenderData.new(options.slice(:model, :color)))
         end
       end
     end

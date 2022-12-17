@@ -1,31 +1,27 @@
 module BeltsAssets
   module Tools
     class AssetManager
-      class ModelManager < BaseManager
+      class ModelManager < Hash
         def initialize(asset_manager)
           @asset_manager = asset_manager
         end
 
         def add_model(key, file_path)
-          @scene = Assimp.aiImportFile(file_path, 32779)
-          mesh = @scene[:mMeshes][:pointer]
+          model = { meshes: [] }
 
-          vertices = mesh[:mNumVertices].times.map do |i|
-            vert = Assimp::Vector3D.new(mesh[:mVertices].to_ptr + i * Assimp::Vector3D.size)
-            norm = Assimp::Vector3D.new(mesh[:mNormals].to_ptr + i * Assimp::Vector3D.size)
+          importer = Importer.new(file_path)
+          # importer.meshes.each { |mesh| @asset_manager.meshes.add_mesh(mesh) }
+          # importer.textures.each { |texture| @asset_manager.textures.add_texture(texture) }
+          # importer.materials.each { |material| @asset_manager.materials.add_material(material) }
+          # importer.models.each { |model| @asset_manager.models.add_model(model) }
 
-            [*vert.values, *norm.values, 1, 0, 0, 1]
+          importer.meshes.each_with_index do |mesh, i|
+            mesh_key = "#{key}_mesh_#{i}"
+            @asset_manager.meshes.add_mesh(mesh_key, mesh)
+            model[:meshes] << mesh_key
           end
 
-          indexes = mesh[:mNumFaces].times.map do |i|
-            face = Assimp::Face.new(mesh[:mFaces] + i * Assimp::Face.size)
-            face[:mIndices].to_ptr.read_array_of_uint(face[:mNumIndices])
-          end
-
-          @asset_manager.meshes.add_mesh(key, vertices.flatten, indexes.flatten)
-        end
-
-        def remove_model(key)
+          self[key] = model
         end
       end
     end
