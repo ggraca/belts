@@ -44,8 +44,8 @@ module BeltsBGFX
 
     def render_model(model_name)
       model = @assets.models[model_name]
-      model[:meshes].each do |mesh|
-        render_mesh(mesh)
+      model.mesh_ids.each do |mesh_id|
+        render_mesh(mesh_id)
       end
     end
 

@@ -1,6 +1,6 @@
 module BeltsAssets
   class Mesh
-    attr_accessor :vertices, :indices
+    attr_accessor :vertices, :indices, :id
 
     def initialize
       @vertices = []

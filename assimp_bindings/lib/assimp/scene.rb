@@ -2,7 +2,7 @@ module Assimp
   class Scene < FFI::Struct
     layout(
       mFlags: :uint,
-      mRootNode: :pointer, # TODO: Node.ptr
+      mRootNode: Node.ptr,
       mNumMeshes: :uint,
       mMeshes: MeshPointer.ptr, # TODO: Mesh.ptr
       mNumMaterials: :uint,

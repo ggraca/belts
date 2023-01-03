@@ -1,9 +1,6 @@
 module BeltsAssets
   class ModelNode
-
-    # belongs_to :model_node, optional: true
-    # has_many :model_nodes
-    # has_many :meshes
+    attr_accessor :parent, :children, :name
 
     def initialize
       @parent = nil
