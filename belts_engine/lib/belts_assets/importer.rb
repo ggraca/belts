@@ -37,7 +37,7 @@ module BeltsAssets
       end
 
       mesh = Mesh.new
-      mesh.id = "#{@global_id}_mesh_#{index}".to_sym
+      mesh.id = fetch_mesh_id(index)
       mesh.vertices = vertices.flatten
       mesh.indices = indices.flatten
       mesh
@@ -59,12 +59,14 @@ module BeltsAssets
       end
     end
 
-#    pp '-' * depth + ">" + name + " " + cur_node_data[:mNumChildren].to_s + " " + cur_node_data[:mNumMeshes].to_s
     def import_nodes(parent_node = nil, cur_node_data = @scene[:mRootNode])
       model_node = ModelNode.new
-      model_node.parent = parent_node
       model_node.name = cur_node_data[:mName][:data].to_s
-      # TODO: mesh_ids and transform matrix
+      model_node.transformation = Mat4[*cur_node_data[:mTransformation]].transpose
+      model_node.parent = parent_node
+
+      local_ids = cur_node_data[:mMeshes].read_array_of_uint(cur_node_data[:mNumMeshes])
+      model_node.mesh_ids = local_ids.map {|id| fetch_mesh_id(id) }
 
       cur_node_data[:mNumChildren].times.each do |i|
         pointer = Assimp::NodePointer.new(cur_node_data[:mChildren].to_ptr + i * Assimp::NodePointer.size)
@@ -74,6 +76,10 @@ module BeltsAssets
       end
 
       model_node
+    end
+
+    def fetch_mesh_id(local_id)
+      "#{@global_id}_mesh_#{local_id}".to_sym
     end
   end
 end

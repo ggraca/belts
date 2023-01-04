@@ -16,19 +16,17 @@ module BeltsAssets::Tools
     private
 
     def import_model(key, file_path)
-      # model = BeltsAssets::Model.from_file()
       model = BeltsAssets::Model.from_file(key, file_path)
 
       # model.materials.each { |m| @assets.materials.add(m) }
       # model.meshes.each { |m| @assets.meshes.add(m) }
 
-      model.meshes.each_with_index do |mesh, i|
-        @meshes.add_mesh(mesh.id, mesh)
-        model.mesh_ids << mesh.id
+      model.meshes.each do |mesh|
+        @meshes.add_mesh(mesh)
       end
 
       # @assets.models.add(model) }
-      @models.add_model(key, model)
+      @models.add_model(model)
     end
   end
 end

@@ -54,8 +54,16 @@ module BeltsOpenGL
 
     def render_model(model_name)
       model = @assets.models[model_name]
-      model.mesh_ids.each do |mesh_id|
+      render_node(model.root_node)
+    end
+
+    def render_node(node)
+      node.mesh_ids.each do |mesh_id|
         render_mesh(mesh_id)
+      end
+
+      node.children.each do |child|
+        render_node(child)
       end
     end
 

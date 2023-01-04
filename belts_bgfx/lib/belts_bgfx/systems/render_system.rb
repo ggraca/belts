@@ -44,8 +44,17 @@ module BeltsBGFX
 
     def render_model(model_name)
       model = @assets.models[model_name]
-      model.mesh_ids.each do |mesh_id|
+      render_node(model.root_node)
+    end
+
+    def render_node(node)
+      BGFX.set_transform(node.transformation.val, 1)
+      node.mesh_ids.each do |mesh_id|
         render_mesh(mesh_id)
+      end
+
+      node.children.each do |child|
+        render_node(child)
       end
     end
 
@@ -53,7 +62,7 @@ module BeltsBGFX
       mesh = @assets.meshes[mesh_name]
       BGFX.set_vertex_buffer(0, mesh[:bgfx].vbh, 0, mesh[:total_vertices] / 10)
       BGFX.set_index_buffer(mesh[:bgfx].ibh, 0, mesh[:total_indices])
-      BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CW, 1)
+      BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CW, 1) #
       BGFX.submit(0, @game.bgfx_shaders.get_shader(:default), 0, 0)
     end
   end
