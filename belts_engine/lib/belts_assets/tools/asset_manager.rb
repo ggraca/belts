@@ -1,10 +1,11 @@
 module BeltsAssets::Tools
   class AssetManager
-    attr_reader :meshes, :models
+    attr_reader :meshes, :models, :materials
 
     def initialize
       @meshes = MeshManager.new
       @models = ModelManager.new
+      @materials = MaterialManager.new
     end
 
     def reload(config)
@@ -18,14 +19,14 @@ module BeltsAssets::Tools
     def import_model(key, file_path)
       model = BeltsAssets::Model.from_file(key, file_path)
 
-      # model.materials.each { |m| @assets.materials.add(m) }
-      # model.meshes.each { |m| @assets.meshes.add(m) }
+      model.materials.each do |material|
+        @materials.add_material(material)
+      end
 
       model.meshes.each do |mesh|
         @meshes.add_mesh(mesh)
       end
 
-      # @assets.models.add(model) }
       @models.add_model(model)
     end
   end

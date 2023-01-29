@@ -1,10 +1,12 @@
 $input v_normal, v_pos, v_view, v_color0
 
+uniform vec4 u_badjoras;
+
 #include <bgfx_shader.sh>
 
 void main()
 {
-	vec3 objectColor = v_color0.rgb;
+	vec3 objectColor = u_badjoras.rgb;
   vec3 lightPosition = vec3(0, 0, -1);
   vec3 lightColor = vec3(1, 1, 1);
 	float ambientStrength = 0.1;

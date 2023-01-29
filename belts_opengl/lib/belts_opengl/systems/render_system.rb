@@ -71,7 +71,6 @@ module BeltsOpenGL
       mesh = @assets.meshes[mesh_name]
       GL.BindVertexArray(mesh[:opengl].vao)
       GL.DrawElements(GL::TRIANGLES, mesh[:total_indices], GL::UNSIGNED_INT, 0)
-
     end
 
     def default_shader

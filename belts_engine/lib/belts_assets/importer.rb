@@ -9,8 +9,8 @@ module BeltsAssets
       @scene = Assimp.aiImportFile(file_path, 32779)
       @model = Model.new
       @model.id = @global_id = key
-      @model.meshes = import_meshes
       @model.materials = import_materials
+      @model.meshes = import_meshes
       @model.root_node = import_nodes
     end
 
@@ -40,23 +40,42 @@ module BeltsAssets
       mesh.id = fetch_mesh_id(index)
       mesh.vertices = vertices.flatten
       mesh.indices = indices.flatten
+      mesh.material_id = fetch_material_id(mesh_data[:mMaterialIndex])
       mesh
     end
 
     def import_materials
       @scene[:mNumMaterials].times.map do |i|
         pointer = Assimp::MaterialPointer.new(@scene[:mMaterials].to_ptr + i * Assimp::MaterialPointer.size)
-        import_material(pointer[:material])
-        return
+        import_material(pointer[:material], i)
       end
     end
 
-    def import_material(material_data)
+    def import_material(material_data, index)
+      material = Material.new
+      material.id = fetch_material_id(index)
+      material.color = Vec3[0, 0, 1]
+
       material_data[:mNumProperties].times.map do |i|
         pointer = Assimp::MaterialPropertyPointer.new(material_data[:mProperties].to_ptr + i * Assimp::MaterialPropertyPointer.size)
         property = pointer[:material_property]
-        # pp property[:mType].to_s + " " + property[:mKey][:data].to_ptr.read_string(property[:mKey][:length]) + " " + property[:mData].to_ptr.read_array_of_uint(property[:mDataLength]).to_s
+
+        val =
+          case property[:mType]
+          when 1
+            property[:mData].to_ptr.read_array_of_float(property[:mDataLength])
+          when 3
+            property[:mData].to_ptr.read_string(property[:mDataLength])
+          when 4
+            property[:mData].to_ptr.read_uint
+          else
+            property[:mData].to_ptr.read_array_of_uint(property[:mDataLength])
+          end
+
+        pp property[:mType].to_s + " " + property[:mKey][:data].to_s + " #{val}"
       end
+
+      material
     end
 
     def import_nodes(parent_node = nil, cur_node_data = @scene[:mRootNode])
@@ -80,6 +99,10 @@ module BeltsAssets
 
     def fetch_mesh_id(local_id)
       "#{@global_id}_mesh_#{local_id}".to_sym
+    end
+
+    def fetch_material_id(local_id)
+      "#{@global_id}_material_#{local_id}".to_sym
     end
   end
 end

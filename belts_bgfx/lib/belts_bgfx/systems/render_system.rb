@@ -8,6 +8,7 @@ module BeltsBGFX
 
     def start
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
+      @color = BGFX.create_uniform("u_badjoras", BGFX::UniformType[:Vec4], 1)
       # BGFX.set_debug(BGFX::DEBUG_WIREFRAME)
     end
 
@@ -48,7 +49,7 @@ module BeltsBGFX
     end
 
     def render_node(node)
-      BGFX.set_transform(node.transformation.val, 1)
+      # BGFX.set_transform(node.transformation.val, 1)
       node.mesh_ids.each do |mesh_id|
         render_mesh(mesh_id)
       end
@@ -60,10 +61,13 @@ module BeltsBGFX
 
     def render_mesh(mesh_name)
       mesh = @assets.meshes[mesh_name]
-      BGFX.set_vertex_buffer(0, mesh[:bgfx].vbh, 0, mesh[:total_vertices] / 10)
-      BGFX.set_index_buffer(mesh[:bgfx].ibh, 0, mesh[:total_indices])
-      BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CW, 1) #
-      BGFX.submit(0, @game.bgfx_shaders.get_shader(:default), 0, 0)
+      material = @assets.materials[mesh.material_id]
+
+      BGFX.set_uniform(@color, material.color.val, 1)
+      BGFX.set_vertex_buffer(0, mesh.bgfx.vbh, 0, mesh.total_vertices / 10)
+      BGFX.set_index_buffer(mesh.bgfx.ibh, 0, mesh.total_indices)
+      BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CW, 1)
+      BGFX.submit(0, @game.bgfx_shaders.get_shader(:default), 0, BGFX::DISCARD_ALL)
     end
   end
 end

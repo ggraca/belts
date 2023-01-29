@@ -1,8 +1,11 @@
 module BeltsAssets
-  class Model
-    attr_accessor :id, :root_node, :materials, :meshes
+  class Model < Asset
+    attr_accessor :root_node, :materials, :meshes
 
     def initialize
+      @root_node = nil
+      @materials = []
+      @meshes = []
     end
 
     def self.from_file(key, file)

@@ -13,9 +13,10 @@ module BGFX
   extend FFI::Library
   ffi_lib :libbgfx
 
-  typedef :ushort, :view_id
   typedef :uint8, :ubyte
   typedef :uint64, :ulong
+  typedef :ushort, :view_id
+  typedef :ushort, :uniform_handle
 
   attach_function :init, :bgfx_init, [Init], :bool
   attach_function :set_debug, :bgfx_set_debug, [:uint], :void
@@ -43,7 +44,10 @@ module BGFX
 
   attach_function :create_shader, :bgfx_create_shader, [Memory.by_ref], ShaderHandle
   attach_function :create_program, :bgfx_create_program, [ShaderHandle, ShaderHandle, :bool], ProgramHandle
-  attach_function :bgfx_destroy_program, :bgfx_destroy_program, [ProgramHandle], :void
+  attach_function :destroy_program, :bgfx_destroy_program, [ProgramHandle], :void
+
+  attach_function :create_uniform, :bgfx_create_uniform, [:string, UniformType, :ushort], :uniform_handle
+  attach_function :set_uniform, :bgfx_set_uniform, [:uniform_handle, :pointer, :ushort], :void
 
   attach_function :set_transform, :bgfx_set_transform, [:pointer, :ushort], :void
   attach_function :set_view_clear, :bgfx_set_view_clear, [:view_id, :ushort, :uint, :float, :ubyte], :void
