@@ -22,7 +22,7 @@ module BeltsBGFX
 
     def update_camera_data
       cameras.each_with_components do |transform:, camera:, **|
-        view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, Vec3.down)
+        view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, Vec3.up)
         proj_matrix = Mat4.perspective(Math::PI / 4, @window.ratio, 0.1, 100)
 
         BGFX.set_view_transform(0, view_matrix.val, proj_matrix.val)
@@ -60,7 +60,7 @@ module BeltsBGFX
       BGFX.set_uniform(@color, material.color.val, 1)
       BGFX.set_vertex_buffer(0, mesh.bgfx.vbh, 0, mesh.total_vertices / 10)
       BGFX.set_index_buffer(mesh.bgfx.ibh, 0, mesh.total_indices)
-      BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CW, 1)
+      BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CCW, 1)
       BGFX.submit(0, @game.bgfx_shaders.get_shader(:default), 0, BGFX::DISCARD_ALL)
     end
   end

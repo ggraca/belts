@@ -54,7 +54,7 @@ module BeltsAssets
     def import_material(material_data, index)
       material = Material.new
       material.id = fetch_material_id(index)
-      material.color = Vec3[0, 0, 1]
+      material.color = Vec3[0.2, 0.7, 0.8]
 
       material_data[:mNumProperties].times.map do |i|
         pointer = Assimp::MaterialPropertyPointer.new(material_data[:mProperties].to_ptr + i * Assimp::MaterialPropertyPointer.size)

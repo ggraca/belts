@@ -7,6 +7,9 @@ loader.setup
 
 module GLM
   extend FFI::Library
+
+  # NOTE: requires export CFLAGS="DCGLM_CLIPSPACE_INCLUDE_ALL=1 -DCGLM_FORCE_DEPTH_ZERO_TO_ONE=1 -DCGLM_FORCE_LEFT_HANDED=1"
+  # NOTE: requires export CFLAGS="-DCGLM_FORCE_LEFT_HANDED=1"
   ffi_lib :libcglm
 
   attach_function :glmc_vec2_adds, [GLM::Vec2.by_ref, :float, GLM::Vec2.by_ref], :void
