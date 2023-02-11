@@ -45,6 +45,12 @@ class Mat4
       GLM.glmc_perspective(fovy, aspect, near_val, far_val, dest.val)
       dest
     end
+
+    def look_at(eye, center, up)
+      dest = Mat4.identity
+      GLM.glmc_lookat(eye.val, center.val, up.val, dest.val)
+      dest
+    end
   end
 
   def initialize(values)

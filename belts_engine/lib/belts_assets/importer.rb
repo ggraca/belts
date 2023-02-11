@@ -63,7 +63,7 @@ module BeltsAssets
         val =
           case property[:mType]
           when 1
-            property[:mData].to_ptr.read_array_of_float(property[:mDataLength])
+            property[:mData].to_ptr.read_array_of_float(3)
           when 3
             property[:mData].to_ptr.read_string(property[:mDataLength])
           when 4

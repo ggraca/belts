@@ -22,14 +22,8 @@ module BeltsBGFX
 
     def update_camera_data
       cameras.each_with_components do |transform:, camera:, **|
-        invert_z_axis_matrix = Mat4.scale(Vec3[1, 1, -1])
-
-        view_matrix =
-          invert_z_axis_matrix *
-          Mat4.rotation(-transform.rotation) *
-          Mat4.translation(-transform.position)
-
-        proj_matrix = Mat4.perspective(45.0 * Math::PI / 180, @game.window.ratio, 0.1, 100)
+        view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, Vec3.down)
+        proj_matrix = Mat4.perspective(Math::PI / 4, @window.ratio, 0.1, 100)
 
         BGFX.set_view_transform(0, view_matrix.val, proj_matrix.val)
         BGFX.touch(0)

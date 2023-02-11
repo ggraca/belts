@@ -5,6 +5,8 @@ module BeltsBGFX
       SDL::SDLK_a => :a,
       SDL::SDLK_s => :s,
       SDL::SDLK_d => :d,
+      SDL::SDLK_q => :q,
+      SDL::SDLK_e => :e,
       SDL::SDLK_SPACE => :space
     }
 

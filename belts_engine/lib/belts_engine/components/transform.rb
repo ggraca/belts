@@ -16,4 +16,8 @@ Transform = Struct.new(:position, :rotation, :scale) do
       Mat4.rotation(rotation) *
       Mat4.scale(scale)
   end
+
+  def forward
+    rotation * Vec3.forward
+  end
 end
