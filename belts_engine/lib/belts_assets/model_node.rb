@@ -1,6 +1,6 @@
 module BeltsAssets
-  class ModelNode
-    attr_accessor :parent, :children, :name, :mesh_ids, :transformation
+  class ModelNode < Asset
+    attr_accessor :parent, :children, :mesh_ids, :transformation
 
     def initialize
       @parent = nil

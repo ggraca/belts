@@ -38,6 +38,7 @@ module BeltsAssets
 
       mesh = Mesh.new
       mesh.id = fetch_mesh_id(index)
+      mesh.name = mesh_data[:mName][:data].to_s
       mesh.vertices = vertices.flatten
       mesh.indices = indices.flatten
       mesh.material_id = fetch_material_id(mesh_data[:mMaterialIndex])
@@ -52,30 +53,40 @@ module BeltsAssets
     end
 
     def import_material(material_data, index)
-      material = Material.new
-      material.id = fetch_material_id(index)
-      material.color = Vec3[0.2, 0.7, 0.8]
-
-      material_data[:mNumProperties].times.map do |i|
+      properties = {}
+      material_data[:mNumProperties].times do |i|
         pointer = Assimp::MaterialPropertyPointer.new(material_data[:mProperties].to_ptr + i * Assimp::MaterialPropertyPointer.size)
         property = pointer[:material_property]
-
-        val =
-          case property[:mType]
-          when 1
-            property[:mData].to_ptr.read_array_of_float(3)
-          when 3
-            property[:mData].to_ptr.read_string(property[:mDataLength])
-          when 4
-            property[:mData].to_ptr.read_uint
-          else
-            property[:mData].to_ptr.read_array_of_uint(property[:mDataLength])
-          end
-
-        pp property[:mType].to_s + " " + property[:mKey][:data].to_s + " #{val}"
+        properties[property[:mKey][:data].to_s] = import_property(property)
       end
 
+      pp properties
+
+      material = Material.new
+      material.id = fetch_material_id(index)
+      material.name = properties["?mat.name"]
+      material.color = Vec3[*properties["$clr.diffuse"]]
+
       material
+    end
+
+    def import_property(property_data)
+      # pp property[:mType].to_s + " " + property[:mKey][:data].to_s + " #{import_property(property)}"
+
+      case property_data[:mType]
+      when 1 # float (4 bytes)
+        property_data[:mData].to_ptr.read_array_of_float(property_data[:mDataLength] / 4)
+      when 2 # double (8 bytes)
+        property_data[:mData].to_ptr.read_array_of_double(property_data[:mDataLength] / 8)
+      when 3 # aiString
+        Assimp::String.new(property_data[:mData])[:data].to_s
+      when 4 # int (4 bytes)
+        property_data[:mData].to_ptr.read_array_of_int(property_data[:mDataLength] / 4)
+      when 5 # aiShadingMode (4 bytes)
+        property_data[:mData].to_ptr.read_array_of_int(property_data[:mDataLength] / 4)
+      else
+        raise "Unknown property type: #{property_data[:mType]} for #{property_data[:mKey][:data]}"
+      end
     end
 
     def import_nodes(parent_node = nil, cur_node_data = @scene[:mRootNode])

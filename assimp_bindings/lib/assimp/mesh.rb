@@ -22,7 +22,7 @@ module Assimp
       mNumBones: :uint,
       mBones: :pointer, # TODO: Bone.ptr
       mMaterialIndex: :uint,
-      mName: :string,
+      mName: String,
       mNumAnimMeshes: :uint,
       mAnimMeshes: :pointer, # TODO: AnimMesh.ptr
       mMethod: :uint

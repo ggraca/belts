@@ -1,6 +1,6 @@
 module BeltsAssets
   class Asset
-    attr_accessor :id
+    attr_accessor :id, :name
 
     def initialize
       @id = nil
