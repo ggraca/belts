@@ -9,7 +9,7 @@ module BeltsBGFX
     def start
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
       @color = BGFX.create_uniform("u_badjoras", BGFX::UniformType[:Vec4], 1)
-      # BGFX.set_debug(BGFX::DEBUG_WIREFRAME)
+      BGFX.set_debug(BGFX::DEBUG_WIREFRAME)
     end
 
     def update

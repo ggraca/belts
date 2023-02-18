@@ -1,25 +1,21 @@
 module BeltsEngine
   module Tools
     class Input
-      module Keyboard
+      class Keyboard
         KEYS = [:w, :a, :s, :d, :q, :e, :space].freeze
 
-        def key?(key) = @keyboard_state[key]
-
-        def key_down?(key) = @keyboard_state[key] && !@keyboard_previous_state[key]
-
-        def key_up?(key) = !@keyboard_state[key] && @keyboard_previous_state[key]
-
-        def update_keys(changes)
-          @keyboard_previous_state = @keyboard_state.dup
-          @keyboard_state.merge!(changes)
+        def initialize
+          @state = KEYS.map { |id| [id, false] }.to_h
+          @previous_state = @state.dup
         end
 
-        private
+        def key(id) = KeyState.new(@state[id], @previous_state[id])
 
-        def reset_keyboard_state
-          @keyboard_state = KEYS.map { |key| [key, false] }.to_h
-          @keyboard_previous_state = @keyboard_state.dup
+        def key?(id) = key(id).held?
+
+        def update(changes)
+          @previous_state = @state.dup
+          @state.merge!(changes)
         end
       end
     end
