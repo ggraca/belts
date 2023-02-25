@@ -20,4 +20,8 @@ Transform = Struct.new(:position, :rotation, :scale) do
   def forward
     rotation * Vec3.forward
   end
+
+  def right
+    rotation * Vec3.right
+  end
 end
