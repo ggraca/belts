@@ -65,7 +65,7 @@ module BeltsAssets
       material = Material.new
       material.id = fetch_material_id(index)
       material.name = properties["?mat.name"]
-      material.color = Vec3[*properties["$clr.diffuse"]]
+      material.color = Vec4[*properties["$clr.diffuse"], 0]
 
       material
     end

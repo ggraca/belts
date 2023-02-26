@@ -8,7 +8,8 @@ module BeltsBGFX
 
     def start
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
-      @color = BGFX.create_uniform("u_badjoras", BGFX::UniformType[:Vec4], 1)
+      @u_color = BGFX.create_uniform("u_color", BGFX::UniformType[:Vec4], 1)
+      @u_surface = BGFX.create_uniform("u_surface", BGFX::UniformType[:Vec4], 1)
       #BGFX.set_debug(BGFX::DEBUG_WIREFRAME)
     end
 
@@ -57,7 +58,8 @@ module BeltsBGFX
       mesh = @assets.meshes[mesh_name]
       material = @assets.materials[mesh.material_id]
 
-      BGFX.set_uniform(@color, material.color.val, 1)
+      BGFX.set_uniform(@u_color, material.color.val, 1)
+      BGFX.set_uniform(@u_surface, material.surface.val, 1)
       BGFX.set_vertex_buffer(0, mesh.bgfx.vbh, 0, mesh.total_vertices / 10)
       BGFX.set_index_buffer(mesh.bgfx.ibh, 0, mesh.total_indices)
       BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CCW, 1)

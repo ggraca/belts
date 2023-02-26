@@ -4,15 +4,15 @@ module BeltsAssets
     attr_reader :surface
 
     def initialize
-      @color = Vec3[0, 0, 0]
-      @surface = Vec3[0, 0, 0]
-    end
-
-    def metallness=(value)
-      @surface.x = value
+      @color = Vec4[0, 0, 0, 0]
+      @surface = Vec4[0, 0, 0, 0]
     end
 
     def roughness=(value)
+      @surface.x = value
+    end
+
+    def metallness=(value)
       @surface.y = value
     end
   end
