@@ -60,8 +60,8 @@ module BeltsBGFX
 
       BGFX.set_uniform(@u_color, material.color.val, 1)
       BGFX.set_uniform(@u_surface, material.surface.val, 1)
-      BGFX.set_vertex_buffer(0, mesh.bgfx.vbh, 0, mesh.total_vertices / 10)
-      BGFX.set_index_buffer(mesh.bgfx.ibh, 0, mesh.total_indices)
+      BGFX.set_vertex_buffer(0, mesh.bgfx.vbo, 0, mesh.bgfx.total_vertices)
+      BGFX.set_index_buffer(mesh.bgfx.ebo, 0, mesh.bgfx.total_elements)
       BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CCW, 1)
       BGFX.submit(0, @game.bgfx_shaders.get_shader(:default), 0, BGFX::DISCARD_ALL)
     end

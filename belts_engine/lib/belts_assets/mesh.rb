@@ -1,21 +1,19 @@
 module BeltsAssets
   class Mesh < Asset
-    attr_accessor :vertices, :indices, :material_id, :total_vertices, :total_indices
+    attr_accessor :indices, :material_id, :positions, :normals, :colors
 
     def initialize
-      @vertices = []
       @indices = []
+      @positions = []
+      @normals = []
+      @colors = []
       @material_id = 0
     end
 
-    def vertices=(value)
-      @vertices = value
-      @total_vertices = value.size
-    end
-
-    def indices=(value)
-      @indices = value
-      @total_indices = value.size
+    def vertices
+      @positions.size.times.map do |i|
+        [*positions[i], *normals[i], *colors[i]]
+      end.flatten
     end
   end
 end

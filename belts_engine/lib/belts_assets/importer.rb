@@ -24,24 +24,27 @@ module BeltsAssets
     end
 
     def import_mesh(mesh_data, index)
-      vertices = mesh_data[:mNumVertices].times.map do |i|
-        vert = Assimp::Vector3D.new(mesh_data[:mVertices].to_ptr + i * Assimp::Vector3D.size)
-        norm = Assimp::Vector3D.new(mesh_data[:mNormals].to_ptr + i * Assimp::Vector3D.size)
-
-        [*vert.values, *norm.values, 1, 0, 0, 1]
-      end
-
-      indices = mesh_data[:mNumFaces].times.map do |i|
-        face = Assimp::Face.new(mesh_data[:mFaces] + i * Assimp::Face.size)
-        face[:mIndices].to_ptr.read_array_of_uint(face[:mNumIndices])
-      end
-
       mesh = Mesh.new
       mesh.id = fetch_mesh_id(index)
       mesh.name = mesh_data[:mName][:data].to_s
-      mesh.vertices = vertices.flatten
-      mesh.indices = indices.flatten
       mesh.material_id = fetch_material_id(mesh_data[:mMaterialIndex])
+
+      mesh_data[:mNumVertices].times.map do |i|
+        mesh.positions << Assimp::Vector3D.new(mesh_data[:mVertices].to_ptr + i * Assimp::Vector3D.size).values
+        if !mesh_data[:mNormals].null?
+          mesh.normals << Assimp::Vector3D.new(mesh_data[:mNormals].to_ptr + i * Assimp::Vector3D.size).values
+        end
+
+        mesh.colors << [1, 0, 0, 1]
+      end
+
+      mesh_data[:mNumFaces].times.map do |i|
+        face = Assimp::Face.new(mesh_data[:mFaces] + i * Assimp::Face.size)
+        mesh.indices << face[:mIndices].to_ptr.read_array_of_uint(face[:mNumIndices])
+      end
+
+      mesh.indices.flatten!
+      # pp mesh.vertices
       mesh
     end
 
