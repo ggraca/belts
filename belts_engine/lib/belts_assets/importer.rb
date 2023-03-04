@@ -6,7 +6,11 @@ module BeltsAssets
     attr_reader :model
 
     def initialize(key, file_path)
-      @scene = Assimp.aiImportFile(file_path, 32779)
+      @scene = Assimp.aiImportFile(file_path,
+        Assimp::Process::Preset::TARGET_REALTIME_MAX_QUALITY |
+        Assimp::Process::CONVERT_TO_LEFT_HANDED
+      )
+
       @model = Model.new
       @model.id = @global_id = key
       @model.materials = import_materials

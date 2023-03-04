@@ -15,7 +15,6 @@ module BeltsBGFX::Assets
       @total_elements = @mesh.indices.size
     end
 
-    # TODO: @vao?
     def unload
       BGFX.destroy_vertex_layout(@vao) if @vao
       BGFX.destroy_index_buffer(@ebo) if @ebo
