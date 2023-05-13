@@ -1,11 +1,13 @@
 module BeltsAssets
   class Mesh < Asset
-    attr_accessor :indices, :material_id, :positions, :normals, :colors
+    attr_accessor :indices, :material_id, :positions, :normals, :tangents, :bitangents, :colors
 
     def initialize
       @indices = []
       @positions = []
       @normals = []
+      @tangents = []
+      @bitangents = []
       @colors = []
       @material_id = 0
     end

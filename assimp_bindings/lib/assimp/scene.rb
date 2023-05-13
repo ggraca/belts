@@ -4,13 +4,13 @@ module Assimp
       mFlags: :uint,
       mRootNode: Node.ptr,
       mNumMeshes: :uint,
-      mMeshes: MeshPointer.ptr, # TODO: Mesh.ptr
+      mMeshes: MeshPointer.ptr,
       mNumMaterials: :uint,
-      mMaterials: MaterialPointer.ptr, # TODO: Material.ptr
+      mMaterials: MaterialPointer.ptr,
       mNumAnimations: :uint,
       mAnimations: :pointer, # TODO: Animation.ptr
       mNumTextures: :uint,
-      mTextures: :pointer, # TODO: Texture.ptr
+      mTextures: TexturePointer.ptr,
       mNumLights: :uint,
       mLights: :pointer, # TODO: Light.ptr
       mNumCameras: :uint,

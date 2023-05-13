@@ -8,7 +8,8 @@ module BeltsAssets
     def initialize(key, file_path)
       @scene = Assimp.aiImportFile(file_path,
         Assimp::Process::Preset::TARGET_REALTIME_MAX_QUALITY |
-        Assimp::Process::CONVERT_TO_LEFT_HANDED
+        Assimp::Process::CONVERT_TO_LEFT_HANDED |
+        Assimp::Process::EMBED_TEXTURES
       )
 
       @model = Model.new
@@ -35,8 +36,17 @@ module BeltsAssets
 
       mesh_data[:mNumVertices].times.map do |i|
         mesh.positions << Assimp::Vector3D.new(mesh_data[:mVertices].to_ptr + i * Assimp::Vector3D.size).values
+
         if !mesh_data[:mNormals].null?
           mesh.normals << Assimp::Vector3D.new(mesh_data[:mNormals].to_ptr + i * Assimp::Vector3D.size).values
+        end
+
+        if !mesh_data[:mTangents].null?
+          mesh.tangents << Assimp::Vector3D.new(mesh_data[:mTangents].to_ptr + i * Assimp::Vector3D.size).values
+        end
+
+        if !mesh_data[:mBitangents].null?
+          mesh.bitangents << Assimp::Vector3D.new(mesh_data[:mBitangents].to_ptr + i * Assimp::Vector3D.size).values
         end
 
         mesh.colors << [1, 0, 0, 1]
@@ -72,7 +82,7 @@ module BeltsAssets
       material = Material.new
       material.id = fetch_material_id(index)
       material.name = properties["?mat.name"]
-      material.color = Vec4[*properties["$clr.diffuse"], 0]
+      material.color = Vec4[*properties["$clr.diffuse"]]
 
       material
     end

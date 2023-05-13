@@ -21,7 +21,7 @@ void main() {
 	// TODO: support more lights
 	for(int i=0; i<1; ++i)
 	{
-		vec3 lightPosition = vec3(-3, 0, 0);
+		vec3 lightPosition = vec3(-10, 10, -10);
   	vec3 lightColor = vec3(1, 1, 1);
 		vec3 L = normalize(lightPosition - v_position);
 
