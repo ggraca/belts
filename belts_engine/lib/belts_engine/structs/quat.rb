@@ -34,8 +34,20 @@ class Quat
   end
 
   def *(other)
+    return quat_mul(other) if other.is_a?(Quat)
+    return vec3_mul(other) if other.is_a?(Vec3)
+    raise ArgumentError, "Can't multiply #{self.class} with #{other.class}"
+  end
+
+  def quat_mul(other)
     dest = Quat.new
     GLM.glmc_quat_mul(@val, other.val, dest.val)
+    dest
+  end
+
+  def vec3_mul(other)
+    dest = Vec3.new
+    GLM.glmc_quat_rotatev(@val, other.val, dest.val)
     dest
   end
 

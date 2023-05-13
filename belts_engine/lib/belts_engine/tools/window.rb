@@ -3,8 +3,8 @@ module BeltsEngine
     class Window
       attr_reader :ratio, :width, :height, :title
 
-      DEFAULT_WIDTH = 640
-      DEFAULT_HEIGHT = 480
+      DEFAULT_WIDTH = 1920
+      DEFAULT_HEIGHT = 1080
       DEFAULT_TITLE = "Belts Demo".freeze
 
       def initialize

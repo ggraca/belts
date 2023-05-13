@@ -3,6 +3,7 @@ module BeltsBGFX
     def start
       SDL.Init(SDL::INIT_EVERYTHING)
       @sdl_window = SDL.CreateWindow("bgfx", 0, 0, @window.width, @window.height, SDL::WINDOW_RESIZABLE)
+      SDL.SetRelativeMouseMode(SDL::TRUE)
 
       init_bgfx
       @input_manager = BeltsBGFX::InputManager.new(@game, @sdl_window)

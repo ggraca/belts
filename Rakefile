@@ -1,4 +1,4 @@
-GEMS = ["belts_support", "belts_engine", "belts_opengl", "belts"]
+GEMS = ["belts_support", "belts_engine", "belts_bgfx", "belts"]
 VERSION = File.read(File.expand_path("./.belts-version", __dir__)).strip
 
 desc "Build gems"

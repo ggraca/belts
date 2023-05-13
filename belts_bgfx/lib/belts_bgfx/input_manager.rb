@@ -5,6 +5,8 @@ module BeltsBGFX
       SDL::SDLK_a => :a,
       SDL::SDLK_s => :s,
       SDL::SDLK_d => :d,
+      SDL::SDLK_q => :q,
+      SDL::SDLK_e => :e,
       SDL::SDLK_SPACE => :space
     }
 
@@ -17,13 +19,13 @@ module BeltsBGFX
     def initialize(game, window)
       @game = game
       @window = window
-      @input_changes = {}
     end
 
     def update
-      parse_events
-      @game.input.update(@input_changes)
       @input_changes = {}
+      @game.input.mouse.update_motion(0, 0)
+      parse_events
+      @game.input.keyboard.update(@input_changes)
     end
 
     private
@@ -54,6 +56,9 @@ module BeltsBGFX
           if evt == SDL::WINDOWEVENT_RESIZED
             @game.window.resize(event[:window][:data1], event[:window][:data2])
           end
+        when SDL::MOUSEMOTION
+          @game.input.mouse.update_position(event[:motion][:x], event[:motion][:y])
+          @game.input.mouse.update_motion(event[:motion][:xrel], event[:motion][:yrel])
         end
       end
     end

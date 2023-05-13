@@ -1,1 +1,1 @@
-RenderData = Struct.new(:mesh, :color)
+RenderData = Struct.new(:model, :color)

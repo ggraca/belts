@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 3.1.2"
   s.add_dependency "activesupport", "~> 7.0.0"
+  s.add_dependency "assimp_bindings", "~> 0.1.0"
   s.add_dependency "cglm_bindings", "~> 0.1.0"
   s.add_dependency "zeitwerk", "~> 2.4.2"
 end

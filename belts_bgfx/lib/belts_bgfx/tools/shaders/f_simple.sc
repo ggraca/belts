@@ -1,27 +1,33 @@
-$input v_normal, v_pos, v_view, v_color0
+$input v_position, v_normal, v_viewPos
+
+uniform vec4 u_color;
+uniform vec4 u_surface;
+
+#define u_roughness u_surface.x
+#define u_metallness u_surface.y
 
 #include <bgfx_shader.sh>
+#include <phong.sh>
+#include <pbr.sh>
 
-void main()
-{
-	vec3 objectColor = v_color0.rgb;
-  vec3 lightPosition = vec3(0, 0, -1);
-  vec3 lightColor = vec3(1, 1, 1);
-	float ambientStrength = 0.1;
-	float specularStrength = 0.5;
+void main() {
+	vec3 base = u_color.rgb;
 
-	vec3 norm = normalize(v_normal);
-	vec3 lightDir = normalize(lightPosition - v_pos);
-	vec3 viewDir = normalize(v_view - v_pos);
-	vec3 reflectDir = reflect(-lightDir, norm);
+	vec3 F0 = mix(vec3(0.04), base, u_metallness);
+	vec3 V = normalize(v_viewPos - v_position);
+	vec3 N = normalize(v_normal);
 
-	float diff = max(dot(norm, lightDir), 0.0);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+	vec3 directLighting = vec3(0);
+	// TODO: support more lights
+	for(int i=0; i<1; ++i)
+	{
+		vec3 lightPosition = vec3(-10, 10, -10);
+  	vec3 lightColor = vec3(1, 1, 1);
+		vec3 L = normalize(lightPosition - v_position);
 
-  vec3 ambient = ambientStrength * lightColor;
-	vec3 diffuse = diff * lightColor;
-	vec3 specular = specularStrength * spec * lightColor;
+		// directLighting += phong(N, L, V, base) * lightColor;
+		directLighting += PBR(N, L, V, F0, u_roughness, u_metallness, base) * lightColor;
+	}
 
-  vec3 result = (ambient + diffuse + specular) * objectColor;
-  gl_FragColor = vec4(result, 1);
+  gl_FragColor = vec4(directLighting, 1);
 }

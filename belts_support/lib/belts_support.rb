@@ -1,6 +1,7 @@
 require "active_support/inflector"
 require "active_support/core_ext/module/delegation"
 require "glm"
+require "assimp"
 require "zeitwerk"
 
 loader = Zeitwerk::Loader.for_gem

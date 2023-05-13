@@ -17,6 +17,10 @@ class Vec2
     def right = Vec2[1, 0]
   end
 
+  def x = @val[:values][0]
+
+  def y = @val[:values][1]
+
   def initialize(x = 0, y = 0)
     @val = GLM::Vec2.new
     @val[:values][0] = x

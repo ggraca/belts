@@ -7,6 +7,9 @@ loader.setup
 
 module GLM
   extend FFI::Library
+
+  # NOTE: requires export CFLAGS="DCGLM_CLIPSPACE_INCLUDE_ALL=1 -DCGLM_FORCE_DEPTH_ZERO_TO_ONE=1 -DCGLM_FORCE_LEFT_HANDED=1"
+  # NOTE: requires export CFLAGS="-DCGLM_FORCE_LEFT_HANDED=1"
   ffi_lib :libcglm
 
   attach_function :glmc_vec2_adds, [GLM::Vec2.by_ref, :float, GLM::Vec2.by_ref], :void
@@ -26,6 +29,7 @@ module GLM
   attach_function :glmc_quat_inv, [GLM::Quat.by_ref, GLM::Quat.by_ref], :void
   attach_function :glmc_quatv, [GLM::Quat.by_ref, :float, GLM::Vec3.by_ref], :void
   attach_function :glmc_quat_mul, [GLM::Quat.by_ref, GLM::Quat.by_ref, GLM::Quat.by_ref], :void
+  attach_function :glmc_quat_rotatev, [GLM::Quat.by_ref, GLM::Vec3.by_ref, GLM::Vec3.by_ref], :void
 
   attach_function :glmc_mat4_mul, [GLM::Mat4.by_ref, GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_transpose_to, [GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
@@ -39,4 +43,5 @@ module GLM
   attach_function :glmc_rotate_z, [GLM::Mat4.by_ref, :float, GLM::Mat4.by_ref], :void
 
   attach_function :glmc_perspective, [:float, :float, :float, :float, GLM::Mat4.by_ref], :void
+  attach_function :glmc_lookat, [GLM::Vec3.by_ref, GLM::Vec3.by_ref, GLM::Vec3.by_ref, GLM::Mat4.by_ref], :void
 end
