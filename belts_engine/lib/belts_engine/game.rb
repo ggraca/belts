@@ -10,7 +10,7 @@ module BeltsEngine
       register_tool(:window, Tools::Window.new)
 
       world = Flecs.ecs_init
-      #Flecs.ecs_fini(world)
+
       enemy_tag = Flecs.ecs_new_id(world)
       entity = Flecs.ecs_new_id(world)
 
@@ -19,14 +19,13 @@ module BeltsEngine
       pp Flecs.ecs_has_id(world, entity, enemy_tag)
 
       @system = Flecs::System.new
-      @system[:callback] = ->(iter) {
-        puts "Hello from system!"
-      }
+      #@system[:query][:filter][:terms][0][:id] = enemy_tag
       move_system = Flecs.ecs_system_init(world, @system)
-      Flecs.ecs_run(world, move_system, 0, nil)
+      Flecs.ecs_run(world, move_system, tools[:time].delta_time, nil)
 
       pp :yo
 
+      Flecs.ecs_fini(world)
 
       register_tool(:collections, Ecs::CollectionManager.new)
       register_tool(:entities, Ecs::EntityManager.new(self))

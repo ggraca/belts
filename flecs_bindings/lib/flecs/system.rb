@@ -4,7 +4,7 @@ module Flecs
       _canary: :int32,
       entity: Entity.by_value,
       query: Query.by_value,
-      run: :pointer, # TODO: :ecs_run_action_t,
+      run: :ecs_run_action_t,
       callback: :ecs_iter_action_t,
       status_callback: :pointer, #TODO: :ecs_system_status_action_t,
       self: :ecs_entity_t,

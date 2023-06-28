@@ -16,6 +16,7 @@ module Flecs
   typedef :uint, :ecs_inout_kind_t
 
   callback :ecs_iter_action_t, [:pointer], :void
+  callback :ecs_run_action_t, [:pointer], :void
 
   attach_function :ecs_init, [], :ecs_world_t
   attach_function :ecs_fini, [:ecs_world_t], :void
