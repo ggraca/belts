@@ -11,17 +11,20 @@ module BeltsEngine
 
       world = Flecs.ecs_init
 
-      enemy_tag = Flecs.ecs_new_id(world)
-      entity = Flecs.ecs_new_id(world)
+      @query = Flecs::Query.new
+      @a = Flecs.ecs_query_init(world, @query)
+      # @query[:filter][:terms][0][:id] = enemy_tag
 
-      pp Flecs.ecs_has_id(world, entity, enemy_tag)
-      Flecs.ecs_add_id(world, entity, enemy_tag)
-      pp Flecs.ecs_has_id(world, entity, enemy_tag)
+      @callback = Proc.new { |ctx|
+        pp :yo
+      }
 
       @system = Flecs::System.new
-      #@system[:query][:filter][:terms][0][:id] = enemy_tag
+      @system[:callback] = @callback
+      # @system[:query] = @query
+
       move_system = Flecs.ecs_system_init(world, @system)
-      Flecs.ecs_run(world, move_system, tools[:time].delta_time, nil)
+      Flecs.ecs_run(world, move_system, 0.1, nil)
 
       pp :yo
 

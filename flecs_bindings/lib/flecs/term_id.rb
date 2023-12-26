@@ -3,8 +3,8 @@ module Flecs
     layout(
       entity: :ecs_entity_t,
       name: :pointer,
-      var: :ecs_var_kind_t,
-      set: TermSet.by_value,
+      trav: :ecs_entity_t,
+      flags: :ecs_flags32_t,
     )
   end
 end

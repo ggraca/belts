@@ -10,4 +10,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency "ffi", "~> 1.15.5"
   s.add_dependency "zeitwerk", "~> 2.4.2"
+
+  s.add_development_dependency "rspec", "~> 3.11"
 end
