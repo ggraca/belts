@@ -11,7 +11,7 @@ module Flecs
       on_group_create: :pointer, # TODO: ecs_group_create_action_t (callback)
       on_group_delete: :pointer, # TODO: ecs_group_delete_action_t (callback)
       group_by_ctx: :pointer,
-      group_by_ctx_free: :ecs_ctx_free_t, #TODO ecs_ctx_free_t
+      group_by_ctx_free: :ecs_ctx_free_t,
       parent: Query.by_ref,
       ctx: :pointer,
       binding_ctx: :pointer,

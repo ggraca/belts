@@ -10,11 +10,11 @@ module Flecs
       binding_ctx: :pointer,
       ctx_free: :ecs_ctx_free_t,
       binding_ctx_free: :ecs_ctx_free_t,
-      interval: :float,
+      interval: :ecs_ftime_t,
       rate: :int32,
       tick_source: :ecs_entity_t,
       multi_threaded: :bool,
-      no_staging: :bool,
+      no_readonly: :bool,
     )
   end
 end

@@ -24,15 +24,46 @@ describe Flecs do
     end
 
     specify 'component' do
+      position = Flecs.ecs_component_init(
+        @world,
+        Flecs::Component.new.then do |component|
+          component[:type][:name] = FFI::MemoryPointer.from_string('Position')
+          component[:type][:size] = 8
+          component[:type][:alignment] = 4
+          component
+        end
+      )
+
+      velocity = Flecs.ecs_component_init(
+        @world,
+        Flecs::Component.new.then do |component|
+          component[:type][:name] = FFI::MemoryPointer.from_string('Velocity')
+          component[:type][:size] = 8
+          component[:type][:alignment] = 4
+          component
+        end
+      )
+
       entity = Flecs.ecs_entity_init(@world, Flecs::Entity.new)
-      component1 = Flecs.ecs_new_id(@world)
-      component2 = Flecs.ecs_new_id(@world)
+      Flecs.ecs_add_id(@world, entity, position)
+      expect(Flecs.ecs_has_id(@world, entity, position)).to be true
 
-      Flecs.ecs_add_id(@world, entity, component1)
-      expect(Flecs.ecs_has_id(@world, entity, component1)).to be true
+      position_buffer = FFI::MemoryPointer.new(:float, 2)
+      position_buffer.write_array_of_float([2.1, 5.2])
+      Flecs.ecs_set_id(@world, entity, position, 8, position_buffer)
+      expect(Flecs.ecs_has_id(@world, entity, position)).to be true
 
-      # TODO: how to define or access predefined components (structs)?
-      # Flecs.ecs_set_id(world, entity, component2, 0, nil)
+      velocity_buffer = FFI::MemoryPointer.new(:float, 2)
+      velocity_buffer.write_array_of_float([2.1, 5.2])
+      Flecs.ecs_set_id(@world, entity, velocity, 8, velocity_buffer)
+      expect(Flecs.ecs_has_id(@world, entity, velocity)).to be true
+
+      # NOTE: writting to a buffer will cause a float to be inacurate
+      val = Flecs.ecs_get_id(@world, entity, position).read_array_of_float(2)
+      expect([val[0].round(6), val[1].round(6)]).to eq([2.1, 5.2])
+
+      Flecs.ecs_remove_id(@world, entity, position)
+      expect(Flecs.ecs_has_id(@world, entity, position)).to be false
     end
 
     specify 'tag' do
@@ -46,12 +77,24 @@ describe Flecs do
       expect(Flecs.ecs_has_id(@world, entity, enemy_tag)).to be false
     end
 
-    specify 'pair'
+    specify 'pair' do
+
+    end
+
     specify 'hierarchy'
     specify 'instancing'
     specify 'type'
     specify 'singleton'
-    specify 'filter'
+
+    specify 'filter' do
+      # filter = Flecs::Filter.new
+      # Flecs.ecs_filter_init(@world, filter)
+      # Flecs.ecs_filter_free(filter)
+
+
+      # Flecs.ecs_filter_fini(filter)
+    end
+
     specify 'query'
     specify 'system'
     specify 'pipeline'
