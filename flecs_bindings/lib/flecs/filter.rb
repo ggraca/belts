@@ -3,13 +3,13 @@ module Flecs
     layout(
       _canary: :int32,
       terms: [Term.by_value, 16],
-      terms_buffer: Term.by_ref, # TODO: buffer
+      terms_buffer: Term.by_ref,
       terms_buffer_count: :int32,
-      filter: :bool,
+      storage: :pointer,
       instanced: :bool,
-      match_empty_tables: :bool,
+      flags: :ecs_flags32_t,
       expr: :pointer,
-      name: :pointer,
+      entity: :ecs_entity_t,
     )
   end
 end

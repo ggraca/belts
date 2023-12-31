@@ -26,21 +26,19 @@ describe Flecs do
     specify 'component' do
       position = Flecs.ecs_component_init(
         @world,
-        Flecs::Component.new.then do |component|
+        Flecs::Component.new.tap do |component|
           component[:type][:name] = FFI::MemoryPointer.from_string('Position')
           component[:type][:size] = 8
           component[:type][:alignment] = 4
-          component
         end
       )
 
       velocity = Flecs.ecs_component_init(
         @world,
-        Flecs::Component.new.then do |component|
+        Flecs::Component.new.tap do |component|
           component[:type][:name] = FFI::MemoryPointer.from_string('Velocity')
           component[:type][:size] = 8
           component[:type][:alignment] = 4
-          component
         end
       )
 
@@ -78,7 +76,22 @@ describe Flecs do
     end
 
     specify 'pair' do
+      likes = Flecs.ecs_new_id(@world)
+      bob = Flecs.ecs_new_id(@world)
+      alice = Flecs.ecs_new_id(@world)
 
+      likes_alice = Flecs.ecs_make_pair(likes, alice)
+      likes_bob = Flecs.ecs_make_pair(likes, bob)
+
+      Flecs.ecs_add_id(@world, bob, likes_alice)
+      Flecs.ecs_add_id(@world, alice, likes_bob)
+
+      expect(Flecs.ecs_has_id(@world, bob, likes_alice)).to be true
+      expect(Flecs.ecs_has_id(@world, alice, likes_bob)).to be true
+
+      Flecs.ecs_remove_id(@world, bob, likes_alice)
+      expect(Flecs.ecs_has_id(@world, bob, likes_alice)).to be false
+      expect(Flecs.ecs_has_id(@world, alice, likes_bob)).to be true
     end
 
     specify 'hierarchy'
@@ -87,11 +100,23 @@ describe Flecs do
     specify 'singleton'
 
     specify 'filter' do
-      # filter = Flecs::Filter.new
-      # Flecs.ecs_filter_init(@world, filter)
-      # Flecs.ecs_filter_free(filter)
+      position = Flecs.ecs_component_init(
+        @world,
+        Flecs::Component.new.tap do |component|
+          component[:type][:name] = FFI::MemoryPointer.from_string('Position')
+          component[:type][:size] = 8
+          component[:type][:alignment] = 4
+        end
+      )
 
+      filter = Flecs::Filter.new.tap do |f|
+        f[:terms][0] = Flecs::Term.new.tap do |t|
+          t[:id] = position
+        end
+      end
+      filter_ptr = Flecs.ecs_filter_init(@world, filter)
 
+      # TODO: get iterator
       # Flecs.ecs_filter_fini(filter)
     end
 
