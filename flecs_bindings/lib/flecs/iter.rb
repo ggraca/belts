@@ -12,7 +12,7 @@ module Flecs
       table: :pointer,
       other_table: :pointer,
       ids: :pointer,
-      variables: :pointer,
+      variables: Var.by_ref,
       columns: :pointer,
       sources: :pointer,
       match_indices: :pointer,
@@ -55,7 +55,7 @@ module Flecs
 
       interrupted_by: :ecs_entity_t,
 
-      priv: :pointer, # TODO :ecs_iter_private_t
+      priv: IterPrivate.by_value,
 
       # Chained iterators
       next: :ecs_iter_next_action_t,

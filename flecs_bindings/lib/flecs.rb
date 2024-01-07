@@ -13,17 +13,27 @@ module Flecs
   typedef :ecs_id_t, :ecs_entity_t
   typedef :uint, :ecs_oper_kind_t
   typedef :uint, :ecs_inout_kind_t
+  typedef :uint8, :ecs_flags8_t
   typedef :uint16, :ecs_flags16_t
   typedef :uint32, :ecs_flags32_t
   typedef :uint64, :ecs_flags64_t
   typedef :int32, :ecs_size_t
   typedef :float, :ecs_ftime_t
 
-  # Internal structs
+  # Pointers to internal structs
   typedef :pointer, :ecs_world_tp
   typedef :pointer, :ecs_filter_tp
+  typedef :pointer, :ecs_id_record_tp
+  typedef :pointer, :ecs_table_cache_hdr_tp
+  typedef :pointer, :ecs_table_tp
+  typedef :pointer, :ecs_query_table_match_tp
+  typedef :pointer, :ecs_rule_tp
+  typedef :pointer, :ecs_rule_var_tp
+  typedef :pointer, :ecs_rule_op_tp
+  typedef :pointer, :ecs_rule_op_ctx_tp
 
-  # Internal callbacks
+
+  # Pointers to internal callbacks
   typedef :pointer, :ecs_xtor_t
   typedef :pointer, :ecs_copy_t
   typedef :pointer, :ecs_move_t
