@@ -109,12 +109,17 @@ describe Flecs do
         end
       )
 
-      filter = Flecs::FilterDesc.new.tap do |f|
-        f[:terms][0] = Flecs::Term.new.tap do |t|
-          t[:id] = position
+      filter = Flecs.ecs_filter_init(
+        @world,
+        Flecs::FilterDesc.new.tap do |f|
+          f[:terms][0] = Flecs::Term.new.tap do |t|
+            t[:id] = position
+          end
         end
-      end
-      filter_ptr = Flecs.ecs_filter_init(@world, filter)
+      )
+
+      it = Flecs.ecs_filter_iter(@world, filter)
+      pp it
 
       # TODO: get iterator
       # Flecs.ecs_filter_fini(filter)

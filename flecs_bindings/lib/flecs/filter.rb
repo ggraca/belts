@@ -1,11 +1,5 @@
 module Flecs
   class Filter < FFI::Struct
-    class Iterable < FFI::Struct
-      layout(
-        init: :ecs_iter_init_action_t,
-      )
-    end
-
     layout(
       hdr: Header.by_value,
 

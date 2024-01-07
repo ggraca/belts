@@ -1,13 +1,5 @@
 module Flecs
   class TermIter < FFI::Struct
-    class TableCacheIter < FFI::Struct
-      layout(
-        cur: :ecs_table_cache_hdr_tp,
-        next: :ecs_table_cache_hdr_tp,
-        next_list: :ecs_table_cache_hdr_tp
-      )
-    end
-
     layout(
       term: Term.by_value,
       self_index: :ecs_id_record_tp,

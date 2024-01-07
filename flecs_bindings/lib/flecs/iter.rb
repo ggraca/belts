@@ -42,7 +42,7 @@ module Flecs
 
       # Time
       delta_time: :ecs_ftime_t,
-      delta_system_time: :ecs_time_t,
+      delta_system_time: :ecs_ftime_t,
 
       # Iterator counters
       frame_offset: :int32,

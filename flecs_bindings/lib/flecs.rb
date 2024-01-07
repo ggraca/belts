@@ -9,6 +9,14 @@ module Flecs
 
   ffi_lib :libflecs
 
+  # Enums
+  IterKind = enum [
+    :EcsIterEvalCondition,
+    :EcsIterEvalTables,
+    :EcsIterEvalChain,
+    :EcsIterEvalNone
+  ]
+
   typedef :uint64, :ecs_id_t
   typedef :ecs_id_t, :ecs_entity_t
   typedef :uint, :ecs_oper_kind_t
@@ -77,6 +85,7 @@ module Flecs
 
   # Filter
   attach_function :ecs_filter_init, [:ecs_world_tp, FilterDesc.by_ref], :ecs_filter_tp
+  attach_function :ecs_filter_iter, [:ecs_world_tp, :ecs_filter_tp], Iter.by_value
 
   # Query
   attach_function :ecs_query_init, [:ecs_world_tp, QueryDesc.by_ref], :ecs_query_tp
