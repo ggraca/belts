@@ -6,7 +6,7 @@ module Flecs
       real_world: :ecs_world_tp,
 
       # Matched data
-      entities: Entity.by_ref,
+      entities: :ecs_entity_tp,
       ptrs: :pointer,
       sizes: :pointer,
       table: :pointer,

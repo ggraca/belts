@@ -22,6 +22,8 @@ module Flecs
 
   # Pointers to internal structs
   typedef :pointer, :ecs_world_tp
+  typedef :pointer, :ecs_entity_tp
+  typedef :pointer, :ecs_query_tp
   typedef :pointer, :ecs_filter_tp
   typedef :pointer, :ecs_id_record_tp
   typedef :pointer, :ecs_table_cache_hdr_tp
@@ -31,12 +33,14 @@ module Flecs
   typedef :pointer, :ecs_rule_var_tp
   typedef :pointer, :ecs_rule_op_tp
   typedef :pointer, :ecs_rule_op_ctx_tp
-
+  typedef :pointer, :ecs_mixins_tp
 
   # Pointers to internal callbacks
   typedef :pointer, :ecs_xtor_t
   typedef :pointer, :ecs_copy_t
   typedef :pointer, :ecs_move_t
+  typedef :pointer, :ecs_poly_dtor_t
+  typedef :pointer, :ecs_iter_init_action_t
   typedef :pointer, :ecs_iter_next_action_t
   typedef :pointer, :ecs_iter_fini_action_t
 
@@ -56,12 +60,12 @@ module Flecs
   attach_function :ecs_new_id, [:ecs_world_tp], :ecs_id_t
 
   # Entity
-  attach_function :ecs_entity_init, [:ecs_world_tp, Entity.by_ref], :ecs_entity_t
+  attach_function :ecs_entity_init, [:ecs_world_tp, EntityDesc.by_ref], :ecs_entity_t
   attach_function :ecs_is_alive, [:ecs_world_tp, :ecs_entity_t], :bool
   attach_function :ecs_delete, [:ecs_world_tp, :ecs_entity_t], :void
 
   # Component
-  attach_function :ecs_component_init, [:ecs_world_tp, Component.by_ref], :ecs_entity_t
+  attach_function :ecs_component_init, [:ecs_world_tp, ComponentDesc.by_ref], :ecs_entity_t
   attach_function :ecs_add_id, [:ecs_world_tp, :ecs_entity_t, :ecs_id_t], :void
   attach_function :ecs_set_id, [:ecs_world_tp, :ecs_entity_t, :ecs_id_t, :ecs_size_t, :pointer], :void
   attach_function :ecs_has_id, [:ecs_world_tp, :ecs_entity_t, :ecs_id_t], :bool
@@ -72,12 +76,12 @@ module Flecs
   attach_function :ecs_make_pair, [:ecs_entity_t, :ecs_entity_t], :ecs_id_t
 
   # Filter
-  attach_function :ecs_filter_init, [:ecs_world_tp, Filter.by_ref], :ecs_filter_tp
+  attach_function :ecs_filter_init, [:ecs_world_tp, FilterDesc.by_ref], :ecs_filter_tp
 
   # Query
-  attach_function :ecs_query_init, [:ecs_world_tp, Query.by_ref], Query.by_ref
+  attach_function :ecs_query_init, [:ecs_world_tp, QueryDesc.by_ref], :ecs_query_tp
 
   # System
-  attach_function :ecs_system_init, [:ecs_world_tp, System.by_ref], :ecs_entity_t
+  attach_function :ecs_system_init, [:ecs_world_tp, SystemDesc.by_ref], :ecs_entity_t
   attach_function :ecs_run, [:ecs_world_tp, :ecs_entity_t, :float, :pointer], :ecs_entity_t
 end

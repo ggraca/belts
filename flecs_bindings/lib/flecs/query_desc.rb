@@ -1,8 +1,8 @@
 module Flecs
-  class Query < FFI::Struct
+  class QueryDesc < FFI::Struct
     layout(
       _canary: :int32,
-      filter: Filter.by_value,
+      filter: FilterDesc.by_value,
       order_by_component: :ecs_entity_t,
       order_by: :pointer, # TODO: ecs_order_by_action_t (callback)
       sort_table: :pointer, # TODO: ecs_sort_table_action_t (callback)
@@ -12,7 +12,7 @@ module Flecs
       on_group_delete: :pointer, # TODO: ecs_group_delete_action_t (callback)
       group_by_ctx: :pointer,
       group_by_ctx_free: :ecs_ctx_free_t,
-      parent: Query.by_ref,
+      parent: :ecs_query_tp,
       ctx: :pointer,
       binding_ctx: :pointer,
       ctx_free: :ecs_ctx_free_t,

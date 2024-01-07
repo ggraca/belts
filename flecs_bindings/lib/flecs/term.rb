@@ -10,7 +10,7 @@ module Flecs
       id_flags: :ecs_id_t,
       name: :pointer,
       field_index: :int32,
-      idr: :pointer, # TODO: ecs_id_record_t
+      idr: :ecs_id_record_tp,
       flags: :ecs_flags16_t,
       move: :bool,
     )

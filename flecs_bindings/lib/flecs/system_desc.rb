@@ -1,9 +1,9 @@
 module Flecs
-  class System < FFI::Struct
+  class SystemDesc < FFI::Struct
     layout(
       _canary: :int32,
       entity: :ecs_entity_t,
-      query: Query.by_value,
+      query: QueryDesc.by_value,
       run: :ecs_run_action_t,
       callback: :ecs_iter_action_t,
       ctx: :pointer,

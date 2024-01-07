@@ -11,7 +11,7 @@ module BeltsEngine
 
       world = Flecs.ecs_init
 
-      @query = Flecs::Query.new
+      @query = Flecs::QueryDesc.new
       @a = Flecs.ecs_query_init(world, @query)
       # @query[:filter][:terms][0][:id] = enemy_tag
 
@@ -19,7 +19,7 @@ module BeltsEngine
         pp :yo
       }
 
-      @system = Flecs::System.new
+      @system = Flecs::SystemDesc.new
       @system[:callback] = @callback
       # @system[:query] = @query
 

@@ -1,7 +1,7 @@
 module Flecs
   class QueryIter < FFI::Struct
     layout(
-      query: Query.by_ref,
+      query: :ecs_query_tp,
       node: :ecs_query_table_match_tp,
       prev: :ecs_query_table_match_tp,
       last: :ecs_query_table_match_tp,

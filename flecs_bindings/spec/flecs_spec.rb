@@ -19,14 +19,14 @@ describe Flecs do
       Flecs.ecs_delete(@world, id)
       expect(Flecs.ecs_is_alive(@world, id)).to be false
 
-      id = Flecs.ecs_entity_init(@world, Flecs::Entity.new)
+      id = Flecs.ecs_entity_init(@world, Flecs::EntityDesc.new)
       expect(Flecs.ecs_is_alive(@world, id)).to be true
     end
 
     specify 'component' do
       position = Flecs.ecs_component_init(
         @world,
-        Flecs::Component.new.tap do |component|
+        Flecs::ComponentDesc.new.tap do |component|
           component[:type][:name] = FFI::MemoryPointer.from_string('Position')
           component[:type][:size] = 8
           component[:type][:alignment] = 4
@@ -35,14 +35,14 @@ describe Flecs do
 
       velocity = Flecs.ecs_component_init(
         @world,
-        Flecs::Component.new.tap do |component|
+        Flecs::ComponentDesc.new.tap do |component|
           component[:type][:name] = FFI::MemoryPointer.from_string('Velocity')
           component[:type][:size] = 8
           component[:type][:alignment] = 4
         end
       )
 
-      entity = Flecs.ecs_entity_init(@world, Flecs::Entity.new)
+      entity = Flecs.ecs_entity_init(@world, Flecs::EntityDesc.new)
       Flecs.ecs_add_id(@world, entity, position)
       expect(Flecs.ecs_has_id(@world, entity, position)).to be true
 
@@ -102,14 +102,14 @@ describe Flecs do
     specify 'filter' do
       position = Flecs.ecs_component_init(
         @world,
-        Flecs::Component.new.tap do |component|
+        Flecs::ComponentDesc.new.tap do |component|
           component[:type][:name] = FFI::MemoryPointer.from_string('Position')
           component[:type][:size] = 8
           component[:type][:alignment] = 4
         end
       )
 
-      filter = Flecs::Filter.new.tap do |f|
+      filter = Flecs::FilterDesc.new.tap do |f|
         f[:terms][0] = Flecs::Term.new.tap do |t|
           t[:id] = position
         end

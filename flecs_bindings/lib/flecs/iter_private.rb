@@ -21,7 +21,7 @@ module Flecs
       layout(
         term: TermIter.by_value,
         filter: FilterIter.by_value,
-        query: QueryIter.,
+        query: QueryIter.by_value,
         rule: RuleIter.by_value,
         snapshot: SnapshotIter.by_value,
         page: PageIter.by_value,
