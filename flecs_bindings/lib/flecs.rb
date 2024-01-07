@@ -42,6 +42,8 @@ module Flecs
   typedef :pointer, :ecs_rule_op_tp
   typedef :pointer, :ecs_rule_op_ctx_tp
   typedef :pointer, :ecs_mixins_tp
+  typedef :pointer, :ecs_stack_page_tp
+  typedef :pointer, :ecs_stack_tp
 
   # Pointers to internal callbacks
   typedef :pointer, :ecs_xtor_t
@@ -84,8 +86,10 @@ module Flecs
   attach_function :ecs_make_pair, [:ecs_entity_t, :ecs_entity_t], :ecs_id_t
 
   # Filter
-  attach_function :ecs_filter_init, [:ecs_world_tp, FilterDesc.by_ref], :ecs_filter_tp
+  attach_function :ecs_filter_init, [:ecs_world_tp, FilterDesc.by_ref], Filter.by_ref
   attach_function :ecs_filter_iter, [:ecs_world_tp, :ecs_filter_tp], Iter.by_value
+  attach_function :ecs_filter_fini, [:ecs_filter_tp], :void
+  attach_function :ecs_filter_next, [Iter.by_ref], :bool
 
   # Query
   attach_function :ecs_query_init, [:ecs_world_tp, QueryDesc.by_ref], :ecs_query_tp

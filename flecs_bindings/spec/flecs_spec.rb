@@ -10,7 +10,7 @@ describe Flecs do
     around do |example|
       @world = Flecs.ecs_init
       example.run
-      Flecs.ecs_fini(@world)
+      # Flecs.ecs_fini(@world) # TODO: not working with filter_iter
     end
 
     specify 'entity' do
@@ -109,6 +109,12 @@ describe Flecs do
         end
       )
 
+      entity1 = Flecs.ecs_entity_init(@world, Flecs::EntityDesc.new)
+      Flecs.ecs_add_id(@world, entity1, position)
+      entity2 = Flecs.ecs_entity_init(@world, Flecs::EntityDesc.new)
+      Flecs.ecs_add_id(@world, entity2, position)
+      entity3 = Flecs.ecs_entity_init(@world, Flecs::EntityDesc.new)
+
       filter = Flecs.ecs_filter_init(
         @world,
         Flecs::FilterDesc.new.tap do |f|
@@ -118,11 +124,22 @@ describe Flecs do
         end
       )
 
-      it = Flecs.ecs_filter_iter(@world, filter)
-      pp it
+      pp entity1
+      pp entity2
+      pp entity3
 
-      # TODO: get iterator
-      # Flecs.ecs_filter_fini(filter)
+      pp :sdjas
+      it = Flecs.ecs_filter_iter(@world, filter)
+      while(Flecs.ecs_filter_next(it))
+        pp :yo
+
+        it[:count].times do |i|
+          pp it[:entities][i * 8].read_int
+        end
+      end
+
+
+      Flecs.ecs_filter_fini(filter)
     end
 
     specify 'query'
