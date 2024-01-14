@@ -8,28 +8,6 @@ module BeltsEngine
       register_tool(:time, Tools::Time.new)
       register_tool(:input, Tools::Input.new)
       register_tool(:window, Tools::Window.new)
-
-      world = Flecs.ecs_init
-
-      @query = Flecs::QueryDesc.new
-      @a = Flecs.ecs_query_init(world, @query)
-      # @query[:filter][:terms][0][:id] = enemy_tag
-
-      @callback = Proc.new { |ctx|
-        pp :yo
-      }
-
-      @system = Flecs::SystemDesc.new
-      @system[:callback] = @callback
-      # @system[:query] = @query
-
-      move_system = Flecs.ecs_system_init(world, @system)
-      Flecs.ecs_run(world, move_system, 0.1, nil)
-
-      pp :yo
-
-      Flecs.ecs_fini(world)
-
       register_tool(:collections, Ecs::CollectionManager.new)
       register_tool(:entities, Ecs::EntityManager.new(self))
       register_tool(:scenes, Tools::SceneManager.new(self))
