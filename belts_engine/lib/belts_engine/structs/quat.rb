@@ -1,17 +1,17 @@
-class Quat
-  attr_reader :val
+class Quat < BeltsSupport::Component
+  layout :values, [:float, 4]
 
   class << self
     def identity
-      quat = Quat.new
-      GLM::glmc_quat_identity(quat.val)
-      quat
+      Quat.new.tap do |dest|
+        GLM.glmc_quat_identity(dest.as_glm)
+      end
     end
 
     def from_axis_angle(axis, angle)
-      quat = Quat.new
-      GLM::glmc_quatv(quat.val, angle, axis.val)
-      quat
+      Quat.new.tap do |dest|
+        GLM.glmc_quatv(dest.as_glm, angle, axis.val)
+      end
     end
 
     def from_rotation_x(angle) = from_axis_angle(Vec3.right, angle)
@@ -23,14 +23,10 @@ class Quat
     end
   end
 
-  def initialize()
-    @val = GLM::Quat.new
-  end
-
   def -@
-    dest = Quat.new
-    GLM.glmc_quat_inv(@val, dest.val)
-    dest
+    Quat.new.tap do |dest|
+      GLM.glmc_quat_inv(as_glm, dest.as_glm)
+    end
   end
 
   def *(other)
@@ -40,31 +36,36 @@ class Quat
   end
 
   def quat_mul(other)
-    dest = Quat.new
-    GLM.glmc_quat_mul(@val, other.val, dest.val)
-    dest
+    Quat.new.tap do |dest|
+      GLM.glmc_quat_mul(as_glm, other.as_glm, dest.as_glm)
+    end
   end
 
   def vec3_mul(other)
-    dest = Vec3.new
-    GLM.glmc_quat_rotatev(@val, other.val, dest.val)
-    dest
+    Vec3.new.tap do |dest|
+      GLM.glmc_quat_rotatev(as_glm, other.val, dest.val)
+    end
   end
 
   def marshal_dump
-    {}.tap do |result|
-      result[:x] = @val[:values][0]
-      result[:y] = @val[:values][1]
-      result[:z] = @val[:values][2]
-      result[:w] = @val[:values][3]
+    {}.tap do |dest|
+      dest[:x] = self[:values][0]
+      dest[:y] = self[:values][1]
+      dest[:z] = self[:values][2]
+      dest[:w] = self[:values][3]
     end
   end
 
   def marshal_load(serialized_values)
-    @val = GLM::Quat.new
-    @val[:values][0] = serialized_values[:x]
-    @val[:values][1] = serialized_values[:y]
-    @val[:values][2] = serialized_values[:z]
-    @val[:values][3] = serialized_values[:w]
+    Quat.new.tap do |dest|
+      dest[:values][0] = serialized_values[:x]
+      dest[:values][1] = serialized_values[:y]
+      dest[:values][2] = serialized_values[:z]
+      dest[:values][3] = serialized_values[:w]
+    end
+  end
+
+  def as_glm
+    GLM::Quat.new(pointer)
   end
 end

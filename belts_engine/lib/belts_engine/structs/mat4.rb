@@ -36,7 +36,7 @@ class Mat4
 
     def rotation(quat)
       dest = Mat4.zero
-      GLM.glmc_quat_mat4(quat.val, dest.val)
+      GLM.glmc_quat_mat4(quat.as_glm, dest.val)
       dest
     end
 
