@@ -11,7 +11,8 @@ module Belts
       end
       app_loader.setup
 
-      Application.new
+      app = Application.new
+      app.start
     end
   end
 end

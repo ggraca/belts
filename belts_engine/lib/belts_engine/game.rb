@@ -8,6 +8,7 @@ module BeltsEngine
       register_tool(:time, Tools::Time.new)
       register_tool(:input, Tools::Input.new)
       register_tool(:window, Tools::Window.new)
+      register_tool(:ecs, Tools::Ecs.new)
       register_tool(:collections, Ecs::CollectionManager.new)
       register_tool(:entities, Ecs::EntityManager.new(self))
       register_tool(:scenes, Tools::SceneManager.new(self))
@@ -35,6 +36,7 @@ module BeltsEngine
     end
 
     def quit
+      ecs.finalize
     end
   end
 end

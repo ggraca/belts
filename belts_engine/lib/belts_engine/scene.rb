@@ -20,6 +20,7 @@ module BeltsEngine
 
     def init_entities
       @@prefabs.each do |prefab|
+        @game.ecs.instantiate(prefab[:class_name])
         @game.entities.instantiate(prefab[:class_name], prefab[:position], prefab[:rotation], prefab[:scale])
       end
     end
