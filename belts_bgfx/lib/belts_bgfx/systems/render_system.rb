@@ -26,14 +26,14 @@ module BeltsBGFX
         view_matrix = Mat4.look_at(transform.position, transform.position + transform.forward, Vec3.up)
         proj_matrix = Mat4.perspective(Math::PI / 4, @window.ratio, 0.1, 100)
 
-        BGFX.set_view_transform(0, view_matrix.val, proj_matrix.val)
+        BGFX.set_view_transform(0, view_matrix.as_glm, proj_matrix.as_glm)
         BGFX.touch(0)
       end
     end
 
     def upload_object_data
       objects.each_with_components do |transform:, render_data:, **|
-        BGFX.set_transform(transform.matrix.val, 1)
+        BGFX.set_transform(transform.matrix.as_glm, 1)
         render_model(render_data.model)
       end
     end
