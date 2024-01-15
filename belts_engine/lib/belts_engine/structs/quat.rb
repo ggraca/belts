@@ -10,7 +10,7 @@ class Quat < BeltsSupport::Component
 
     def from_axis_angle(axis, angle)
       Quat.new.tap do |dest|
-        GLM.glmc_quatv(dest.as_glm, angle, axis.val)
+        GLM.glmc_quatv(dest.as_glm, angle, axis.as_glm)
       end
     end
 
@@ -43,7 +43,7 @@ class Quat < BeltsSupport::Component
 
   def vec3_mul(other)
     Vec3.new.tap do |dest|
-      GLM.glmc_quat_rotatev(as_glm, other.val, dest.val)
+      GLM.glmc_quat_rotatev(as_glm, other.as_glm, dest.as_glm)
     end
   end
 

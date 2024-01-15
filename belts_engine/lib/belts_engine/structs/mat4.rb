@@ -24,13 +24,13 @@ class Mat4
 
     def translation(vec3)
       dest = Mat4.identity
-      GLM.glmc_translate(dest.val, vec3.val)
+      GLM.glmc_translate(dest.val, vec3.as_glm)
       dest
     end
 
     def scale(vec3)
       dest = Mat4.identity
-      GLM.glmc_scale(dest.val, vec3.val)
+      GLM.glmc_scale(dest.val, vec3.as_glm)
       dest
     end
 
@@ -48,7 +48,7 @@ class Mat4
 
     def look_at(eye, center, up)
       dest = Mat4.identity
-      GLM.glmc_lookat(eye.val, center.val, up.val, dest.val)
+      GLM.glmc_lookat(eye.as_glm, center.as_glm, up.as_glm, dest.val)
       dest
     end
   end

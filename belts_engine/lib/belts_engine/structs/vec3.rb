@@ -1,5 +1,5 @@
-class Vec3
-  attr_reader :val
+class Vec3 < BeltsSupport::Component
+  layout :values, [:float, 3]
 
   class << self
     def [](x = 0, y = 0, z = 0) = new(x, y, z)
@@ -22,22 +22,21 @@ class Vec3
   end
 
   def initialize(x = 0, y = 0, z = 0)
-    @val = GLM::Vec3.new
-    @val[:values][0] = x
-    @val[:values][1] = y
-    @val[:values][2] = z
+    self[:values][0] = x
+    self[:values][1] = y
+    self[:values][2] = z
   end
 
-  def x = @val[:values][0]
+  def x = self[:values][0]
 
-  def y = @val[:values][1]
+  def y = self[:values][1]
 
-  def z = @val[:values][2]
+  def z = self[:values][2]
 
   def -@
-    dest = Vec3.new
-    GLM.glmc_vec3_negate_to(@val, dest.val)
-    dest
+    Vec3.new.tap do |dest|
+      GLM.glmc_vec3_negate_to(as_glm, dest.as_glm)
+    end
   end
 
   def +(other)
@@ -55,47 +54,52 @@ class Vec3
   end
 
   def to_a
-    @val[:values].to_a
+    self[:values].to_a
   end
 
   def marshal_dump
-    {}.tap do |result|
-      result[:x] = @val[:values][0]
-      result[:y] = @val[:values][1]
-      result[:z] = @val[:values][2]
+    {}.tap do |dest|
+      dest[:x] = self[:values][0]
+      dest[:y] = self[:values][1]
+      dest[:z] = self[:values][2]
     end
   end
 
   def marshal_load(serialized_values)
-    @val = GLM::Vec3.new
-    @val[:values][0] = serialized_values[:x]
-    @val[:values][1] = serialized_values[:y]
-    @val[:values][2] = serialized_values[:z]
+    Vec3.new.tap do |dest|
+      dest[:values][0] = serialized_values[:x]
+      dest[:values][1] = serialized_values[:y]
+      dest[:values][2] = serialized_values[:z]
+    end
+  end
+
+  def as_glm
+    GLM::Vec3.new(pointer)
   end
 
   private
 
   def scalar_sum(scalar)
-    dest = Vec3.new
-    GLM.glmc_vec3_adds(@val, scalar, dest.val)
-    dest
+    Vec3.new.tap do |dest|
+      GLM.glmc_vec3_adds(as_glm, scalar, dest.as_glm)
+    end
   end
 
   def vector_sum(vec3)
-    dest = Vec3.new
-    GLM.glmc_vec3_add(@val, vec3.val, dest.val)
-    dest
+    Vec3.new.tap do |dest|
+      GLM.glmc_vec3_add(as_glm, vec3.as_glm, dest.as_glm)
+    end
   end
 
   def scalar_mul(scalar)
-    dest = Vec3.new
-    GLM.glmc_vec3_scale(@val, scalar, dest.val)
-    dest
+    Vec3.new.tap do |dest|
+      GLM.glmc_vec3_scale(as_glm, scalar, dest.as_glm)
+    end
   end
 
   def vector_mul(vec3)
-    dest = Vec3.new
-    GLM.glmc_vec3_mul(@val, vec3.val, dest.val)
-    dest
+    Vec3.new.tap do |dest|
+      GLM.glmc_vec3_mul(as_glm, vec3.as_glm, dest.as_glm)
+    end
   end
 end
