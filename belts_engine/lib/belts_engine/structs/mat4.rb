@@ -1,8 +1,12 @@
-class Mat4  < BeltsSupport::Component
+class Mat4  < BeltsSupport::Struct
   layout :values, [:float, 16]
 
   class << self
-    def [](*values) = new(values)
+    def [](*values)
+      Mat4.new.tap do |dest|
+        dest[:values].to_ptr.write_array_of_float(values)
+      end
+    end
 
     def identity
       Mat4[
@@ -51,10 +55,6 @@ class Mat4  < BeltsSupport::Component
         GLM.glmc_lookat(eye.as_glm, center.as_glm, up.as_glm, dest.as_glm)
       end
     end
-  end
-
-  def initialize(values)
-    self[:values].to_ptr.write_array_of_float(values)
   end
 
   def to_s

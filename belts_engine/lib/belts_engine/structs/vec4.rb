@@ -1,28 +1,40 @@
-class Vec4 < BeltsSupport::Component
+class Vec4 < BeltsSupport::Struct
   layout :values, [:float, 4]
 
   class << self
-    def [](x = 0, y = 0, z = 0, w = 0) = new(x, y, z, w)
+    def [](x = 0, y = 0, z = 0, w = 0)
+      Vec4.new.tap do |dest|
+        dest[:values][0] = x
+        dest[:values][1] = y
+        dest[:values][2] = z
+        dest[:values][3] = w
+      end
+    end
 
     def zero = Vec3[0, 0, 0, 0]
 
     def one = Vec3[1, 1, 1, 1]
   end
 
-  def initialize(x = 0, y = 0, z = 0, w = 0)
-    self[:values][0] = x
-    self[:values][1] = y
-    self[:values][2] = z
-    self[:values][3] = w
+  def x = self[:values][0]
+  def x=(value)
+    self[:values][0] = value
   end
 
-  def x = self[:values][0]
-
   def y = self[:values][1]
+  def y=(value)
+    self[:values][1] = value
+  end
 
   def z = self[:values][2]
+  def z=(value)
+    self[:values][2] = value
+  end
 
   def w = self[:values][3]
+  def w=(value)
+    self[:values][3] = value
+  end
 
   def to_s
     to_a.join(", ")

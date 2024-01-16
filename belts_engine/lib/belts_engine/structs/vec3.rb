@@ -1,8 +1,14 @@
-class Vec3 < BeltsSupport::Component
+class Vec3 < BeltsSupport::Struct
   layout :values, [:float, 3]
 
   class << self
-    def [](x = 0, y = 0, z = 0) = new(x, y, z)
+    def [](x = 0, y = 0, z = 0)
+      Vec3.new.tap do |dest|
+        dest[:values][0] = x
+        dest[:values][1] = y
+        dest[:values][2] = z
+      end
+    end
 
     def zero = Vec3[0, 0, 0]
 
@@ -21,17 +27,20 @@ class Vec3 < BeltsSupport::Component
     def back = Vec3[0, 0, -1]
   end
 
-  def initialize(x = 0, y = 0, z = 0)
-    self[:values][0] = x
-    self[:values][1] = y
-    self[:values][2] = z
+  def x = self[:values][0]
+  def x=(value)
+    self[:values][0] = value
   end
 
-  def x = self[:values][0]
-
   def y = self[:values][1]
+  def y=(value)
+    self[:values][1] = value
+  end
 
   def z = self[:values][2]
+  def z=(value)
+    self[:values][2] = value
+  end
 
   def -@
     Vec3.new.tap do |dest|

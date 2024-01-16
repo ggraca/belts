@@ -15,9 +15,18 @@ module BeltsEngine::Ecs
       @next_id += 1
 
       components = Marshal.load(Marshal.dump(prefab_class.to_s.constantize.components)) # deep copy
-      components[:transform].position = position
-      components[:transform].rotation = rotation
-      components[:transform].scale = scale
+      components[:position] = Position.new.tap do |dest|
+        dest.set!(position)
+      end
+
+      components[:rotation] = Rotation.new.tap do |dest|
+        dest.set!(rotation)
+      end
+
+      components[:scale] = Scale.new.tap do |dest|
+        dest.set!(scale)
+      end
+
       add_components(id, components)
 
       id

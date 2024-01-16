@@ -1,8 +1,13 @@
-class Vec2 < BeltsSupport::Component
+class Vec2 < BeltsSupport::Struct
   layout :values, [:float, 2]
 
   class << self
-    def [](x = 0, y = 0) = new(x, y)
+    def [](x = 0, y = 0)
+      Vec2.new.tap do |dest|
+        dest[:values][0] = x
+        dest[:values][1] = y
+      end
+    end
 
     def zero = Vec2[0, 0]
 
@@ -18,12 +23,13 @@ class Vec2 < BeltsSupport::Component
   end
 
   def x = self[:values][0]
+  def x=(value)
+    self[:values][0] = value
+  end
 
   def y = self[:values][1]
-
-  def initialize(x = 0, y = 0)
-    self[:values][0] = x
-    self[:values][1] = y
+  def y=(value)
+    self[:values][1] = value
   end
 
   def +(other)
