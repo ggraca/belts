@@ -17,21 +17,30 @@ module BeltsEngine
       end
 
       def world
-        # TODO: Support multiple worlds
+        # TODO: Support multiple worlds?
         @worlds.first
       end
 
       def component(name)
-        @components[name.to_s]
+        id = @components[name.to_s]
+        raise "Component #{name} not found" unless id
+        id
+      end
+
+      def add_component(entity, value)
+        Flecs.ecs_set_id(world, entity, component(value.class.name.underscore), value.class.size, value)
       end
 
       def instantiate(prefab, position, rotation, scale)
         entity = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new)
-        Flecs.ecs_set_id(world, entity, component(:position), Vec3.size, position)
-        Flecs.ecs_set_id(world, entity, component(:rotation), Quat.size, rotation)
-        Flecs.ecs_set_id(world, entity, component(:scale), Vec3.size, scale)
 
-        #pp Position.new(Flecs.ecs_get_id(world, entity, @components[0])).to_a
+        add_component(entity, position)
+        add_component(entity, rotation)
+        add_component(entity, scale)
+
+        # Flecs.ecs_set_id(world, entity, component(:position), Vec3.size, position)
+        # Flecs.ecs_set_id(world, entity, component(:rotation), Quat.size, rotation)
+        # Flecs.ecs_set_id(world, entity, component(:scale), Vec3.size, scale)
       end
 
       def destroy(entity)
@@ -41,9 +50,8 @@ module BeltsEngine
       private
 
       def init_components
-        [Position, Rotation, Scale].each do |component|
+        BeltsSupport::Component.descendants.each do |component|
           name = component.name.underscore
-          pp name
 
           id = Flecs.ecs_component_init(
             world,

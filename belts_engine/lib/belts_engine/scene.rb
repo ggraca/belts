@@ -19,9 +19,28 @@ module BeltsEngine
     private
 
     def init_entities
+      pp @@prefabs.last[:position][:values].to_a
+      pp @@prefabs.last[:scale][:values].to_a
+
       @@prefabs.each do |prefab|
-        @game.ecs.instantiate(prefab[:class_name], prefab[:position], prefab[:rotation], prefab[:scale])
-        @game.entities.instantiate(prefab[:class_name], prefab[:position], prefab[:rotation], prefab[:scale])
+        position = prefab[:position] || Vec3.zero
+        rotation = prefab[:rotation] || Quat.identity
+        scale = prefab[:scale] || Vec3.one
+
+        @game.entities.instantiate(prefab[:class_name], position, rotation, scale)
+
+        @game.ecs.instantiate(
+          prefab[:class_name],
+          Position.new.tap do |dest|
+            dest.set!(position)
+          end,
+          Rotation.new.tap do |dest|
+            dest.set!(rotation)
+          end,
+          Scale.new.tap do |dest|
+            dest.set!(scale)
+          end
+        )
       end
     end
   end

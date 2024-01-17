@@ -1,5 +1,6 @@
 require "active_support/inflector"
 require "active_support/core_ext/module/delegation"
+require "active_support/core_ext/class/subclasses"
 require "flecs"
 require "glm"
 require "assimp"

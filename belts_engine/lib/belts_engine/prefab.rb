@@ -5,9 +5,9 @@ module BeltsEngine
     def self.inherited(subclass)
       super
       # TODO: Perhaps not needed
-      subclass.component(:position, Position.zero)
-      subclass.component(:rotation, Rotation.identity)
-      subclass.component(:scale, Scale.one)
+      subclass.component(:position, Vec3.zero)
+      subclass.component(:rotation, Quat.identity)
+      subclass.component(:scale, Vec3.one)
     end
   end
 end

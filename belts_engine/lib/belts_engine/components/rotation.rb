@@ -1,4 +1,6 @@
-class Rotation < Quat
+class Rotation < BeltsSupport::Component
+  include QuatBehaviour
+
   def rotate!(x, y, z)
     self.set!(self * Quat.from_euler(x, y, z))
   end
