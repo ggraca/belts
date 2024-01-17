@@ -81,6 +81,7 @@ module Flecs
   attach_function :ecs_has_id, [:ecs_world_tp, :ecs_entity_t, :ecs_id_t], :bool
   attach_function :ecs_get_id, [:ecs_world_tp, :ecs_entity_t, :ecs_id_t], :pointer
   attach_function :ecs_remove_id, [:ecs_world_tp, :ecs_entity_t, :ecs_id_t], :void
+  attach_function :ecs_field_w_size, [Iter.by_ref, :ecs_size_t, :int32], :pointer
 
   # Pair
   attach_function :ecs_make_pair, [:ecs_entity_t, :ecs_entity_t], :ecs_id_t

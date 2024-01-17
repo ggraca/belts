@@ -15,7 +15,7 @@ module BeltsBGFX
 
     def update
       update_camera_data
-      upload_object_data
+      upload_object_data_new
       BGFX.frame(false)
     end
 
@@ -43,6 +43,47 @@ module BeltsBGFX
 
         BGFX.set_transform(transform_matrix.as_glm, 1)
         render_model(render_data.model)
+      end
+    end
+
+    def upload_object_data_new
+      filter = Flecs.ecs_filter_init(
+        @game.ecs.world,
+        Flecs::FilterDesc.new.tap do |f|
+          f[:terms][0] = Flecs::Term.new.tap do |t|
+            t[:id] = @game.ecs.component(:position)
+          end
+          f[:terms][1] = Flecs::Term.new.tap do |t|
+            t[:id] = @game.ecs.component(:rotation)
+          end
+          f[:terms][2] = Flecs::Term.new.tap do |t|
+            t[:id] = @game.ecs.component(:scale)
+          end
+        end
+      )
+
+      it = Flecs.ecs_filter_iter(@game.ecs.world, filter)
+      while(Flecs.ecs_filter_next(it))
+        positions = Flecs.ecs_field_w_size(it, Position.size, 1)
+        rotations = Flecs.ecs_field_w_size(it, Rotation.size, 2)
+        scales = Flecs.ecs_field_w_size(it, Scale.size, 3)
+
+        it[:count].times.each do |i|
+          position = Position.new(positions[i * Position.size])
+          rotation = Rotation.new(rotations[i * Rotation.size])
+          scale = Scale.new(scales[i * Scale.size])
+
+          transform_matrix = TransformMatrix.new.tap do |dest|
+            dest.set!(
+              Mat4.translation(position) *
+              Mat4.rotation(rotation) *
+              Mat4.scale(scale)
+            )
+          end
+
+          BGFX.set_transform(transform_matrix.as_glm, 1)
+          render_model(RenderData.new(:bunny, Vec3.right).model)
+        end
       end
     end
 
