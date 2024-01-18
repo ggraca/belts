@@ -151,7 +151,7 @@ describe Flecs do
     )
 
     expect(iterated).to be false
-    Flecs.ecs_run(world, sys, 0.1, nil)
+    Flecs.ecs_run(world, sys, 0, nil)
     expect(iterated).to be true
   end
 

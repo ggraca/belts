@@ -1,10 +1,13 @@
 module BeltsEngine
   module Tools
     class Ecs
-      def initialize
+      def initialize(game)
         @worlds = []
         @components = {}
-        @systems = []
+        @systems = {}
+        @system_ids = {}
+        @system_callbacks = {}
+        @game = game
 
         @worlds << Flecs.ecs_init
         init_components
@@ -47,6 +50,23 @@ module BeltsEngine
         Flecs.ecs_delete(world, entity)
       end
 
+      def progress
+        # TODO: use Flecs.ecs_progress
+        @system_ids.values.each do |id|
+          Flecs.ecs_run(world, id, 0, nil)
+        end
+      end
+
+      def init_systems
+        #BeltsEngine::System.descendants.each do |sys|
+          register_system(BeltsBGFX::WindowSystem)
+          register_system(BeltsBGFX::RenderSystem)
+          register_system(FpsSystem)
+          register_system(CameraControllerSystem)
+          register_system(SpinnerSystem)
+        #end
+      end
+
       private
 
       def init_components
@@ -64,6 +84,19 @@ module BeltsEngine
 
           @components[name] = id
         end
+      end
+
+      def register_system(system_class)
+        name = system_class.name.underscore
+
+        @systems[name] = system_class.new(@game)
+        @system_callbacks[name] = @systems[name].method(:update)
+        @system_ids[name] = Flecs.ecs_system_init(
+          world,
+          Flecs::SystemDesc.new.tap do |system|
+            system[:callback] = @system_callbacks[name]
+          end
+        )
       end
     end
   end

@@ -9,7 +9,7 @@ module BeltsBGFX
       @input_manager = BeltsBGFX::InputManager.new(@game, @sdl_window)
     end
 
-    def update
+    def update(ctx = nil)
       @input_manager.update
       BGFX.set_view_rect(0, 0, 0, @window.width, @window.height)
       BGFX.reset(@window.width, @window.height, BGFX::RESET_VSYNC, BGFX::TextureFormat[:Unknown])

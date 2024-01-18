@@ -19,14 +19,6 @@ module BeltsBGFX
     BeltsAssets::Mesh.include BeltsBGFX::Assets::MeshMixin
   end
 
-  def self.init(game)
-    game.systems.register_system(BeltsBGFX::WindowSystem)
-    game.systems.register_system(BeltsBGFX::RenderSystem)
-
-    # TODO: remove loader logic: game.assets.meshes.register_loader(:bgfx, BeltsBGFX::Assets::MeshLoader)
-    game.register_tool(:bgfx_shaders, BeltsBGFX::Tools::ShaderManager.new)
-  end
-
   def self.root
     File.dirname __dir__
   end

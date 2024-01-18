@@ -8,7 +8,7 @@ module BeltsEngine
       register_tool(:time, Tools::Time.new)
       register_tool(:input, Tools::Input.new)
       register_tool(:window, Tools::Window.new)
-      register_tool(:ecs, Tools::Ecs.new)
+      register_tool(:ecs, Tools::Ecs.new(self))
       register_tool(:collections, Ecs::CollectionManager.new)
       register_tool(:entities, Ecs::EntityManager.new(self))
       register_tool(:scenes, Tools::SceneManager.new(self))
@@ -16,6 +16,8 @@ module BeltsEngine
     end
 
     def start
+      ecs.init_systems
+
       main_scene_class = config.main_scene.to_s.constantize
       raise "Main scene not specified" unless main_scene_class
 
@@ -24,6 +26,7 @@ module BeltsEngine
 
     def update
       time.update
+      ecs.progress
       systems.update
     end
 

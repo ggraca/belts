@@ -11,9 +11,14 @@ module BeltsBGFX
       @u_color = BGFX.create_uniform("u_color", BGFX::UniformType[:Vec4], 1)
       @u_surface = BGFX.create_uniform("u_surface", BGFX::UniformType[:Vec4], 1)
       # BGFX.set_debug(BGFX::DEBUG_WIREFRAME)
+
+      @game.register_tool(:bgfx_shaders, BeltsBGFX::Tools::ShaderManager.new)
+      @game.assets.meshes.each do |k, v|
+        v.bgfx.load
+      end
     end
 
-    def update
+    def update(ctx = nil)
       update_camera_data
       upload_object_data
       BGFX.frame(false)

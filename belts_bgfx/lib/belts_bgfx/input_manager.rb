@@ -21,7 +21,7 @@ module BeltsBGFX
       @window = window
     end
 
-    def update
+    def update(ctx = nil)
       @input_changes = {}
       @game.input.mouse.update_motion(0, 0)
       parse_events

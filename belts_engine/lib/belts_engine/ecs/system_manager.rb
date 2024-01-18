@@ -4,7 +4,7 @@ module BeltsEngine::Ecs
       @game = game
       @systems = []
 
-      register_app_systems
+      # register_app_systems
     end
 
     def update

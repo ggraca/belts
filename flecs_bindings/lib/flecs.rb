@@ -54,6 +54,10 @@ module Flecs
   typedef :pointer, :ecs_iter_next_action_t
   typedef :pointer, :ecs_iter_fini_action_t
 
+  [:EcsOnUpdate].each do |name|
+    attach_variable name, :ecs_entity_t
+  end
+
   [:EcsChildOf].each do |name|
     attach_variable name, :ecs_entity_t
   end
@@ -98,4 +102,5 @@ module Flecs
   # System
   attach_function :ecs_system_init, [:ecs_world_tp, SystemDesc.by_ref], :ecs_entity_t
   attach_function :ecs_run, [:ecs_world_tp, :ecs_entity_t, :float, :pointer], :ecs_entity_t
+  attach_function :ecs_progress, [:ecs_world_tp, :ecs_ftime_t], :bool
 end
