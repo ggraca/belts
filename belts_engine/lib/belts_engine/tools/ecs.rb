@@ -31,16 +31,16 @@ module BeltsEngine
         Flecs.ecs_set_id(world, entity, component(value.class.name.underscore), value.class.size, value)
       end
 
-      def instantiate(prefab, position, rotation, scale)
+      def instantiate(prefab_class, position, rotation, scale)
         entity = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new)
 
         add_component(entity, position)
         add_component(entity, rotation)
         add_component(entity, scale)
 
-        # Flecs.ecs_set_id(world, entity, component(:position), Vec3.size, position)
-        # Flecs.ecs_set_id(world, entity, component(:rotation), Quat.size, rotation)
-        # Flecs.ecs_set_id(world, entity, component(:scale), Vec3.size, scale)
+        prefab_class.to_s.constantize.components.each do |k, v|
+          add_component(entity, v)
+        end
       end
 
       def destroy(entity)

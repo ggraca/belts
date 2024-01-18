@@ -5,29 +5,6 @@ module BeltsEngine::Ecs
       @next_id = 0
     end
 
-    def instantiate(prefab_class, position, rotation, scale)
-      id = @next_id
-      self[id] = Entity.new(id)
-      @next_id += 1
-
-      components = prefab_class.to_s.constantize.components
-      components[:position] = Position.new.tap do |dest|
-        dest.set!(position)
-      end
-
-      components[:rotation] = Rotation.new.tap do |dest|
-        dest.set!(rotation)
-      end
-
-      components[:scale] = Scale.new.tap do |dest|
-        dest.set!(scale)
-      end
-
-      add_components(id, components)
-
-      id
-    end
-
     def add_components(id, components)
       entity = self[id]
       entity.merge!(**components)
