@@ -1,8 +1,9 @@
 module BeltsEngine::Ecs
   class Query
-    def initialize(with: [], without: [])
-      @with = with.sort
-      @without = without.sort
+    attr_reader :q
+
+    def initialize(q)
+      @q = q
     end
 
     def each_with_components

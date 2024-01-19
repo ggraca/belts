@@ -98,6 +98,9 @@ module Flecs
 
   # Query
   attach_function :ecs_query_init, [:ecs_world_tp, QueryDesc.by_ref], :ecs_query_tp
+  attach_function :ecs_query_iter, [:ecs_world_tp, :ecs_query_tp], Iter.by_value
+  attach_function :ecs_query_fini, [:ecs_query_tp], :void
+  attach_function :ecs_query_next, [Iter.by_ref], :bool
 
   # System
   attach_function :ecs_system_init, [:ecs_world_tp, SystemDesc.by_ref], :ecs_entity_t

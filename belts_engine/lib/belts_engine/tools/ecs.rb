@@ -31,6 +31,10 @@ module BeltsEngine
         id
       end
 
+      def query(filters)
+        @queries[filters]
+      end
+
       def add_component(entity, value)
         Flecs.ecs_set_id(world, entity, component(value.class.name.underscore), value.class.size, value)
       end
@@ -111,7 +115,18 @@ module BeltsEngine
         )
 
         system_class.queries.each do |query_name, filters|
-          @queries[filters] = BeltsEngine::Ecs::Query.new(**filters)
+          query = Flecs.ecs_query_init(
+            world,
+            Flecs::QueryDesc.new.tap do |q|
+              filters[:with].each_with_index do |component_name, i|
+                q[:filter][:terms][i] = Flecs::Term.new.tap do |t|
+                  t[:id] = component(component_name)
+                end
+              end
+            end
+          )
+
+          @queries[filters] = BeltsEngine::Ecs::Query.new(query)
         end
       end
     end

@@ -27,23 +27,8 @@ module BeltsBGFX
     private
 
     def update_camera_data
-      filter = Flecs.ecs_filter_init(
-        @game.ecs.world,
-        Flecs::FilterDesc.new.tap do |f|
-          f[:terms][0] = Flecs::Term.new.tap do |t|
-            t[:id] = @game.ecs.component(:position)
-          end
-          f[:terms][1] = Flecs::Term.new.tap do |t|
-            t[:id] = @game.ecs.component(:rotation)
-          end
-          f[:terms][2] = Flecs::Term.new.tap do |t|
-            t[:id] = @game.ecs.component(:camera)
-          end
-        end
-      )
-
-      it = Flecs.ecs_filter_iter(@game.ecs.world, filter)
-      while(Flecs.ecs_filter_next(it))
+      it = Flecs.ecs_query_iter(@game.ecs.world, cameras.q)
+      while(Flecs.ecs_query_next(it))
         positions = Flecs.ecs_field_w_size(it, Position.size, 1)
         rotations = Flecs.ecs_field_w_size(it, Rotation.size, 2)
 
@@ -61,26 +46,8 @@ module BeltsBGFX
     end
 
     def upload_object_data
-      filter = Flecs.ecs_filter_init(
-        @game.ecs.world,
-        Flecs::FilterDesc.new.tap do |f|
-          f[:terms][0] = Flecs::Term.new.tap do |t|
-            t[:id] = @game.ecs.component(:position)
-          end
-          f[:terms][1] = Flecs::Term.new.tap do |t|
-            t[:id] = @game.ecs.component(:rotation)
-          end
-          f[:terms][2] = Flecs::Term.new.tap do |t|
-            t[:id] = @game.ecs.component(:scale)
-          end
-          f[:terms][3] = Flecs::Term.new.tap do |t|
-            t[:id] = @game.ecs.component(:render_data)
-          end
-        end
-      )
-
-      it = Flecs.ecs_filter_iter(@game.ecs.world, filter)
-      while(Flecs.ecs_filter_next(it))
+      it = Flecs.ecs_query_iter(@game.ecs.world, objects.q)
+      while(Flecs.ecs_query_next(it))
         positions = Flecs.ecs_field_w_size(it, Position.size, 1)
         rotations = Flecs.ecs_field_w_size(it, Rotation.size, 2)
         scales = Flecs.ecs_field_w_size(it, Scale.size, 3)

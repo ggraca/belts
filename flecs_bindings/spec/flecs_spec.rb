@@ -135,7 +135,41 @@ describe Flecs do
     Flecs.ecs_filter_fini(filter)
   end
 
-  specify 'query'
+  specify 'query' do
+    entity1 = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new).tap do |entity|
+      Flecs.ecs_add_id(world, entity, position)
+    end
+
+    entity2 = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new).tap do |entity|
+      Flecs.ecs_add_id(world, entity, position)
+    end
+
+    entity3 = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new)
+
+    query = Flecs.ecs_query_init(
+      world,
+      Flecs::QueryDesc.new.tap do |q|
+        q[:filter][:terms][0] = Flecs::Term.new.tap do |t|
+          t[:id] = position
+        end
+      end
+    )
+
+    iterated = false
+    it = Flecs.ecs_query_iter(world, query)
+    while(Flecs.ecs_query_next(it))
+      iterated = true
+
+      entity_ids = it[:count].times.map do |i|
+        it[:entities][i * 8].read_int
+      end
+    end
+
+    expect(iterated).to be true
+    expect(entity_ids).to eq([entity1, entity2])
+
+    Flecs.ecs_query_fini(query)
+  end
 
   specify 'system' do
     iterated = false
