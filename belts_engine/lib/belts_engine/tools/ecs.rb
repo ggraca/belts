@@ -7,6 +7,7 @@ module BeltsEngine
         @systems = {}
         @system_ids = {}
         @system_callbacks = {}
+        @queries = {}
         @game = game
 
         @worlds << Flecs.ecs_init
@@ -50,6 +51,13 @@ module BeltsEngine
         Flecs.ecs_delete(world, entity)
       end
 
+      def start_systems
+        # TODO: use Flecs.ecs_progress
+        @systems.values.each do |sys|
+          sys.start
+        end
+      end
+
       def progress
         # TODO: use Flecs.ecs_progress
         @system_ids.values.each do |id|
@@ -58,13 +66,17 @@ module BeltsEngine
       end
 
       def init_systems
-        #BeltsEngine::System.descendants.each do |sys|
-          register_system(BeltsBGFX::WindowSystem)
-          register_system(BeltsBGFX::RenderSystem)
-          register_system(FpsSystem)
-          register_system(CameraControllerSystem)
-          register_system(SpinnerSystem)
-        #end
+        register_system(BeltsBGFX::WindowSystem)
+        register_system(BeltsBGFX::RenderSystem)
+        register_system(FpsSystem)
+        register_system(CameraControllerSystem)
+        register_system(SpinnerSystem)
+
+        # BeltsEngine::System.descendants.each do |sys|
+        #   register_system(sys)
+        # end
+
+        pp @queries
       end
 
       private
@@ -97,6 +109,10 @@ module BeltsEngine
             system[:callback] = @system_callbacks[name]
           end
         )
+
+        system_class.queries.each do |query_name, filters|
+          @queries[filters] = BeltsEngine::Ecs::Query.new(**filters)
+        end
       end
     end
   end

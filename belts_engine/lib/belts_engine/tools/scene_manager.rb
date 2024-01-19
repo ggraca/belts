@@ -8,7 +8,8 @@ module BeltsEngine::Tools
     end
 
     def unload_scene
-      @game.entities.destroy_all
+      # TODO: Use ecs for this
+      # @game.entities.destroy_all
     end
 
     def load_scene(scene_class)

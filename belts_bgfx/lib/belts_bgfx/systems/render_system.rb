@@ -1,10 +1,10 @@
 module BeltsBGFX
   class RenderSystem < BeltsEngine::System
-    collection :cameras,
+    query :cameras,
       with: [:position, :rotation, :camera]
 
-    # collection :objects,
-      # with: [:position, :rotation, :scale, :render_data]
+    query :objects,
+      with: [:position, :rotation, :scale, :render_data]
 
     def start
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)

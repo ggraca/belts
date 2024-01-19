@@ -1,16 +1,14 @@
 module BeltsEngine
   class System
-    include System::CollectionMixin
+    include System::QueryMixin
 
     def initialize(game)
       @game = game
       register_tool_shortcuts
-
-      start
     end
 
-    def start
-    end
+    def start; end
+    def update; end
 
     private
 
