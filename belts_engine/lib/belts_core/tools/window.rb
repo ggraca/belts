@@ -1,4 +1,4 @@
-module BeltsEngine
+module BeltsCore
   module Tools
     class Window
       attr_reader :ratio, :width, :height, :title

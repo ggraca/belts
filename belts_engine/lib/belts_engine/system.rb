@@ -7,7 +7,10 @@ module BeltsEngine
       register_tool_shortcuts
     end
 
+    # Runs once before the first update
     def start; end
+
+    # Runs once per frame
     def update; end
 
     private

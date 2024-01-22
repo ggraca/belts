@@ -1,4 +1,4 @@
-module BeltsBGFX
+module BeltsBGFX::Systems
   class RenderSystem < BeltsEngine::System
     query :cameras,
       with: [:position, :rotation, :camera]

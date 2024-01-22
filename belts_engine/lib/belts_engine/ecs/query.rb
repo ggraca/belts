@@ -1,9 +1,13 @@
 module BeltsEngine::Ecs
   class Query
-    attr_reader :q
+    attr_reader :flecs_query
 
-    def initialize(q)
-      @q = q
+    def initialize(flecs_query)
+      @flecs_query = flecs_query
+    end
+
+    def q
+      flecs_query
     end
 
     def each_with_components

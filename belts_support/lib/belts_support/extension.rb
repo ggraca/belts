@@ -1,16 +1,11 @@
 module BeltsSupport
   module Extension
-
-    # Handle application installation (loading libraries, registering tools, etc.)
+    # Handle application installation (loading libraries, mixins, etc.)
     def install
     end
 
-    # Handle application initialization (loading assets into memory, etc.)
+    # Handle game initialization (registering tools, loading assets, etc.)
     def init(game)
-    end
-
-    # TODO: deprecate
-    def late_init(game)
     end
   end
 end

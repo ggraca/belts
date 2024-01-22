@@ -5,8 +5,12 @@ module BeltsEngine
   class Application
     include BeltsSupport::Configuration
 
+    # NOTE: Order matters. Plugins will be installed and initiallized in the
+    # order they are listed.
     config.plugins = [
-      ::BeltsAssets
+      ::BeltsCore,
+      ::BeltsAssets,
+      ::BeltsBGFX
     ]
 
     def initialize
@@ -22,17 +26,13 @@ module BeltsEngine
         plugin_class.init(@game)
       end
 
-      config.plugins.each do |plugin_class|
-        plugin_class.late_init(@game)
-      end
-
       @game.start
 
       while @game.running?
         @game.update
       end
 
-      @game.start
+      @game.quit
     end
   end
 end

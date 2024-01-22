@@ -1,4 +1,4 @@
-module BeltsEngine
+module BeltsCore
   module Tools
     class Input
       class KeyState

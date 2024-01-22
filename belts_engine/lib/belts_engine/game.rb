@@ -6,8 +6,6 @@ module BeltsEngine
     def initialize
       @running = true
       register_tool(:time, Tools::Time.new)
-      register_tool(:input, Tools::Input.new)
-      register_tool(:window, Tools::Window.new)
       register_tool(:ecs, Tools::Ecs.new(self))
       register_tool(:scenes, Tools::SceneManager.new(self))
     end

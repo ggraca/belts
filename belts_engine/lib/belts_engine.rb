@@ -21,6 +21,7 @@ require_relative "./belts_engine/components/scale"
 require_relative "./belts_engine/components/transform_matrix"
 
 loader = Zeitwerk::Loader.for_gem
+loader.inflector.inflect "belts_bgfx" => "BeltsBGFX"
 loader.setup
 
 module BeltsEngine

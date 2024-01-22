@@ -1,4 +1,4 @@
-module BeltsBGFX
+module BeltsBGFX::Systems
   class WindowSystem < BeltsEngine::System
     def start
       SDL.Init(SDL::INIT_EVERYTHING)
