@@ -70,8 +70,8 @@ module BeltsEngine
       end
 
       def init_systems
-        register_system(BeltsBGFX::Systems::WindowSystem)
-        register_system(BeltsBGFX::Systems::RenderSystem)
+        # register_system(BeltsBGFX::Systems::WindowSystem)
+        # register_system(BeltsBGFX::Systems::RenderSystem)
         register_system(FpsSystem)
         register_system(CameraControllerSystem)
         register_system(SpinnerSystem)
