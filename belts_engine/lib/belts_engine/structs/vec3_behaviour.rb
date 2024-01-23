@@ -12,7 +12,7 @@ module Vec3Behaviour
 
   def -@
     self.class.new.tap do |dest|
-      GLM.glmc_vec3_negate_to(as_glm, dest.as_glm)
+      GLM.glmc_vec3_negate_to(self, dest)
     end
   end
 
@@ -26,33 +26,29 @@ module Vec3Behaviour
     scalar_mul(other)
   end
 
-  def as_glm
-    GLM::Vec3.new(pointer)
-  end
-
   private
 
   def scalar_sum(scalar)
     self.class.new.tap do |dest|
-      GLM.glmc_vec3_adds(as_glm, scalar, dest.as_glm)
+      GLM.glmc_vec3_adds(self, scalar, dest)
     end
   end
 
   def vector_sum(vec3)
     self.class.new.tap do |dest|
-      GLM.glmc_vec3_add(as_glm, vec3.as_glm, dest.as_glm)
+      GLM.glmc_vec3_add(self, vec3, dest)
     end
   end
 
   def scalar_mul(scalar)
     self.class.new.tap do |dest|
-      GLM.glmc_vec3_scale(as_glm, scalar, dest.as_glm)
+      GLM.glmc_vec3_scale(self, scalar, dest)
     end
   end
 
   def vector_mul(vec3)
     self.class.new.tap do |dest|
-      GLM.glmc_vec3_mul(as_glm, vec3.as_glm, dest.as_glm)
+      GLM.glmc_vec3_mul(self, vec3, dest)
     end
   end
 end

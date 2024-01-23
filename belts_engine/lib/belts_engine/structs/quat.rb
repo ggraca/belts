@@ -4,13 +4,13 @@ class Quat < BeltsSupport::Struct
   class << self
     def identity
       @_identity ||= new.tap do |dest|
-        GLM.glmc_quat_identity(dest.as_glm)
+        GLM.glmc_quat_identity(dest)
       end.freeze
     end
 
     def from_axis_angle(axis, angle)
       dest = new
-      GLM.glmc_quatv(dest.as_glm, angle, axis.as_glm)
+      GLM.glmc_quatv(dest, angle, axis)
       dest
     end
 

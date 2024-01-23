@@ -20,33 +20,29 @@ module Vec2Behaviour
     scalar_mul(other)
   end
 
-  def as_glm
-    GLM::Vec2.new(pointer)
-  end
-
   private
 
   def scalar_sum(scalar)
     self.class.new.tap do |dest|
-      GLM.glmc_vec2_adds(as_glm, scalar, dest.as_glm)
+      GLM.glmc_vec2_adds(self, scalar, dest)
     end
   end
 
   def vector_sum(vec2)
     self.class.new.tap do |dest|
-      GLM.glmc_vec2_add(as_glm, vec2.as_glm, dest.as_glm)
+      GLM.glmc_vec2_add(self, vec2, dest)
     end
   end
 
   def scalar_mul(scalar)
     self.class.new.tap do |dest|
-      GLM.glmc_vec2_scale(as_glm, scalar, dest.as_glm)
+      GLM.glmc_vec2_scale(self, scalar, dest)
     end
   end
 
   def vector_mul(vec2)
     self.class.new.tap do |dest|
-      GLM.glmc_vec2_mul(as_glm, vec2.as_glm, dest.as_glm)
+      GLM.glmc_vec2_mul(self, vec2, dest)
     end
   end
 end

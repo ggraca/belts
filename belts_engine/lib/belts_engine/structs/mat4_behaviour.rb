@@ -7,23 +7,19 @@ module Mat4Behaviour
 
   def *(other)
     Mat4.identity.tap do |dest|
-      GLM.glmc_mat4_mul(as_glm, other.as_glm, dest.as_glm)
+      GLM.glmc_mat4_mul(self, other, dest)
     end
   end
 
   def transpose
     Mat4.identity.tap do |dest|
-      GLM.glmc_mat4_transpose_to(as_glm, dest.as_glm)
+      GLM.glmc_mat4_transpose_to(self, dest)
     end
   end
 
   def inverse
     Mat4.identity.tap do |dest|
-      GLM.glmc_mat4_inv(as_glm, dest.as_glm)
+      GLM.glmc_mat4_inv(self, dest)
     end
-  end
-
-  def as_glm
-    GLM::Mat4.new(pointer)
   end
 end

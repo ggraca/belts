@@ -9,8 +9,4 @@ module Vec4Behaviour
       end
     end
   end
-
-  def as_glm
-    GLM::Vec4.new(pointer)
-  end
 end

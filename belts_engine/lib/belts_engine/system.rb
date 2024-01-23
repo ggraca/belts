@@ -20,5 +20,16 @@ module BeltsEngine
         instance_variable_set("@#{key}", value)
       end
     end
+
+    def debug(db = true)
+      return yield unless db
+      RubyProf.start
+
+      yield
+      result = RubyProf.stop
+      printer = RubyProf::FlatPrinter.new(result)
+      printer.print(STDOUT)
+      exit
+    end
   end
 end

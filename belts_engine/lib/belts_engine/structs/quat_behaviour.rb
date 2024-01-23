@@ -12,7 +12,7 @@ module QuatBehaviour
 
   def -@
     Quat.new.tap do |dest|
-      GLM.glmc_quat_inv(as_glm, dest.as_glm)
+      GLM.glmc_quat_inv(self, dest)
     end
   end
 
@@ -23,21 +23,21 @@ module QuatBehaviour
     raise ArgumentError, "Can't multiply #{self.class} with #{other.class}"
   end
 
-  def as_glm
-    GLM::Quat.new(pointer)
-  end
-
   private
 
   def quat_mul(other)
     dest = Quat.new
-    GLM.glmc_quat_mul(as_glm, other.as_glm, dest.as_glm)
+    GLM.glmc_quat_mul(self, other, dest)
     dest
+  end
+
+  def quat_mul!(other)
+    GLM.glmc_quat_mul(self, other, self)
   end
 
   def vec3_mul(other)
     dest = Vec3.new
-    GLM.glmc_quat_rotatev(as_glm, other.as_glm, dest.as_glm)
+    GLM.glmc_quat_rotatev(self, other, dest)
     dest
   end
 end

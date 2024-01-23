@@ -39,7 +39,7 @@ module BeltsBGFX::Systems
           view_matrix = Mat4.look_at(position, position + rotation.forward, Vec3.up)
           proj_matrix = Mat4.perspective(Math::PI / 4, @window.ratio, 0.1, 100)
 
-          BGFX.set_view_transform(0, view_matrix.as_glm, proj_matrix.as_glm)
+          BGFX.set_view_transform(0, view_matrix, proj_matrix)
           BGFX.touch(0)
         end
       end
@@ -57,15 +57,11 @@ module BeltsBGFX::Systems
           rotation = Rotation.new(rotations[i * Rotation.size])
           scale = Scale.new(scales[i * Scale.size])
 
-          transform_matrix = TransformMatrix.new.tap do |dest|
-            dest.set!(
-              Mat4.translation(position) *
-              Mat4.rotation(rotation) *
-              Mat4.scale(scale)
-            )
-          end
+          transform_matrix = Mat4.translation(position) *
+            Mat4.rotation(rotation) *
+            Mat4.scale(scale)
 
-          BGFX.set_transform(transform_matrix.as_glm, 1)
+          BGFX.set_transform(transform_matrix, 1)
           render_model(RenderData[:bunny].model)
         end
       end
@@ -91,8 +87,8 @@ module BeltsBGFX::Systems
       mesh = @assets.meshes[mesh_name]
       material = @assets.materials[mesh.material_id]
 
-      BGFX.set_uniform(@u_color, material.color.as_glm, 1)
-      BGFX.set_uniform(@u_surface, material.surface.as_glm, 1)
+      BGFX.set_uniform(@u_color, material.color, 1)
+      BGFX.set_uniform(@u_surface, material.surface, 1)
       BGFX.set_vertex_buffer(0, mesh.bgfx.vbo, 0, mesh.bgfx.total_vertices)
       BGFX.set_index_buffer(mesh.bgfx.ebo, 0, mesh.bgfx.total_elements)
       BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CCW, 1)
