@@ -30,14 +30,14 @@ module QuatBehaviour
   private
 
   def quat_mul(other)
-    Quat.new.tap do |dest|
-      GLM.glmc_quat_mul(as_glm, other.as_glm, dest.as_glm)
-    end
+    dest = Quat.new
+    GLM.glmc_quat_mul(as_glm, other.as_glm, dest.as_glm)
+    dest
   end
 
   def vec3_mul(other)
-    Vec3.new.tap do |dest|
-      GLM.glmc_quat_rotatev(as_glm, other.as_glm, dest.as_glm)
-    end
+    dest = Vec3.new
+    GLM.glmc_quat_rotatev(as_glm, other.as_glm, dest.as_glm)
+    dest
   end
 end

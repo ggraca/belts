@@ -9,11 +9,11 @@ class Vec2 < BeltsSupport::Struct
       end
     end
 
-    def zero = self[0, 0]
-    def one = self[1, 1]
-    def up = self[0, 1]
-    def down = self[0, -1]
-    def left = self[-1, 0]
-    def right = self[1, 0]
+    def zero = @_zero ||= self[0, 0].freeze
+    def one = @_one ||= self[1, 1].freeze
+    def up = @_up ||= self[0, 1].freeze
+    def down = @_down ||= self[0, -1].freeze
+    def left = @_left ||= self[-1, 0].freeze
+    def right = @_right ||= self[1, 0].freeze
   end
 end

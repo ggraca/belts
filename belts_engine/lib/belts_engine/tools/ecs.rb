@@ -79,8 +79,6 @@ module BeltsEngine
         # BeltsEngine::System.descendants.each do |sys|
         #   register_system(sys)
         # end
-
-        pp @queries
       end
 
       private

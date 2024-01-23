@@ -11,7 +11,7 @@ class Vec4 < BeltsSupport::Struct
       end
     end
 
-    def zero = self[0, 0, 0, 0]
-    def one = self[1, 1, 1, 1]
+    def zero = @_zero ||= self[0, 0, 0, 0].freeze
+    def one = @_one ||= self[1, 1, 1, 1].freeze
   end
 end

@@ -3,20 +3,20 @@ class Vec3 < BeltsSupport::Struct
 
   class << self
     def [](x = 0, y = 0, z = 0)
-      new.tap do |dest|
-        dest[:values][0] = x
-        dest[:values][1] = y
-        dest[:values][2] = z
-      end
+      dest = new
+      dest[:values][0] = x
+      dest[:values][1] = y
+      dest[:values][2] = z
+      dest
     end
 
-    def zero = self[0, 0, 0]
-    def one = self[1, 1, 1]
-    def up = self[0, 1, 0]
-    def down = self[0, -1, 0]
-    def left = self[-1, 0, 0]
-    def right = self[1, 0, 0]
-    def forward = self[0, 0, 1]
-    def back = self[0, 0, -1]
+    def zero = @_zero ||= self[0, 0, 0].freeze
+    def one = @_one ||= self[1, 1, 1].freeze
+    def up = @_up ||= self[0, 1, 0].freeze
+    def down = @_down ||= self[0, -1, 0].freeze
+    def left = @_left ||= self[-1, 0, 0].freeze
+    def right = @_right ||= self[1, 0, 0].freeze
+    def forward = @_forward ||= self[0, 0, 1].freeze
+    def back = @_back ||= self[0, 0, -1].freeze
   end
 end

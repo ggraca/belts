@@ -31,13 +31,16 @@ module GLM
   attach_function :glmc_quat_mul, [GLM::Quat.by_ref, GLM::Quat.by_ref, GLM::Quat.by_ref], :void
   attach_function :glmc_quat_rotatev, [GLM::Quat.by_ref, GLM::Vec3.by_ref, GLM::Vec3.by_ref], :void
 
+  attach_function :glmc_mat4_identity, [GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_mul, [GLM::Mat4.by_ref, GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_transpose_to, [GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_inv, [GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
 
   attach_function :glmc_translate, [GLM::Mat4.by_ref, GLM::Vec3.by_ref], :void
+  attach_function :glmc_translate_make, [GLM::Mat4.by_ref, GLM::Vec3.by_ref], :void
   attach_function :glmc_translate_to, [GLM::Mat4.by_ref, GLM::Vec3.by_ref, GLM::Mat4.by_ref], :void
   attach_function :glmc_scale, [GLM::Mat4.by_ref, GLM::Vec3.by_ref], :void
+  attach_function :glmc_scale_make, [GLM::Mat4.by_ref, GLM::Vec3.by_ref], :void
   attach_function :glmc_rotate_x, [GLM::Mat4.by_ref, :float, GLM::Mat4.by_ref], :void
   attach_function :glmc_rotate_y, [GLM::Mat4.by_ref, :float, GLM::Mat4.by_ref], :void
   attach_function :glmc_rotate_z, [GLM::Mat4.by_ref, :float, GLM::Mat4.by_ref], :void
