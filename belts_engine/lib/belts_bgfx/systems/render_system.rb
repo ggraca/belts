@@ -29,43 +29,23 @@ module BeltsBGFX::Systems
     private
 
     def update_camera_data
-      it = Flecs.ecs_query_iter(@game.ecs.world, cameras.q)
-      while(Flecs.ecs_query_next(it))
-        positions = Flecs.ecs_field_w_size(it, Position.size, 1)
-        rotations = Flecs.ecs_field_w_size(it, Rotation.size, 2)
+      cameras.each_with_components do |position:, rotation:, **|
+        view_matrix = Mat4.look_at(position, position + rotation.forward, Vec3.up)
+        proj_matrix = Mat4.perspective(Math::PI / 4, @window.ratio, 0.1, 100)
 
-        it[:count].times.each do |i|
-          position = Position.new(positions[i * Position.size])
-          rotation = Rotation.new(rotations[i * Rotation.size])
-
-          view_matrix = Mat4.look_at(position, position + rotation.forward, Vec3.up)
-          proj_matrix = Mat4.perspective(Math::PI / 4, @window.ratio, 0.1, 100)
-
-          BGFX.set_view_transform(0, view_matrix, proj_matrix)
-          BGFX.touch(0)
-        end
+        BGFX.set_view_transform(0, view_matrix, proj_matrix)
+        BGFX.touch(0)
       end
     end
 
     def upload_object_data
-      it = Flecs.ecs_query_iter(@game.ecs.world, objects.q)
-      while(Flecs.ecs_query_next(it))
-        positions = Flecs.ecs_field_w_size(it, Position.size, 1)
-        rotations = Flecs.ecs_field_w_size(it, Rotation.size, 2)
-        scales = Flecs.ecs_field_w_size(it, Scale.size, 3)
+      objects.each_with_components do |position:, rotation:, scale:, **|
+        transform_matrix = Mat4.translation(position) *
+          Mat4.rotation(rotation) *
+          Mat4.scale(scale)
 
-        it[:count].times.each do |i|
-          position = Position.new(positions[i * Position.size])
-          rotation = Rotation.new(rotations[i * Rotation.size])
-          scale = Scale.new(scales[i * Scale.size])
-
-          transform_matrix = Mat4.translation(position) *
-            Mat4.rotation(rotation) *
-            Mat4.scale(scale)
-
-          BGFX.set_transform(transform_matrix, 1)
-          render_model(RenderData[:bunny].model)
-        end
+        BGFX.set_transform(transform_matrix, 1)
+        render_model(RenderData[:bunny].model)
       end
     end
 

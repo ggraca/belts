@@ -138,7 +138,7 @@ module BeltsEngine
             end
           )
 
-          @queries[filters] = BeltsEngine::Ecs::Query.new(query)
+          @queries[filters] = BeltsEngine::Ecs::Query.new(query, world, filters)
         end
       end
     end
