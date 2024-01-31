@@ -189,7 +189,31 @@ describe Flecs do
     expect(iterated).to be true
   end
 
-  specify 'pipeline'
+  specify 'pipeline' do
+    iterated = false
+    callback = Proc.new do |ctx|
+      iterated = true
+    end
+
+    sys = Flecs.ecs_system_init(
+      world,
+      Flecs::SystemDesc.new.tap do |system|
+        system[:entity] = Flecs.ecs_entity_init(
+          world,
+          Flecs::EntityDesc.new.tap do |entity|
+            entity[:add][0] = Flecs.ecs_make_pair(Flecs.EcsDependsOn, Flecs.EcsOnUpdate)
+            entity[:add][1] = Flecs.EcsOnUpdate
+          end
+        )
+        system[:callback] = callback
+      end
+    )
+
+    expect(iterated).to be false
+    Flecs.ecs_progress(world, 0)
+    expect(iterated).to be true
+  end
+
   specify 'observer'
   specify 'module'
 end

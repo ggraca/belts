@@ -12,7 +12,6 @@ module BeltsEngine
 
     def start
       ecs.init_systems
-      ecs.start_systems
 
       main_scene_class = config.main_scene.to_s.constantize
       raise "Main scene not specified" unless main_scene_class

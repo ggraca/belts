@@ -1,9 +1,11 @@
 module BeltsEngine
   class System
     include System::QueryMixin
+    include System::PhaseMixin
 
     def initialize(game)
       @game = game
+      @started = false
       register_tool_shortcuts
     end
 
@@ -12,6 +14,13 @@ module BeltsEngine
 
     # Runs once per frame
     def update; end
+
+    def progress(ctx = nil)
+      return update(ctx) if @started
+
+      start
+      @started = true
+    end
 
     private
 

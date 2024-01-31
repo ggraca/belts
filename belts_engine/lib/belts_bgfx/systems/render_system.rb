@@ -1,5 +1,7 @@
 module BeltsBGFX::Systems
   class RenderSystem < BeltsEngine::System
+    phase :pre_update
+
     query :cameras,
       with: [:position, :rotation, :camera]
 
@@ -7,6 +9,7 @@ module BeltsBGFX::Systems
       with: [:position, :rotation, :scale, :render_data]
 
     def start
+      pp :render
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
       @u_color = BGFX.create_uniform("u_color", BGFX::UniformType[:Vec4], 1)
       @u_surface = BGFX.create_uniform("u_surface", BGFX::UniformType[:Vec4], 1)

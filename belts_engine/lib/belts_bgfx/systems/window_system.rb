@@ -1,6 +1,9 @@
 module BeltsBGFX::Systems
   class WindowSystem < BeltsEngine::System
+    phase :on_load
+
     def start
+      pp :window
       SDL.Init(SDL::INIT_EVERYTHING)
       @sdl_window = SDL.CreateWindow("bgfx", 0, 0, @window.width, @window.height, SDL::WINDOW_RESIZABLE)
       SDL.SetRelativeMouseMode(SDL::TRUE)

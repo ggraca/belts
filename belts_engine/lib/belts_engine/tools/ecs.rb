@@ -4,6 +4,7 @@ module BeltsEngine
       def initialize(game)
         @worlds = []
         @components = {}
+        @phases = {}
         @systems = {}
         @system_ids = {}
         @system_callbacks = {}
@@ -12,6 +13,7 @@ module BeltsEngine
 
         @worlds << Flecs.ecs_init
         init_components
+        init_phases
       end
 
       def finalize
@@ -55,30 +57,14 @@ module BeltsEngine
         Flecs.ecs_delete(world, entity)
       end
 
-      def start_systems
-        # TODO: use Flecs.ecs_progress
-        @systems.values.each do |sys|
-          sys.start
-        end
-      end
-
       def progress
-        # TODO: use Flecs.ecs_progress
-        @system_ids.values.each do |id|
-          Flecs.ecs_run(world, id, 0, nil)
-        end
+        Flecs.ecs_progress(world, 0)
       end
 
       def init_systems
-        register_system(BeltsBGFX::Systems::WindowSystem)
-        register_system(BeltsBGFX::Systems::RenderSystem)
-        register_system(FpsSystem)
-        register_system(CameraControllerSystem)
-        register_system(SpinnerSystem)
-
-        # BeltsEngine::System.descendants.each do |sys|
-        #   register_system(sys)
-        # end
+        BeltsEngine::System.descendants.each do |sys|
+          register_system(sys)
+        end
       end
 
       private
@@ -100,14 +86,40 @@ module BeltsEngine
         end
       end
 
+      def init_phases
+        # NOTE: Suggested use cases for each default phase here:
+        # https://www.flecs.dev/flecs/md_docs_2DesignWithFlecs.html#phases-and-pipelines
+
+        @phases.merge!(
+          on_load: Flecs.EcsOnLoad,
+          post_load: Flecs.EcsPostLoad,
+          pre_update: Flecs.EcsPreUpdate,
+          on_update: Flecs.EcsOnUpdate,
+          on_validate: Flecs.EcsOnValidate,
+          post_update: Flecs.EcsPostUpdate,
+          pre_store: Flecs.EcsPreStore,
+          on_store: Flecs.EcsOnStore,
+        )
+      end
+
       def register_system(system_class)
         name = system_class.name.underscore
 
+        phase = system_class.pipeline_phase || :on_update
+        raise "Phase #{phase} not found" unless @phases[phase]
+
         @systems[name] = system_class.new(@game)
-        @system_callbacks[name] = @systems[name].method(:update)
+        @system_callbacks[name] = @systems[name].method(:progress)
         @system_ids[name] = Flecs.ecs_system_init(
           world,
           Flecs::SystemDesc.new.tap do |system|
+            system[:entity] = Flecs.ecs_entity_init(
+              world,
+              Flecs::EntityDesc.new.tap do |entity|
+                entity[:add][0] = Flecs.ecs_make_pair(Flecs.EcsDependsOn, @phases[phase])
+                entity[:add][1] = @phases[phase]
+              end
+            )
             system[:callback] = @system_callbacks[name]
           end
         )

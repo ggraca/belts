@@ -22,10 +22,15 @@ require_relative "./belts_engine/components/transform_matrix"
 
 loader = Zeitwerk::Loader.for_gem
 loader.inflector.inflect "belts_bgfx" => "BeltsBGFX"
+# loader.collapse("#{__dir__}/belts_engine/structs")
+# loader.collapse("#{__dir__}/belts_engine/components")
 loader.setup
 
 module BeltsEngine
 end
+
+# NOTE: Preloads systems because these are found via BeltsEngine::System.descendants
+loader.preload("#{__dir__}/belts_bgfx/systems")
 
 # NOTE: Monkey patch to allow any structs to be passed
 # TODO: Move to a monkey patch file
