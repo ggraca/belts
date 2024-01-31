@@ -16,7 +16,7 @@ module BeltsEngine
     def update; end
 
     def progress(ctx = nil)
-      return update(ctx) if @started
+      return update if @started
 
       start
       @started = true

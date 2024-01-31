@@ -3,7 +3,6 @@ module BeltsBGFX::Systems
     phase :on_load
 
     def start
-      pp :window
       SDL.Init(SDL::INIT_EVERYTHING)
       @sdl_window = SDL.CreateWindow("bgfx", 0, 0, @window.width, @window.height, SDL::WINDOW_RESIZABLE)
       SDL.SetRelativeMouseMode(SDL::TRUE)
@@ -12,7 +11,7 @@ module BeltsBGFX::Systems
       @input_manager = BeltsBGFX::InputManager.new(@game, @sdl_window)
     end
 
-    def update(ctx = nil)
+    def update
       @input_manager.update
       BGFX.set_view_rect(0, 0, 0, @window.width, @window.height)
       BGFX.reset(@window.width, @window.height, BGFX::RESET_VSYNC, BGFX::TextureFormat[:Unknown])

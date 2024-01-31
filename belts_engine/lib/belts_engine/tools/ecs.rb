@@ -7,6 +7,8 @@ module BeltsEngine
         @phases = {}
         @systems = {}
         @system_ids = {}
+
+        # NOTE: Stored in memory so it doesn't get garbage collected
         @system_callbacks = {}
         @queries = {}
         @game = game
