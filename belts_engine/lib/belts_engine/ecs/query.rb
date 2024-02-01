@@ -4,26 +4,42 @@ module BeltsEngine::Ecs
       @flecs_query = flecs_query
       @flecs_world = flecs_world
 
-      @fields = filters[:with].map.with_index do |filter, i|
-        klass = filter.to_s.camelize.constantize
+      @components = {}
+      filters[:with].each.with_index do |name, i|
+        klass = name.to_s.camelize.constantize
 
-        {name: filter, klass: klass, size: klass.size, index: i}
+        @components[name] = {
+          name: name,
+          klass: klass,
+          size: klass.size,
+          index: i + 1, # Component indexes start at 1
+        }
       end
     end
 
-    def each_with_components
+    def each_with_components(&block)
+      params = block.parameters.map(&:last)
+      entity_requested = params.include?(:entity)
+      components_requested = @components.slice(*params)
+
       it = Flecs.ecs_query_iter(@flecs_world, @flecs_query)
       while(Flecs.ecs_query_next(it))
-        pointers = @fields.map do |field_data|
-          Flecs.ecs_field_w_size(it, field_data[:size], field_data[:index] + 1)
+        components = components_requested.values.map do |component|
+          component.merge(pointer: Flecs.ecs_field_w_size(it, component[:size], component[:index]))
         end
 
         it[:count].times.each do |i|
-          object = @fields.each_with_object({}) do |field, obj|
-            obj[field[:name]] = field[:klass].new(pointers[field[:index]][i * field[:size]])
+          fields = {}
+
+          if entity_requested
+            fields[:entity] = it[:entities][i * 8].read_int
           end
 
-          yield(**object)
+          components.each do |component|
+            fields[component[:name]] = component[:klass].new(component[:pointer][i * component[:size]])
+          end
+
+          yield(**fields)
         end
       end
     end

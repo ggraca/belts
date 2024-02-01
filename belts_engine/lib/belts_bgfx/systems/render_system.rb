@@ -29,7 +29,7 @@ module BeltsBGFX::Systems
     private
 
     def update_camera_data
-      cameras.each_with_components do |position:, rotation:, **|
+      cameras.each_with_components do |position:, rotation:|
         view_matrix = Mat4.look_at(position, position + rotation.forward, Vec3.up)
         proj_matrix = Mat4.perspective(Math::PI / 4, @window.ratio, 0.1, 100)
 
@@ -39,7 +39,7 @@ module BeltsBGFX::Systems
     end
 
     def upload_object_data
-      objects.each_with_components do |position:, rotation:, scale:, render_data:, **|
+      objects.each_with_components do |position:, rotation:, scale:, render_data:|
         transform_matrix = Mat4.translation(position) *
           Mat4.rotation(rotation) *
           Mat4.scale(scale)

@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# TODO: Add macros to the API and use them here instead of the raw low level calls.
 describe Flecs do
   let(:world) { Flecs.ecs_init }
   let(:position) do
