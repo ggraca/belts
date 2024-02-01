@@ -6,9 +6,13 @@ class RenderData < BeltsSupport::Component
   class << self
     def [](model)
       new.tap do |rd|
-        rd[:model] = model.object_id
+        rd.model = model
       end
     end
+  end
+
+  def model=(model)
+    self[:model] = model.object_id
   end
 
   def model

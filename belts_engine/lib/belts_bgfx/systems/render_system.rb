@@ -39,13 +39,13 @@ module BeltsBGFX::Systems
     end
 
     def upload_object_data
-      objects.each_with_components do |position:, rotation:, scale:, **|
+      objects.each_with_components do |position:, rotation:, scale:, render_data:, **|
         transform_matrix = Mat4.translation(position) *
           Mat4.rotation(rotation) *
           Mat4.scale(scale)
 
         BGFX.set_transform(transform_matrix, 1)
-        render_model(RenderData[:bunny].model)
+        render_model(render_data.model)
       end
     end
 
