@@ -1,4 +1,4 @@
-module BeltsEngine::Tools
+module BeltsCore::Tools
   class SceneManager
     attr_reader :current_scene
 

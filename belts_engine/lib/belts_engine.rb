@@ -30,6 +30,7 @@ module BeltsEngine
 end
 
 # NOTE: Preloads systems because these are found via BeltsEngine::System.descendants
+loader.preload("#{__dir__}/belts_core/systems")
 loader.preload("#{__dir__}/belts_bgfx/systems")
 
 # NOTE: Monkey patch to allow any structs to be passed

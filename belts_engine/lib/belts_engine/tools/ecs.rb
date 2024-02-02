@@ -29,18 +29,16 @@ module BeltsEngine
         @worlds.first
       end
 
-      def component(name)
-        id = @components[name.to_s]
-        raise "Component #{name} not found" unless id
-        id
-      end
-
       def query(filters)
         @queries[filters]
       end
 
       def add_component(entity, value)
         Flecs.ecs_set_id(world, entity, component(value.class.name.underscore), value.class.size, value)
+      end
+
+      def remove_component(entity, name)
+        Flecs.ecs_remove_id(world, entity, component(name))
       end
 
       def instantiate(prefab_class, position, rotation, scale)
@@ -86,6 +84,12 @@ module BeltsEngine
 
           @components[name] = id
         end
+      end
+
+      def component(name)
+        id = @components[name.to_s]
+        raise "Component #{name} not found" unless id
+        id
       end
 
       def init_phases
