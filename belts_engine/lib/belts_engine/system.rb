@@ -20,6 +20,9 @@ module BeltsEngine
 
       start
       @started = true
+    rescue => e
+      # TODO: handle this in a useful way
+      pp e
     end
 
     private

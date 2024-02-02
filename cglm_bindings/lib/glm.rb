@@ -33,6 +33,7 @@ module GLM
 
   attach_function :glmc_mat4_identity, [GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_mul, [GLM::Mat4.by_ref, GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
+  attach_function :glmc_mat4_mulN, [:pointer, :int, GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_transpose_to, [GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
   attach_function :glmc_mat4_inv, [GLM::Mat4.by_ref, GLM::Mat4.by_ref], :void
 

@@ -47,6 +47,7 @@ module BeltsEngine
         add_component(entity, position)
         add_component(entity, rotation)
         add_component(entity, scale)
+        add_component(entity, Mat4.identity.as(TransformMatrix))
 
         prefab_class.to_s.constantize.components.each do |k, v|
           add_component(entity, v)

@@ -1,14 +1,6 @@
 module BeltsEngine
   class Scene
-    class << self
-      def prefabs
-        @prefabs ||= []
-      end
-
-      def prefab(class_name, **options)
-        prefabs << options.merge(class_name: class_name)
-      end
-    end
+    include PrefabsMixin
 
     def initialize(game)
       @game = game
@@ -25,15 +17,9 @@ module BeltsEngine
 
         @game.ecs.instantiate(
           prefab[:class_name],
-          Position.new.tap do |dest|
-            dest.set!(position)
-          end,
-          Rotation.new.tap do |dest|
-            dest.set!(rotation)
-          end,
-          Scale.new.tap do |dest|
-            dest.set!(scale)
-          end
+          position.as(Position),
+          rotation.as(Rotation),
+          scale.as(Scale)
         )
       end
     end

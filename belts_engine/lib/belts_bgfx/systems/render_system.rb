@@ -1,12 +1,12 @@
 module BeltsBGFX::Systems
   class RenderSystem < BeltsEngine::System
-    phase :pre_update
+    phase :on_store
 
     query :cameras,
       with: [:position, :rotation, :camera]
 
     query :objects,
-      with: [:position, :rotation, :scale, :render_data]
+      with: [:transform_matrix, :render_data]
 
     def start
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
@@ -39,11 +39,7 @@ module BeltsBGFX::Systems
     end
 
     def upload_object_data
-      objects.each_with_components do |position:, rotation:, scale:, render_data:|
-        transform_matrix = Mat4.translation(position) *
-          Mat4.rotation(rotation) *
-          Mat4.scale(scale)
-
+      objects.each_with_components do |transform_matrix:, render_data:|
         BGFX.set_transform(transform_matrix, 1)
         render_model(render_data.model)
       end
