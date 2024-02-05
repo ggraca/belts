@@ -1,4 +1,3 @@
-require "belts_engine"
 require "bgfx"
 require "sdl2"
 
