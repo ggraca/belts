@@ -1,5 +1,5 @@
 class TransformMatrix < BeltsSupport::Component
-  include Mat4Behaviour
+  include Mat4::Behaviour
 
   def set_transform!(position, rotation, scale)
     ptr = FFI::MemoryPointer.new(:pointer, 3)

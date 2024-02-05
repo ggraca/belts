@@ -1,3 +1,3 @@
 class Scale < BeltsSupport::Component
-  include Vec3Behaviour
+  include Vec3::Behaviour
 end

@@ -2,11 +2,6 @@ require "belts_support"
 require_relative "./patches"
 
 # TODO: Load with zeitwerk
-require_relative "./belts_engine/structs/vec2_behaviour"
-require_relative "./belts_engine/structs/vec3_behaviour"
-require_relative "./belts_engine/structs/vec4_behaviour"
-require_relative "./belts_engine/structs/quat_behaviour"
-require_relative "./belts_engine/structs/mat4_behaviour"
 require_relative "./belts_engine/structs/vec2"
 require_relative "./belts_engine/structs/vec3"
 require_relative "./belts_engine/structs/vec4"

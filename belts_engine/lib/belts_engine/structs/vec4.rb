@@ -1,5 +1,18 @@
 class Vec4 < BeltsSupport::Struct
-  include Vec4Behaviour
+  module Behaviour
+    class << self
+      def included(base)
+        base.layout(:values, [:float, 4])
+
+        [:x, :y, :z, :w].each_with_index do |key, index|
+          base.define_method(key) { self[:values][index] }
+          base.define_method("#{key}=") { |value| self[:values][index] = value }
+        end
+      end
+    end
+  end
+
+  include Behaviour
 
   class << self
     def [](x = 0, y = 0, z = 0, w = 0)

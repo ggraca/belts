@@ -1,5 +1,5 @@
 class Rotation < BeltsSupport::Component
-  include QuatBehaviour
+  include Quat::Behaviour
 
   def rotate!(quat)
     quat_mul!(quat)
