@@ -105,7 +105,7 @@ module BeltsEngine
           on_validate: Flecs.EcsOnValidate,
           post_update: Flecs.EcsPostUpdate,
           pre_store: Flecs.EcsPreStore,
-          on_store: Flecs.EcsOnStore,
+          on_store: Flecs.EcsOnStore
         )
       end
 

@@ -8,7 +8,7 @@ module Assimp
       mChildren: NodePointer.ptr,
       mNumMeshes: :uint,
       mMeshes: :pointer, # TODO
-      mMetaData: :pointer, # TODO: MetaData.ptr
+      mMetaData: :pointer # TODO: MetaData.ptr
     )
   end
 end

@@ -15,7 +15,7 @@ module Flecs
       entity: :ecs_entity_t,
       iterable: Iterable.by_value,
       dtor: :ecs_poly_dtor_t,
-      world: :ecs_world_tp,
+      world: :ecs_world_tp
     )
   end
 end

@@ -29,7 +29,7 @@ module BeltsEngine
 
     def register_tool_shortcuts
       @game.tools.each do |key, value|
-        instance_variable_set("@#{key}", value)
+        instance_variable_set(:"@#{key}", value)
       end
     end
 

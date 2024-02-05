@@ -3,7 +3,7 @@ module Flecs
     layout(
       filter: Filter.by_value,
       tables: Vec.by_value,
-      index: :int32,
+      index: :int32
     )
   end
 end

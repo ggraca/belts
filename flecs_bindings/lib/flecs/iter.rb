@@ -62,7 +62,7 @@ module Flecs
       callback: :ecs_iter_action_t,
       set_var: :ecs_iter_action_t,
       fini: :ecs_iter_fini_action_t,
-      chain_it: Iter.by_ref,
+      chain_it: Iter.by_ref
     )
   end
 end

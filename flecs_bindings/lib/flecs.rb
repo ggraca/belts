@@ -62,7 +62,7 @@ module Flecs
     :EcsOnValidate,
     :EcsPostUpdate,
     :EcsPreStore,
-    :EcsOnStore,
+    :EcsOnStore
   ].each do |name|
     attach_variable name, :ecs_entity_t
   end

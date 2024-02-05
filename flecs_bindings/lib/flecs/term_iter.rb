@@ -20,7 +20,7 @@ module Flecs
       column: :int32,
       subject: :ecs_entity_t,
       size: :ecs_size_t,
-      ptr: :pointer,
+      ptr: :pointer
     )
   end
 end

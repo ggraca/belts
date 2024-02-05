@@ -3,7 +3,7 @@ module Flecs
     layout(
       table: :ecs_table_tp,
       offset: :int32,
-      count: :int32,
+      count: :int32
     )
   end
 end

@@ -14,7 +14,7 @@ module Flecs
       rate: :int32,
       tick_source: :ecs_entity_t,
       multi_threaded: :bool,
-      no_readonly: :bool,
+      no_readonly: :bool
     )
   end
 end

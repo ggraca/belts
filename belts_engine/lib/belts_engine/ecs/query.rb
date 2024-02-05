@@ -12,7 +12,7 @@ module BeltsEngine::Ecs
           name: name,
           klass: klass,
           size: klass.size,
-          index: i + 1, # Component indexes start at 1
+          index: i + 1 # Component indexes start at 1
         }
       end
     end

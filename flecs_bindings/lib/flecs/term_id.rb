@@ -4,7 +4,7 @@ module Flecs
       entity: :ecs_entity_t,
       name: :pointer,
       trav: :ecs_entity_t,
-      flags: :ecs_flags32_t,
+      flags: :ecs_flags32_t
     )
   end
 end

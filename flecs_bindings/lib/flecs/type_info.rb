@@ -5,7 +5,7 @@ module Flecs
       alignment: :ecs_size_t,
       hooks: TypeHooks.by_value,
       component: :ecs_entity_t,
-      name: :pointer,
+      name: :pointer
     )
   end
 end

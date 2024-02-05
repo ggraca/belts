@@ -174,7 +174,7 @@ describe Flecs do
 
   specify "system" do
     iterated = false
-    callback = Proc.new do |ctx|
+    callback = proc do |ctx|
       iterated = true
     end
 
@@ -192,7 +192,7 @@ describe Flecs do
 
   specify "pipeline" do
     iterated = false
-    callback = Proc.new do |ctx|
+    callback = proc do |ctx|
       iterated = true
     end
 

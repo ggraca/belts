@@ -3,7 +3,7 @@ module Flecs
     layout(
       array: :pointer,
       count: :int32,
-      size: :int32,
+      size: :int32
     )
   end
 end

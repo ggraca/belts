@@ -8,14 +8,14 @@ module Flecs
         rule: RuleIter.by_value,
         snapshot: SnapshotIter.by_value,
         page: PageIter.by_value,
-        worker: WorkerIter.by_value,
+        worker: WorkerIter.by_value
       )
     end
 
     layout(
       iter: IterUnion.by_value,
       entity_iter: :pointer,
-      cache: IterCache.by_value,
+      cache: IterCache.by_value
     )
   end
 end

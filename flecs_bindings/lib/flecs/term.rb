@@ -12,7 +12,7 @@ module Flecs
       field_index: :int32,
       idr: :ecs_id_record_tp,
       flags: :ecs_flags16_t,
-      move: :bool,
+      move: :bool
     )
   end
 end

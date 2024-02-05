@@ -1,6 +1,6 @@
 class Light < BeltsSupport::Component
   layout(
-    light_type: :ulong,
+    light_type: :ulong
   )
 
   class << self

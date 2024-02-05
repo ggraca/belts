@@ -113,7 +113,7 @@ module BeltsAssets
       model_node.parent = parent_node
 
       local_ids = cur_node_data[:mMeshes].read_array_of_uint(cur_node_data[:mNumMeshes])
-      model_node.mesh_ids = local_ids.map {|id| fetch_mesh_id(id) }
+      model_node.mesh_ids = local_ids.map { |id| fetch_mesh_id(id) }
 
       cur_node_data[:mNumChildren].times.each do |i|
         pointer = Assimp::NodePointer.new(cur_node_data[:mChildren].to_ptr + i * Assimp::NodePointer.size)
@@ -126,11 +126,11 @@ module BeltsAssets
     end
 
     def fetch_mesh_id(local_id)
-      "#{@global_id}_mesh_#{local_id}".to_sym
+      :"#{@global_id}_mesh_#{local_id}"
     end
 
     def fetch_material_id(local_id)
-      "#{@global_id}_material_#{local_id}".to_sym
+      :"#{@global_id}_material_#{local_id}"
     end
   end
 end

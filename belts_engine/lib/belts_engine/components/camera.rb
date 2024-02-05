@@ -1,6 +1,6 @@
 class Camera < BeltsSupport::Component
   layout(
-    projection_type: :ulong,
+    projection_type: :ulong
   )
 
   class << self
