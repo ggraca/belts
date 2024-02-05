@@ -1,4 +1,4 @@
-class Mat4  < BeltsSupport::Struct
+class Mat4 < BeltsSupport::Struct
   module Behaviour
     class << self
       def included(base)
