@@ -122,7 +122,7 @@ DEPENDENCIES
   belts!
   rspec
   rubocop-rspec (~> 2.11)
-  standard (~> 1.12)
+  standard
 
 RUBY VERSION
    ruby 3.1.2p20

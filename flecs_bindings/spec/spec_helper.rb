@@ -1,4 +1,4 @@
-require 'flecs'
+require "flecs"
 
 RSpec.configure do |config|
 end

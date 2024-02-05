@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 # TODO: Add macros to the API and use them here instead of the raw low level calls.
 describe Flecs do
@@ -7,7 +7,7 @@ describe Flecs do
     Flecs.ecs_component_init(
       world,
       Flecs::ComponentDesc.new.tap do |component|
-        component[:type][:name] = FFI::MemoryPointer.from_string('Position')
+        component[:type][:name] = FFI::MemoryPointer.from_string("Position")
         component[:type][:size] = 8
         component[:type][:alignment] = 4
       end
@@ -17,7 +17,7 @@ describe Flecs do
     velocity = Flecs.ecs_component_init(
       world,
       Flecs::ComponentDesc.new.tap do |component|
-        component[:type][:name] = FFI::MemoryPointer.from_string('Velocity')
+        component[:type][:name] = FFI::MemoryPointer.from_string("Velocity")
         component[:type][:size] = 8
         component[:type][:alignment] = 4
       end
@@ -28,11 +28,11 @@ describe Flecs do
     Flecs.ecs_fini(world)
   end
 
-  specify 'world' do
+  specify "world" do
     # handled by callbacks
   end
 
-  specify 'entity' do
+  specify "entity" do
     id = Flecs.ecs_new_id(world)
     expect(Flecs.ecs_is_alive(world, id)).to be true
     Flecs.ecs_delete(world, id)
@@ -42,7 +42,7 @@ describe Flecs do
     expect(Flecs.ecs_is_alive(world, id)).to be true
   end
 
-  specify 'component' do
+  specify "component" do
     entity = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new)
     Flecs.ecs_add_id(world, entity, position)
     expect(Flecs.ecs_has_id(world, entity, position)).to be true
@@ -65,7 +65,7 @@ describe Flecs do
     expect(Flecs.ecs_has_id(world, entity, position)).to be false
   end
 
-  specify 'tag' do
+  specify "tag" do
     enemy_tag = Flecs.ecs_new_id(world)
     entity = Flecs.ecs_new_id(world)
 
@@ -76,7 +76,7 @@ describe Flecs do
     expect(Flecs.ecs_has_id(world, entity, enemy_tag)).to be false
   end
 
-  specify 'pair' do
+  specify "pair" do
     likes = Flecs.ecs_new_id(world)
     bob = Flecs.ecs_new_id(world)
     alice = Flecs.ecs_new_id(world)
@@ -95,12 +95,12 @@ describe Flecs do
     expect(Flecs.ecs_has_id(world, alice, likes_bob)).to be true
   end
 
-  specify 'hierarchy'
-  specify 'instancing'
-  specify 'type'
-  specify 'singleton'
+  specify "hierarchy"
+  specify "instancing"
+  specify "type"
+  specify "singleton"
 
-  specify 'filter' do
+  specify "filter" do
     entity1 = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new).tap do |entity|
       Flecs.ecs_add_id(world, entity, position)
     end
@@ -136,7 +136,7 @@ describe Flecs do
     Flecs.ecs_filter_fini(filter)
   end
 
-  specify 'query' do
+  specify "query" do
     entity1 = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new).tap do |entity|
       Flecs.ecs_add_id(world, entity, position)
     end
@@ -172,7 +172,7 @@ describe Flecs do
     Flecs.ecs_query_fini(query)
   end
 
-  specify 'system' do
+  specify "system" do
     iterated = false
     callback = Proc.new do |ctx|
       iterated = true
@@ -190,7 +190,7 @@ describe Flecs do
     expect(iterated).to be true
   end
 
-  specify 'pipeline' do
+  specify "pipeline" do
     iterated = false
     callback = Proc.new do |ctx|
       iterated = true
@@ -215,6 +215,6 @@ describe Flecs do
     expect(iterated).to be true
   end
 
-  specify 'observer'
-  specify 'module'
+  specify "observer"
+  specify "module"
 end

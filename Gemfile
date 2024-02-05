@@ -8,3 +8,4 @@ end
 gemspec path: "./belts"
 
 gem "rspec"
+gem "standard"
