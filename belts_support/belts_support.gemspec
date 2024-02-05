@@ -1,8 +1,8 @@
-VERSION ||= File.read(File.expand_path("../.belts-version", __dir__)).strip
+version = File.read(File.expand_path("../.belts-version", __dir__)).strip
 
 Gem::Specification.new do |s|
   s.name = "belts_support"
-  s.version = VERSION
+  s.version = version
   s.summary = "Common tools for the Belts game engine"
   s.author = "Guilherme Graca"
   s.homepage = "https://github.com/ggraca/belts"

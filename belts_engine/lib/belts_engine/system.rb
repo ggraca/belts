@@ -10,10 +10,12 @@ module BeltsEngine
     end
 
     # Runs once before the first update
-    def start; end
+    def start
+    end
 
     # Runs once per frame
-    def update; end
+    def update
+    end
 
     def progress(ctx = nil)
       return update if @started
@@ -31,17 +33,6 @@ module BeltsEngine
       @game.tools.each do |key, value|
         instance_variable_set(:"@#{key}", value)
       end
-    end
-
-    def debug(db = true)
-      return yield unless db
-      RubyProf.start
-
-      yield
-      result = RubyProf.stop
-      printer = RubyProf::FlatPrinter.new(result)
-      printer.print(STDOUT)
-      exit
     end
   end
 end

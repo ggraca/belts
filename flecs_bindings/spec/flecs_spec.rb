@@ -122,10 +122,10 @@ describe Flecs do
 
     iterated = false
     it = Flecs.ecs_filter_iter(world, filter)
-    while(Flecs.ecs_filter_next(it))
+    while Flecs.ecs_filter_next(it)
       iterated = true
 
-      entity_ids = it[:count].times.map do |i|
+      entity_ids = Array.new(it[:count]) do |i|
         it[:entities][i * 8].read_int
       end
     end
@@ -158,10 +158,10 @@ describe Flecs do
 
     iterated = false
     it = Flecs.ecs_query_iter(world, query)
-    while(Flecs.ecs_query_next(it))
+    while Flecs.ecs_query_next(it)
       iterated = true
 
-      entity_ids = it[:count].times.map do |i|
+      entity_ids = Array.new(it[:count]) do |i|
         it[:entities][i * 8].read_int
       end
     end

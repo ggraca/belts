@@ -1,5 +1,4 @@
 module BeltsEngine
-
   # The application ensures all libraries are loaded before starting the game.
   # It can also handle some pre-processing (e.g. compiling assets)
   class Application

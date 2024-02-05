@@ -9,8 +9,7 @@ module BeltsAssets
       @scene = Assimp.aiImportFile(file_path,
         Assimp::Process::Preset::TARGET_REALTIME_MAX_QUALITY |
         Assimp::Process::CONVERT_TO_LEFT_HANDED |
-        Assimp::Process::EMBED_TEXTURES
-      )
+        Assimp::Process::EMBED_TEXTURES)
 
       @model = Model.new
       @model.id = @global_id = key
@@ -22,7 +21,7 @@ module BeltsAssets
     private
 
     def import_meshes
-      @scene[:mNumMeshes].times.map do |i|
+      Array.new(@scene[:mNumMeshes]) do |i|
         pointer = Assimp::MeshPointer.new(@scene[:mMeshes].to_ptr + i * Assimp::MeshPointer.size)
         import_mesh(pointer[:mesh], i)
       end
@@ -34,7 +33,7 @@ module BeltsAssets
       mesh.name = mesh_data[:mName][:data].to_s
       mesh.material_id = fetch_material_id(mesh_data[:mMaterialIndex])
 
-      mesh_data[:mNumVertices].times.map do |i|
+      Array.new(mesh_data[:mNumVertices]) do |i|
         mesh.positions << Assimp::Vector3D.new(mesh_data[:mVertices].to_ptr + i * Assimp::Vector3D.size).values
 
         if !mesh_data[:mNormals].null?
@@ -52,7 +51,7 @@ module BeltsAssets
         mesh.colors << [1, 0, 0, 1]
       end
 
-      mesh_data[:mNumFaces].times.map do |i|
+      Array.new(mesh_data[:mNumFaces]) do |i|
         face = Assimp::Face.new(mesh_data[:mFaces] + i * Assimp::Face.size)
         mesh.indices << face[:mIndices].to_ptr.read_array_of_uint(face[:mNumIndices])
       end
@@ -63,7 +62,7 @@ module BeltsAssets
     end
 
     def import_materials
-      @scene[:mNumMaterials].times.map do |i|
+      Array.new(@scene[:mNumMaterials]) do |i|
         pointer = Assimp::MaterialPointer.new(@scene[:mMaterials].to_ptr + i * Assimp::MaterialPointer.size)
         import_material(pointer[:material], i)
       end
@@ -115,7 +114,7 @@ module BeltsAssets
       local_ids = cur_node_data[:mMeshes].read_array_of_uint(cur_node_data[:mNumMeshes])
       model_node.mesh_ids = local_ids.map { |id| fetch_mesh_id(id) }
 
-      cur_node_data[:mNumChildren].times.each do |i|
+      cur_node_data[:mNumChildren].times do |i|
         pointer = Assimp::NodePointer.new(cur_node_data[:mChildren].to_ptr + i * Assimp::NodePointer.size)
         child_node_data = pointer[:node]
 
