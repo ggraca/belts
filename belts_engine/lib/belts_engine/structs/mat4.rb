@@ -1,100 +1,73 @@
-class Mat4
-  attr_reader :val
-
-  class << self
-    def [](*values) = new(values)
-
-    def identity
-      Mat4[
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ]
+class Mat4 < BeltsSupport::Struct
+  module Behaviour
+    class << self
+      def included(base)
+        base.layout(:values, [:float, 16])
+      end
     end
 
-    def zero
-      Mat4[
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-        0, 0, 0, 0,
-        0, 0, 0, 0
-      ]
+    def *(other)
+      Mat4.identity.tap do |dest|
+        GLM.glmc_mat4_mul(self, other, dest)
+      end
+    end
+
+    def transpose
+      Mat4.identity.tap do |dest|
+        GLM.glmc_mat4_transpose_to(self, dest)
+      end
+    end
+
+    def inverse
+      Mat4.identity.tap do |dest|
+        GLM.glmc_mat4_inv(self, dest)
+      end
+    end
+  end
+
+  include Behaviour
+
+  class << self
+    def [](*values)
+      new.tap do |dest|
+        dest[:values].to_ptr.write_array_of_float(values)
+      end
+    end
+
+    def identity
+      @_identity ||= new.tap do |dest|
+        GLM.glmc_mat4_identity(dest)
+      end.freeze
     end
 
     def translation(vec3)
-      dest = Mat4.identity
-      GLM.glmc_translate(dest.val, vec3.val)
-      dest
+      new.tap do |dest|
+        GLM.glmc_translate_make(dest, vec3)
+      end
     end
 
     def scale(vec3)
-      dest = Mat4.identity
-      GLM.glmc_scale(dest.val, vec3.val)
-      dest
+      new.tap do |dest|
+        GLM.glmc_scale_make(dest, vec3)
+      end
     end
 
     def rotation(quat)
-      dest = Mat4.zero
-      GLM.glmc_quat_mat4(quat.val, dest.val)
-      dest
+      new.tap do |dest|
+        GLM.glmc_quat_mat4(quat, dest)
+      end
     end
 
     def perspective(fovy, aspect, near_val, far_val)
-      dest = Mat4.identity
-      GLM.glmc_perspective(fovy, aspect, near_val, far_val, dest.val)
-      dest
+      new.tap do |dest|
+        GLM.glmc_perspective(fovy, aspect, near_val, far_val, dest)
+      end
     end
 
     def look_at(eye, center, up)
-      dest = Mat4.identity
-      GLM.glmc_lookat(eye.val, center.val, up.val, dest.val)
-      dest
-    end
-  end
-
-  def initialize(values)
-    @val = GLM::Mat4.new
-    @val[:values].to_ptr.write_array_of_float(values)
-  end
-
-  def to_s
-    to_a.join(", ")
-  end
-
-  def to_a
-    @val[:values].to_a
-  end
-
-  def *(other)
-    dest = Mat4.identity
-    GLM.glmc_mat4_mul(@val, other.val, dest.val)
-    dest
-  end
-
-  def transpose
-    dest = Mat4.identity
-    GLM.glmc_mat4_transpose_to(@val, dest.val)
-    dest
-  end
-
-  def inverse
-    dest = Mat4.identity
-    GLM.glmc_mat4_inv(@val, dest.val)
-    dest
-  end
-
-  def marshal_dump
-    {}.tap do |result|
-      result[:values] = @val[:values].to_a
-    end
-  end
-
-  def marshal_load(serialized_values)
-    @val = GLM::Mat4.new
-
-    (0..15).each do |i|
-      @val[:values][i] = serialized_values[i] || 0
+      new.tap do |dest|
+        GLM.glmc_lookat(eye, center, up, dest)
+      end
     end
   end
 end

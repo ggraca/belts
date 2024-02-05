@@ -1,52 +1,30 @@
-class Vec4
-  attr_reader :val
+class Vec4 < BeltsSupport::Struct
+  module Behaviour
+    class << self
+      def included(base)
+        base.layout(:values, [:float, 4])
 
-  class << self
-    def [](x = 0, y = 0, z = 0, w = 0) = new(x, y, z, w)
-
-    def zero = Vec3[0, 0, 0, 0]
-
-    def one = Vec3[1, 1, 1, 1]
-  end
-
-  def initialize(x = 0, y = 0, z = 0, w = 0)
-    @val = GLM::Vec4.new
-    @val[:values][0] = x
-    @val[:values][1] = y
-    @val[:values][2] = z
-    @val[:values][3] = w
-  end
-
-  def x = @val[:values][0]
-
-  def y = @val[:values][1]
-
-  def z = @val[:values][2]
-
-  def w = @val[:values][3]
-
-  def to_s
-    to_a.join(", ")
-  end
-
-  def to_a
-    @val[:values].to_a
-  end
-
-  def marshal_dump
-    {}.tap do |result|
-      result[:x] = @val[:values][0]
-      result[:y] = @val[:values][1]
-      result[:z] = @val[:values][2]
-      result[:w] = @val[:values][3]
+        [:x, :y, :z, :w].each_with_index do |key, index|
+          base.define_method(key) { self[:values][index] }
+          base.define_method("#{key}=") { |value| self[:values][index] = value }
+        end
+      end
     end
   end
 
-  def marshal_load(serialized_values)
-    @val = GLM::Vec4.new
-    @val[:values][0] = serialized_values[:x]
-    @val[:values][1] = serialized_values[:y]
-    @val[:values][2] = serialized_values[:z]
-    @val[:values][3] = serialized_values[:w]
+  include Behaviour
+
+  class << self
+    def [](x = 0, y = 0, z = 0, w = 0)
+      new.tap do |dest|
+        dest[:values][0] = x
+        dest[:values][1] = y
+        dest[:values][2] = z
+        dest[:values][3] = w
+      end
+    end
+
+    def zero = @_zero ||= self[0, 0, 0, 0].freeze
+    def one = @_one ||= self[1, 1, 1, 1].freeze
   end
 end

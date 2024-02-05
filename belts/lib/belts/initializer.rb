@@ -10,8 +10,10 @@ module Belts
         app_loader.push_dir dir
       end
       app_loader.setup
+      app_loader.eager_load # TODO: Remove this line?
 
-      Application.new
+      app = Application.new
+      app.start
     end
   end
 end

@@ -1,19 +1,20 @@
 require "belts_support"
-require "belts_assets"
+require_relative "./patches"
 
-# TODO: Load with zeitwerk
-require_relative "./belts_engine/structs/vec2"
-require_relative "./belts_engine/structs/vec3"
-require_relative "./belts_engine/structs/vec4"
-require_relative "./belts_engine/structs/quat"
-require_relative "./belts_engine/structs/mat4"
-require_relative "./belts_engine/components/transform"
-require_relative "./belts_engine/components/camera"
-require_relative "./belts_engine/components/light"
-require_relative "./belts_engine/components/render_data"
+[:vec2, :vec3, :vec4, :quat, :mat4].each do |struct|
+  require_relative "./belts_engine/structs/#{struct}"
+end
 
-loader = Zeitwerk::Loader.for_gem
-loader.setup
+[:camera, :light, :render_data, :position, :rotation, :scale, :transform_matrix].each do |component|
+  require_relative "./belts_engine/components/#{component}"
+end
 
 module BeltsEngine
 end
+
+loader = Zeitwerk::Loader.for_gem
+loader.inflector.inflect "belts_bgfx" => "BeltsBGFX"
+# NOTE: Preloads key classes so that they are available using klass.descendants
+loader.preload("#{__dir__}/belts_core/systems")
+loader.preload("#{__dir__}/belts_bgfx/systems")
+loader.setup

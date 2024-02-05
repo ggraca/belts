@@ -1,10 +1,9 @@
 module BeltsSupport
   module Extension
-    def install(game)
-      raise NotImplementedError
-    end
+    # Handle application installation (loading libraries, mixins, etc.)
+    def install; end
 
-    def init(game)
-    end
+    # Handle game initialization (registering tools, loading assets, etc.)
+    def init(game); end
   end
 end

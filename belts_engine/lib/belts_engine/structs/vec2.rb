@@ -1,73 +1,68 @@
-class Vec2
-  attr_reader :val
+class Vec2 < BeltsSupport::Struct
+  module Behaviour
+    class << self
+      def included(base)
+        base.layout(:values, [:float, 2])
+
+        [:x, :y].each_with_index do |key, index|
+          base.define_method(key) { self[:values][index] }
+          base.define_method("#{key}=") { |value| self[:values][index] = value }
+        end
+      end
+    end
+
+    def +(other)
+      return vector_sum(other) if other.is_a?(Vec2::Behaviour)
+      scalar_sum(other)
+    end
+
+    def *(other)
+      return vector_mul(other) if other.is_a?(Vec2::Behaviour)
+      scalar_mul(other)
+    end
+
+    private
+
+    def scalar_sum(scalar)
+      self.class.new.tap do |dest|
+        GLM.glmc_vec2_adds(self, scalar, dest)
+      end
+    end
+
+    def vector_sum(vec2)
+      self.class.new.tap do |dest|
+        GLM.glmc_vec2_add(self, vec2, dest)
+      end
+    end
+
+    def scalar_mul(scalar)
+      self.class.new.tap do |dest|
+        GLM.glmc_vec2_scale(self, scalar, dest)
+      end
+    end
+
+    def vector_mul(vec2)
+      self.class.new.tap do |dest|
+        GLM.glmc_vec2_mul(self, vec2, dest)
+      end
+    end
+  end
+
+  include Behaviour
 
   class << self
-    def [](x = 0, y = 0) = new(x, y)
+    def [](x = 0, y = 0)
+      new.tap do |dest|
+        dest[:values][0] = x
+        dest[:values][1] = y
+      end
+    end
 
-    def zero = Vec2[0, 0]
-
-    def one = Vec2[1, 1]
-
-    def up = Vec2[0, 1]
-
-    def down = Vec2[0, -1]
-
-    def left = Vec2[-1, 0]
-
-    def right = Vec2[1, 0]
-  end
-
-  def x = @val[:values][0]
-
-  def y = @val[:values][1]
-
-  def initialize(x = 0, y = 0)
-    @val = GLM::Vec2.new
-    @val[:values][0] = x
-    @val[:values][1] = y
-  end
-
-  def +(other)
-    return vector_sum(other) if other.is_a?(Vec2)
-    scalar_sum(other)
-  end
-
-  def *(other)
-    return vector_mul(other) if other.is_a?(Vec2)
-    scalar_mul(other)
-  end
-
-  def to_s
-    to_a.join(", ")
-  end
-
-  def to_a
-    @val[:values].to_a
-  end
-
-  private
-
-  def scalar_sum(scalar)
-    dest = Vec2.new
-    GLM.glmc_vec2_adds(@val, scalar, dest.val)
-    dest
-  end
-
-  def vector_sum(vec2)
-    dest = Vec2.new
-    GLM.glmc_vec2_add(@val, vec2.val, dest.val)
-    dest
-  end
-
-  def scalar_mul(scalar)
-    dest = Vec2.new
-    GLM.glmc_vec2_scale(@val, scalar, dest.val)
-    dest
-  end
-
-  def vector_mul(vec2)
-    dest = Vec2.new
-    GLM.glmc_vec2_mul(@val, vec2.val, dest.val)
-    dest
+    def zero = @_zero ||= self[0, 0].freeze
+    def one = @_one ||= self[1, 1].freeze
+    def up = @_up ||= self[0, 1].freeze
+    def down = @_down ||= self[0, -1].freeze
+    def left = @_left ||= self[-1, 0].freeze
+    def right = @_right ||= self[1, 0].freeze
   end
 end

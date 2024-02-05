@@ -1,15 +1,6 @@
 module BeltsEngine
   class Scene
-    attr_reader :game
-
-    instance_eval do
-      extend Module.new {
-        def prefab(class_name, **options)
-          @@prefabs ||= []
-          @@prefabs << options.merge(class_name: class_name)
-        end
-      }
-    end
+    include PrefabsMixin
 
     def initialize(game)
       @game = game
@@ -19,8 +10,17 @@ module BeltsEngine
     private
 
     def init_entities
-      @@prefabs.each do |prefab|
-        @game.entities.instantiate(prefab[:class_name], prefab[:position], prefab[:rotation], prefab[:scale])
+      self.class.prefabs.each do |prefab|
+        position = prefab[:position] || Vec3.zero
+        rotation = prefab[:rotation] || Quat.identity
+        scale = prefab[:scale] || Vec3.one
+
+        @game.ecs.instantiate(
+          prefab[:class_name],
+          position.as(Position),
+          rotation.as(Rotation),
+          scale.as(Scale)
+        )
       end
     end
   end
