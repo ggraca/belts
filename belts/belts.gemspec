@@ -15,5 +15,6 @@ Gem::Specification.new do |s|
   s.add_dependency "belts_engine", version
   s.add_dependency "thor", "~> 1.2.1"
   s.add_development_dependency "standard", "~> 1.12"
+  s.add_development_dependency "rspec", "~> 3.12"
   s.add_development_dependency "rubocop-rspec", "~> 2.11"
 end

@@ -1,15 +1,12 @@
 name: linters
-on: pull_request
+on: [pull_request]
 
 jobs:
   rubocop:
-    name: Rubocop
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.1.2
           bundler-cache: true
-      - name: Run Rubocop
-        run: bundle exec rubocop
+      - run: bundle exec rubocop

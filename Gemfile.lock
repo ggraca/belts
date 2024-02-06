@@ -120,9 +120,9 @@ PLATFORMS
 
 DEPENDENCIES
   belts!
-  rspec
+  rspec (~> 3.12)
   rubocop-rspec (~> 2.11)
-  standard
+  standard (~> 1.12)
 
 RUBY VERSION
    ruby 3.1.2p20
