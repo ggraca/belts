@@ -13,7 +13,7 @@ module BeltsAssets
     end
 
     def vertices
-      @positions.size.times.map do |i|
+      Array.new(@positions.size) do |i|
         [*positions[i], *normals[i], *colors[i]]
       end.flatten
     end

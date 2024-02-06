@@ -10,7 +10,7 @@ module Flecs
       source_set: :ecs_flags32_t,
 
       op: :int16,
-      sp: :int16,
+      sp: :int16
     )
   end
 end

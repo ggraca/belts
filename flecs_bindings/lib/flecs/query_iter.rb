@@ -9,7 +9,7 @@ module Flecs
       sparse_first: :int32,
       table_count: :int32,
       bitset_first: :int32,
-      skip_count: :int32,
+      skip_count: :int32
     )
   end
 end

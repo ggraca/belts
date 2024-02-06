@@ -120,7 +120,7 @@ PLATFORMS
 
 DEPENDENCIES
   belts!
-  rspec
+  rspec (~> 3.12)
   rubocop-rspec (~> 2.11)
   standard (~> 1.12)
 

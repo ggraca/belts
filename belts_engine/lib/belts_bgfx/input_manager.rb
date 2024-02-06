@@ -34,7 +34,7 @@ module BeltsBGFX
       event = SDL::Event.new
       while SDL.PollEvent(event) != 0
         event_type = event[:common][:type]
-        event_timestamp = event[:common][:timestamp]
+        _event_timestamp = event[:common][:timestamp]
 
         case event_type
         when SDL::KEYDOWN

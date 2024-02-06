@@ -1,6 +1,6 @@
 class RenderData < BeltsSupport::Component
   layout(
-    model: :ulong,
+    model: :ulong
   )
 
   class << self

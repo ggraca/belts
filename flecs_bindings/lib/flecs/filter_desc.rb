@@ -9,7 +9,7 @@ module Flecs
       instanced: :bool,
       flags: :ecs_flags32_t,
       expr: :pointer,
-      entity: :ecs_entity_t,
+      entity: :ecs_entity_t
     )
   end
 end

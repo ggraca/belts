@@ -10,7 +10,7 @@ module BeltsAssets
       module ClassMethods
         def model(key, file)
           @@models ||= {}
-          @@models[key] = { file: Dir["assets/#{file}"].first }
+          @@models[key] = {file: Dir["assets/#{file}"].first}
         end
 
         def models

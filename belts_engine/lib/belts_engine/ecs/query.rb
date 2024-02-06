@@ -12,7 +12,7 @@ module BeltsEngine::Ecs
           name: name,
           klass: klass,
           size: klass.size,
-          index: i + 1, # Component indexes start at 1
+          index: i + 1 # Component indexes start at 1
         }
       end
     end
@@ -23,12 +23,12 @@ module BeltsEngine::Ecs
       components_requested = @components.slice(*params)
 
       it = Flecs.ecs_query_iter(@flecs_world, @flecs_query)
-      while(Flecs.ecs_query_next(it))
+      while Flecs.ecs_query_next(it)
         components = components_requested.values.map do |component|
           component.merge(pointer: Flecs.ecs_field_w_size(it, component[:size], component[:index]))
         end
 
-        it[:count].times.each do |i|
+        it[:count].times do |i|
           fields = {}
 
           if entity_requested
