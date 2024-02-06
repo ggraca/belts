@@ -1,9 +1,12 @@
 module BeltsCore
   extend BeltsSupport::Extension
 
+  config_accessor :flecs_lib_path, default: :libflecs
+  config_accessor :cglm_lib_path, default: :libcglm
+
   def self.install
-    Flecs.load_lib
-    GLM.load_lib
+    Flecs.load_lib(config.flecs_lib_path)
+    GLM.load_lib(config.cglm_lib_path)
   end
 
   def self.init(game)

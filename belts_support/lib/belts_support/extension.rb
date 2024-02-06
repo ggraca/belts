@@ -1,5 +1,11 @@
 module BeltsSupport
   module Extension
+    class << self
+      def extended(base)
+        base.include ActiveSupport::Configurable
+      end
+    end
+
     # Handle application installation (loading libraries, mixins, etc.)
     def install
     end

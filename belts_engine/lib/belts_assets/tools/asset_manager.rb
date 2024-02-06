@@ -8,9 +8,9 @@ module BeltsAssets::Tools
       @materials = MaterialManager.new
     end
 
-    def reload(config)
-      config.models.each do |key, value|
-        import_model(key, value[:file])
+    def reload(models)
+      models.each do |key, value|
+        import_model(key, value)
       end
     end
 

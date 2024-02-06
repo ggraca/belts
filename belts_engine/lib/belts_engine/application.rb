@@ -2,15 +2,17 @@ module BeltsEngine
   # The application ensures all libraries are loaded before starting the game.
   # It can also handle some pre-processing (e.g. compiling assets)
   class Application
-    include BeltsSupport::Configuration
+    include ActiveSupport::Configurable
 
     # NOTE: Order matters. Plugins will be installed and initiallized in the
     # order they are listed.
-    config.plugins = [
-      ::BeltsCore,
-      ::BeltsAssets,
-      ::BeltsBGFX
-    ]
+    config_accessor :plugins do
+      [
+        ::BeltsCore,
+        ::BeltsAssets,
+        ::BeltsBGFX
+      ]
+    end
 
     def initialize
       config.plugins.each do |plugin_class|
@@ -20,7 +22,6 @@ module BeltsEngine
 
     def start
       @game = Game.new
-      @game.class.config.main_scene = :StressTestScene
 
       config.plugins.each do |plugin_class|
         plugin_class.init(@game)
