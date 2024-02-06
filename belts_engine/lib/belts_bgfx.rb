@@ -5,6 +5,8 @@ module BeltsBGFX
   extend BeltsSupport::Extension
 
   def self.install
+    BGFX.load_lib
+
     # TODO: Automatically find the lib based on the platform
     SDL.load_lib("libSDL2.so")
 

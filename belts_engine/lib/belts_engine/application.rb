@@ -19,7 +19,8 @@ module BeltsEngine
     end
 
     def start
-      @game = ::Game.new
+      @game = Game.new
+      @game.class.config.main_scene = :StressTestScene
 
       config.plugins.each do |plugin_class|
         plugin_class.init(@game)

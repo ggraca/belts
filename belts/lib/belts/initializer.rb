@@ -4,6 +4,8 @@ module Belts
 
     desc "start", "Starts the game"
     def start
+      app = BeltsEngine::Application.new
+
       app_loader = Zeitwerk::Loader.new
       app_loader.push_dir("config")
       Dir.glob("app/*").each do |dir|
@@ -12,7 +14,6 @@ module Belts
       app_loader.setup
       app_loader.eager_load # TODO: Remove this line?
 
-      app = Application.new
       app.start
     end
   end
