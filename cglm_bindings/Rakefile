@@ -1,0 +1,27 @@
+require "rake/tasklib"
+
+namespace :cglm do
+  desc "Build the C library"
+  task :build, [] do |t, args|
+    version = "0.9.2" # TODO: Get this from the gemspec
+    path = "vendor/"
+
+    Dir.chdir(path) do
+      sh "wget https://github.com/recp/cglm/archive/refs/tags/v#{version}.tar.gz"
+      sh "tar -xzf v#{version}.tar.gz"
+      sh "rm v#{version}.tar.gz"
+
+      Dir.chdir("cglm-#{version}") do
+        Dir.mkdir("build") && Dir.chdir("build") do
+          sh "mkdir -p build && cd build"
+          sh "cmake .. -DCMAKE_C_FLAGS=\"-DCGLM_CLIPSPACE_INCLUDE_ALL=1 -DCGLM_FORCE_DEPTH_ZERO_TO_ONE=1 -DCGLM_FORCE_LEFT_HANDED=1\""
+          sh "make"
+
+          sh "cp libcglm.so ../../"
+        end
+      end
+
+      sh "rm -r cglm-#{version}"
+    end
+  end
+end
