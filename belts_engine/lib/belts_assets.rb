@@ -1,3 +1,5 @@
+require "assimp"
+
 module BeltsAssets
   extend BeltsSupport::Extension
 

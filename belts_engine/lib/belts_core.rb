@@ -1,3 +1,6 @@
+require "flecs"
+require "glm"
+
 module BeltsCore
   extend BeltsSupport::Extension
 
