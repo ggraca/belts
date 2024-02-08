@@ -1,0 +1,21 @@
+namespace :bgfx do
+  desc "Build the C library"
+  task :build, [] do |t, args|
+    # version = "1.115.8109"
+    path = "vendor/"
+
+    Dir.chdir(path) do
+      sh "git clone git@github.com:bkaradzic/bgfx.git"
+      sh "git clone git@github.com:bkaradzic/bx.git"
+      sh "git clone git@github.com:bkaradzic/bimg.git"
+
+      Dir.chdir("bgfx") do
+        sh "make linux-debug64"
+
+        sh "cp .build/linux64_gcc/bin/libbgfx-shared-libDebug.so ../libbgfx.so"
+      end
+
+      sh "rm -rf bgfx bx bimg"
+    end
+  end
+end

@@ -1,0 +1,24 @@
+namespace :assimp do
+  desc "Build the C library"
+  task :build, [] do |t, args|
+    version = "5.3.1" # TODO: Get this from the gemspec
+    path = "vendor/"
+
+    Dir.chdir(path) do
+      sh "wget https://github.com/assimp/assimp/archive/refs/tags/v#{version}.tar.gz"
+      sh "tar -xzf v#{version}.tar.gz"
+      sh "rm v#{version}.tar.gz"
+
+      Dir.chdir("assimp-#{version}") do
+        Dir.mkdir("build") && Dir.chdir("build") do
+          sh "cmake .."
+          sh "make"
+
+          sh "cp bin/libassimp.so ../../"
+        end
+      end
+
+      sh "rm -r assimp-#{version}"
+    end
+  end
+end
