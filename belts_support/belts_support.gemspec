@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.files = Dir.glob("lib/**/*")
 
   s.required_ruby_version = ">= 3.1.2"
-  s.add_dependency "activesupport", "~> 7.0.4.1"
+  s.add_dependency "activesupport", "~> 7.0.7.1"
   s.add_dependency "ffi", "~> 1.15.5"
   s.add_dependency "zeitwerk", "~> 2.4.2"
 end
