@@ -40,31 +40,27 @@ module BeltsBGFX::Systems
 
     def upload_object_data
       objects.each_with_components do |transform_matrix:, render_data:|
-        BGFX.set_transform(transform_matrix, 1)
-        render_model(render_data.model)
+        model = @assets.models[render_data.model]
+        render_node(model.root_node, transform_matrix)
       end
     end
 
-    def render_model(model_name)
-      model = @assets.models[model_name]
-      render_node(model.root_node)
-    end
-
-    def render_node(node)
-      # BGFX.set_transform(node.transformation.val, 1)
+    def render_node(node, parent_transform)
+      transform = parent_transform * node.transformation
       node.mesh_ids.each do |mesh_id|
-        render_mesh(mesh_id)
+        render_mesh(mesh_id, transform)
       end
 
       node.children.each do |child|
-        render_node(child)
+        render_node(child, transform)
       end
     end
 
-    def render_mesh(mesh_name)
+    def render_mesh(mesh_name, transform)
       mesh = @assets.meshes[mesh_name]
       material = @assets.materials[mesh.material_id]
 
+      BGFX.set_transform(transform, 1)
       BGFX.set_uniform(@u_color, material.color, 1)
       BGFX.set_uniform(@u_surface, material.surface, 1)
       BGFX.set_vertex_buffer(0, mesh.bgfx.vbo, 0, mesh.bgfx.total_vertices)
