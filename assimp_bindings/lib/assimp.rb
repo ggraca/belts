@@ -10,7 +10,10 @@ loader.setup
 
 module Assimp
   extend FFI::Library
-  ffi_lib :libassimp
 
-  attach_function :aiImportFile, [:string, :uint], Scene.by_ref, blocking: true
+  def self.load_lib(path = :libassimp)
+    ffi_lib path
+
+    attach_function :aiImportFile, [:string, :uint], Scene.by_ref, blocking: true
+  end
 end

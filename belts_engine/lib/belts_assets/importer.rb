@@ -76,7 +76,7 @@ module BeltsAssets
         properties[property[:mKey][:data].to_s] = import_property(property)
       end
 
-      pp properties
+      # pp properties
 
       material = Material.new
       material.id = fetch_material_id(index)
@@ -108,7 +108,7 @@ module BeltsAssets
     def import_nodes(parent_node = nil, cur_node_data = @scene[:mRootNode])
       model_node = ModelNode.new
       model_node.name = cur_node_data[:mName][:data].to_s
-      model_node.transformation = Mat4[*cur_node_data[:mTransformation]].transpose
+      model_node.transformation = Mat4[*cur_node_data[:mTransformation]]
       model_node.parent = parent_node
 
       local_ids = cur_node_data[:mMeshes].read_array_of_uint(cur_node_data[:mNumMeshes])

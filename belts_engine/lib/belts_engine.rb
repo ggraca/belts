@@ -1,5 +1,4 @@
 require "belts_support"
-require_relative "patches"
 
 [:vec2, :vec3, :vec4, :quat, :mat4].each do |struct|
   require_relative "./belts_engine/structs/#{struct}"

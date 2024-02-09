@@ -1,7 +1,9 @@
 module BeltsEngine
   class Game
-    include BeltsSupport::Configuration
     include BeltsEngine::ToolsManager
+    include ActiveSupport::Configurable
+
+    config_accessor :main_scene
 
     def initialize
       @running = true

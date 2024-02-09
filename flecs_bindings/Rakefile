@@ -1,0 +1,24 @@
+namespace :flecs do
+  desc "Build the C library"
+  task :build, [] do |t, args|
+    version = "3.2.10" # TODO: Get this from the gemspec
+    path = "vendor/"
+
+    Dir.chdir(path) do
+      sh "wget https://github.com/SanderMertens/flecs/archive/refs/tags/v#{version}.tar.gz"
+      sh "tar -xzf v#{version}.tar.gz"
+      sh "rm v#{version}.tar.gz"
+
+      Dir.chdir("flecs-#{version}") do
+        Dir.mkdir("build") && Dir.chdir("build") do
+          sh "cmake .."
+          sh "make"
+
+          sh "cp libflecs.so ../../"
+        end
+      end
+
+      sh "rm -r flecs-#{version}"
+    end
+  end
+end
