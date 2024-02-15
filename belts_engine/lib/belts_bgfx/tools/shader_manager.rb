@@ -16,9 +16,10 @@ module BeltsBGFX
 
         # TODO: Build a task to this (e.g. belts build:shaders)
         # TODO: Build in a tmp folder
+        # TODO: Allow this to work without bgfx-shaderc installed
         system "echo 'Building default shader...'"
-        system "bgfx-shaderc -f #{shader_folder}/v_simple.sc -o #{shader_folder}/v_simple.bin --type vertex -i /usr/include/bgfx"
-        system "bgfx-shaderc -f #{shader_folder}/f_simple.sc -o #{shader_folder}/f_simple.bin --type fragment -i /usr/include/bgfx"
+        system "bgfx-shaderc -f #{shader_folder}/v_simple.sc -o #{shader_folder}/v_simple.bin --type v -i /usr/include/bgfx -p 440"
+        system "bgfx-shaderc -f #{shader_folder}/f_simple.sc -o #{shader_folder}/f_simple.bin --type f -i /usr/include/bgfx -p 440"
         system "echo 'Default shader built!'"
 
         vertex = File.join(shader_folder, "v_simple.bin")

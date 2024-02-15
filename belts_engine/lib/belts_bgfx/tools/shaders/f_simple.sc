@@ -1,4 +1,11 @@
-$input v_position, v_normal, v_viewPos
+$input v_position, v_normal, v_viewPos, v_texcoord0
+
+#include <bgfx_shader.sh>
+#include <common.sh>
+#include <phong.sh>
+#include <pbr.sh>
+
+SAMPLER2D(s_tex_color, 0);
 
 uniform vec4 u_color;
 uniform vec4 u_surface;
@@ -6,12 +13,8 @@ uniform vec4 u_surface;
 #define u_roughness u_surface.x
 #define u_metallness u_surface.y
 
-#include <bgfx_shader.sh>
-#include <phong.sh>
-#include <pbr.sh>
-
 void main() {
-	vec3 base = u_color.rgb;
+	vec3 base = toLinear(texture2D(s_tex_color, v_texcoord0)).rgb;
 
 	vec3 F0 = mix(vec3(0.04), base, u_metallness);
 	vec3 V = normalize(v_viewPos - v_position);

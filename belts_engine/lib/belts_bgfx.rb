@@ -14,6 +14,7 @@ module BeltsBGFX
     SDL.load_lib(config.sdl_lib_path)
 
     BeltsAssets::Mesh.include BeltsBGFX::Assets::MeshMixin
+    BeltsAssets::Texture.include BeltsBGFX::Assets::TextureMixin
   end
 
   def self.root

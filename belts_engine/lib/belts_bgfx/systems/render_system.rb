@@ -12,9 +12,14 @@ module BeltsBGFX::Systems
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
       @u_color = BGFX.create_uniform("u_color", BGFX::UniformType[:Vec4], 1)
       @u_surface = BGFX.create_uniform("u_surface", BGFX::UniformType[:Vec4], 1)
+      @s_tex_color = BGFX.create_uniform("s_tex_color", BGFX::UniformType[:Sampler], 1)
+      @s_tex_normal = BGFX.create_uniform("s_tex_normal", BGFX::UniformType[:Sampler], 1)
       # BGFX.set_debug(BGFX::DEBUG_WIREFRAME)
 
       @game.register_tool(:bgfx_shaders, BeltsBGFX::Tools::ShaderManager.new)
+      @game.assets.textures.each do |k, v|
+        v.bgfx.load
+      end
       @game.assets.meshes.each do |k, v|
         v.bgfx.load
       end
@@ -65,6 +70,8 @@ module BeltsBGFX::Systems
       BGFX.set_uniform(@u_surface, material.surface, 1)
       BGFX.set_vertex_buffer(0, mesh.bgfx.vbo, 0, mesh.bgfx.total_vertices)
       BGFX.set_index_buffer(mesh.bgfx.ebo, 0, mesh.bgfx.total_elements)
+      BGFX.set_texture(0, @s_tex_color, @assets.textures.values.first.bgfx.tbo, 0)
+      # BGFX.set_texture(0, @s_tex_normal, @assets.textures.values.first.bgfx.tbo, 0)
       BGFX.set_state(BGFX::STATE_DEFAULT | BGFX::STATE_CULL_CCW, 1)
       BGFX.submit(0, @game.bgfx_shaders.get_shader(:default), 0, BGFX::DISCARD_ALL)
     end

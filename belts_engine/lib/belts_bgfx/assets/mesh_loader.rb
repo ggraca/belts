@@ -11,7 +11,7 @@ module BeltsBGFX::Assets
       load_vertex_buffer(@mesh.vertices)
       load_index_buffer(@mesh.indices)
 
-      @total_vertices = @mesh.vertices.size / 10
+      @total_vertices = @mesh.vertices.size / 12
       @total_elements = @mesh.indices.size
     end
 
@@ -33,6 +33,7 @@ module BeltsBGFX::Assets
       BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Position], 3, BGFX::AttribType[:Float], false, false)
       BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Normal], 3, BGFX::AttribType[:Float], false, false)
       BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Color0], 4, BGFX::AttribType[:Float], true, false)
+      BGFX.vertex_layout_add(@vao, BGFX::Attrib[:TexCoord0], 2, BGFX::AttribType[:Float], false, false)
       BGFX.vertex_layout_end(@vao)
     end
 

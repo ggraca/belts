@@ -1,3 +1,4 @@
+require "rmagick"
 module BeltsAssets
   # TODO: returns a model and can become Model.from_file
   # Note: Model should hold all info, ready to be registered.
@@ -13,12 +14,35 @@ module BeltsAssets
 
       @model = Model.new
       @model.id = @global_id = key
+      @model.textures = import_textures
       @model.materials = import_materials
       @model.meshes = import_meshes
       @model.root_node = import_nodes
     end
 
     private
+
+    def import_textures
+      Array.new(@scene[:mNumTextures]) do |i|
+        pointer = Assimp::TexturePointer.new(@scene[:mTextures].to_ptr + i * Assimp::TexturePointer.size)
+        import_texture(pointer[:texture], i)
+      end
+    end
+
+    def import_texture(texture_data, index)
+      image = Magick::Image.from_blob(texture_data[:pcData].get_bytes(0, texture_data[:mWidth]).to_s) do |img|
+        img.format = texture_data[:achFormatHint].to_s
+      end.first
+
+      image = image.quantize(256, Magick::RGBColorspace)
+
+      texture = Texture.new
+      texture.id = fetch_texture_id(index)
+      texture.width = image.columns
+      texture.height = image.rows
+      texture.data = image.export_pixels_to_str(0, 0, image.columns, image.rows, "RGBA")
+      texture
+    end
 
     def import_meshes
       Array.new(@scene[:mNumMeshes]) do |i|
@@ -46,6 +70,12 @@ module BeltsAssets
 
         if !mesh_data[:mBitangents].null?
           mesh.bitangents << Assimp::Vector3D.new(mesh_data[:mBitangents].to_ptr + i * Assimp::Vector3D.size).values
+        end
+
+        mesh_data[:mTextureCoords].each do |texture_coords|
+          break if texture_coords.null?
+
+          mesh.texture_coords << Assimp::Vector3D.new(texture_coords.to_ptr + i * Assimp::Vector3D.size).values
         end
 
         mesh.colors << [1, 0, 0, 1]
@@ -130,6 +160,10 @@ module BeltsAssets
 
     def fetch_material_id(local_id)
       :"#{@global_id}_material_#{local_id}"
+    end
+
+    def fetch_texture_id(local_id)
+      :"#{@global_id}_texture_#{local_id}"
     end
   end
 end
