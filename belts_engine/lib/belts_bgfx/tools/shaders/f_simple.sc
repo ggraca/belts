@@ -5,7 +5,8 @@ $input v_position, v_normal, v_viewPos, v_texcoord0
 #include <phong.sh>
 #include <pbr.sh>
 
-SAMPLER2D(s_tex_color, 0);
+SAMPLER2D(s_tex_albedo, 0);
+SAMPLER2D(s_tex_normal, 0);
 
 uniform vec4 u_color;
 uniform vec4 u_surface;
@@ -14,7 +15,7 @@ uniform vec4 u_surface;
 #define u_metallness u_surface.y
 
 void main() {
-	vec3 base = toLinear(texture2D(s_tex_color, v_texcoord0)).rgb;
+	vec3 base = toLinear(texture2D(s_tex_albedo, v_texcoord0)).rgb;
 
 	vec3 F0 = mix(vec3(0.04), base, u_metallness);
 	vec3 V = normalize(v_viewPos - v_position);

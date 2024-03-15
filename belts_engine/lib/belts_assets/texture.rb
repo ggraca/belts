@@ -2,7 +2,9 @@ module BeltsAssets
   class Texture < Asset
     attr_accessor :height, :width, :data
 
-    def initialize
+    def initialize(id)
+      super(id)
+
       @height = nil
       @width = nil
       @data = nil

@@ -1,10 +1,7 @@
 require "rmagick"
 module BeltsAssets
-  # TODO: returns a model and can become Model.from_file
-  # Note: Model should hold all info, ready to be registered.
-  # Asset: manager should hold models, ready to be loaded, unloaded,
   class Importer
-    attr_reader :model
+    attr_reader :model, :textures, :materials, :meshes
 
     def initialize(key, file_path)
       @scene = Assimp.aiImportFile(file_path,
@@ -12,17 +9,19 @@ module BeltsAssets
         Assimp::Process::CONVERT_TO_LEFT_HANDED |
         Assimp::Process::EMBED_TEXTURES)
 
-      @model = Model.new
-      @model.id = @global_id = key
-      @model.textures = import_textures
-      @model.materials = import_materials
-      @model.meshes = import_meshes
+      @model = Model.new(key)
+
+      @textures = import_textures
+      @materials = import_materials
+      @meshes = import_meshes
+
       @model.root_node = import_nodes
     end
 
     private
 
     def import_textures
+      pp @scene[:mNumTextures]
       Array.new(@scene[:mNumTextures]) do |i|
         pointer = Assimp::TexturePointer.new(@scene[:mTextures].to_ptr + i * Assimp::TexturePointer.size)
         import_texture(pointer[:texture], i)
@@ -36,8 +35,7 @@ module BeltsAssets
 
       image = image.quantize(256, Magick::RGBColorspace)
 
-      texture = Texture.new
-      texture.id = fetch_texture_id(index)
+      texture = Texture.new(fetch_texture_id(index))
       texture.width = image.columns
       texture.height = image.rows
       texture.data = image.export_pixels_to_str(0, 0, image.columns, image.rows, "RGBA")
@@ -52,10 +50,10 @@ module BeltsAssets
     end
 
     def import_mesh(mesh_data, index)
-      mesh = Mesh.new
-      mesh.id = fetch_mesh_id(index)
+      mesh = Mesh.new(fetch_mesh_id(index))
       mesh.name = mesh_data[:mName][:data].to_s
       mesh.material_id = fetch_material_id(mesh_data[:mMaterialIndex])
+      mesh.total_vertices = mesh_data[:mNumVertices]
 
       Array.new(mesh_data[:mNumVertices]) do |i|
         mesh.positions << Assimp::Vector3D.new(mesh_data[:mVertices].to_ptr + i * Assimp::Vector3D.size).values
@@ -87,7 +85,8 @@ module BeltsAssets
       end
 
       mesh.indices.flatten!
-      # pp mesh.vertices
+      mesh.total_elements = mesh.indices.size
+
       mesh
     end
 
@@ -106,19 +105,26 @@ module BeltsAssets
         properties[property[:mKey][:data].to_s] = import_property(property)
       end
 
-      # pp properties
+      pp properties
 
-      material = Material.new
-      material.id = fetch_material_id(index)
+      material = Material.new(fetch_material_id(index))
       material.name = properties["?mat.name"]
       material.color = Vec4[*properties["$clr.diffuse"]]
+
+      albedo_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:BASE_COLOR])
+      roughness_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:DIFFUSE_ROUGHNESS])
+      metallness_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:METALNESS])
+
+      pp albedo_index, roughness_index, metallness_index
+
+      material.texture_ids[:albedo] = fetch_texture_id(albedo_index) if albedo_index
+      material.texture_ids[:roughness] = fetch_texture_id(roughness_index) if roughness_index
+      material.texture_ids[:metallness] = fetch_texture_id(metallness_index) if metallness_index
 
       material
     end
 
     def import_property(property_data)
-      # pp property[:mType].to_s + " " + property[:mKey][:data].to_s + " #{import_property(property)}"
-
       case property_data[:mType]
       when 1 # float (4 bytes)
         property_data[:mData].to_ptr.read_array_of_float(property_data[:mDataLength] / 4)
@@ -128,8 +134,8 @@ module BeltsAssets
         Assimp::String.new(property_data[:mData])[:data].to_s
       when 4 # int (4 bytes)
         property_data[:mData].to_ptr.read_array_of_int(property_data[:mDataLength] / 4)
-      when 5 # aiShadingMode (4 bytes)
-        property_data[:mData].to_ptr.read_array_of_int(property_data[:mDataLength] / 4)
+      when 5 # binary buffer
+        property_data[:mData].to_ptr.read_bytes(property_data[:mDataLength])
       else
         raise "Unknown property type: #{property_data[:mType]} for #{property_data[:mKey][:data]}"
       end
@@ -155,15 +161,26 @@ module BeltsAssets
     end
 
     def fetch_mesh_id(local_id)
-      :"#{@global_id}_mesh_#{local_id}"
+      :"#{@model.id}_mesh_#{local_id}"
     end
 
     def fetch_material_id(local_id)
-      :"#{@global_id}_material_#{local_id}"
+      :"#{@model.id}_material_#{local_id}"
     end
 
     def fetch_texture_id(local_id)
-      :"#{@global_id}_texture_#{local_id}"
+      :"#{@model.id}_texture_#{local_id}"
+    end
+
+    def fetch_embeded_texture_index(material_data, texture_type)
+      s = Assimp::String.new
+      result = Assimp.aiGetMaterialTexture(material_data, texture_type, 0, s, nil, nil, nil, nil, nil, nil)
+      return nil if result != :Success
+
+      path = s[:data].to_s
+      raise "Invalid texture path: #{path}\nOnly embedded textures are supported" unless path.start_with?("*")
+
+      path[1..].to_i
     end
   end
 end

@@ -3,8 +3,6 @@ module BeltsBGFX
     class ShaderManager
       def initialize
         @shaders = {}
-
-        build_default_shader
       end
 
       def get_shader(key)

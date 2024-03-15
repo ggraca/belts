@@ -1,4 +1,35 @@
 module Assimp
+  extend FFI::Library
+
+  Return = enum [:Success]
+
+  TextureType = enum [
+    :NONE,
+    :DIFFUSE,
+    :SPECULAR,
+    :AMBIENT,
+    :EMISSIVE,
+    :HEIGHT,
+    :NORMALS,
+    :SHININESS,
+    :OPACITY,
+    :DISPLACEMENT,
+    :LIGHTMAP,
+    :REFLECTION,
+
+    :BASE_COLOR,
+    :NORMAL_CAMERA,
+    :EMISSION_COLOR,
+    :METALNESS,
+    :DIFFUSE_ROUGHNESS,
+    :AMBIENT_OCCLUSION,
+
+    :SHEEN,
+    :CLEARCOAT,
+    :TRANSMISSION,
+    :UNKNOWN
+  ]
+
   module Process
     CALC_TANGENT_SPACE = 0x1
     JOIN_IDENTICAL_VERTICES = 0x2

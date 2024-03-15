@@ -3,7 +3,8 @@ module BeltsAssets
     class AssetManager
       class TextureManager < BaseManager
         def add_texture(texture)
-          raise "Texture must have an id" if texture.id.nil?
+          raise "Texture already exists: #{texture.id}" if key?(texture.id)
+
           self[texture.id] = texture
         end
       end
