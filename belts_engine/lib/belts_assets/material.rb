@@ -15,7 +15,7 @@ module BeltsAssets
       @surface.x = value
     end
 
-    def metallness=(value)
+    def metalness=(value)
       @surface.y = value
     end
   end

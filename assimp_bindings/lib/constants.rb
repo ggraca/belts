@@ -30,6 +30,38 @@ module Assimp
     :UNKNOWN
   ]
 
+  module Matkey
+    NAME = "?mat.name"
+    TWOSIDED = "$mat.twosided"
+    SHADING_MODEL = "$mat.shadingm"
+    ENABLE_WIREFRAME = "$mat.wireframe"
+    BLEND_FUNC = "$mat.blend"
+    OPACITY = "$mat.opacity"
+    BUMPSCALING = "$mat.bumpscaling"
+    SHININESS = "$mat.shininess"
+    REFLECTIVITY = "$mat.reflectivity"
+    SHININESS_STRENGTH = "$mat.shinpercent"
+    REFRACTI = "$mat.refracti"
+    COLOR_DIFFUSE = "$clr.diffuse"
+    COLOR_AMBIENT = "$clr.ambient"
+    COLOR_SPECULAR = "$clr.specular"
+    COLOR_EMISSIVE = "$clr.emissive"
+    COLOR_TRANSPARENT = "$clr.transparent"
+    COLOR_REFLECTIVE = "$clr.reflective"
+    GLOBAL_BACKGROUND_IMAGE = "?bg.global"
+
+    TEXTURE_BASE = "$tex.file"
+    UVWSRC_BASE = "$tex.uvwsrc"
+    TEXOP_BASE = "$tex.op"
+    MAPPING_BASE = "$tex.mapping"
+    TEXBLEND_BASE = "$tex.blend"
+    MAPPINGMODE_U_BASE = "$tex.mapmodeu"
+    MAPPINGMODE_V_BASE = "$tex.mapmodev"
+    TEXMAP_AXIS_BASE = "$tex.mapaxis"
+    UVTRANSFORM_BASE = "$tex.uvtrafo"
+    TEXFLAGS_BASE = "$tex.flags"
+  end
+
   module Process
     CALC_TANGENT_SPACE = 0x1
     JOIN_IDENTICAL_VERTICES = 0x2

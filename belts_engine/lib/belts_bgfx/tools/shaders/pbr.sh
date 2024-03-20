@@ -5,6 +5,11 @@
 #define PI 3.1415926538
 #define Epsilon 0.00001
 
+// Shlick's approximation of the Fresnel factor.
+vec3 fresnelSchlick(vec3 F0, float cosTheta) {
+	return F0 + (vec3(1.0) - F0) * pow(1.0 - cosTheta, 5.0);
+}
+
 // GGX/Towbridge-Reitz normal distribution function.
 // Uses Disney's reparametrization of alpha = roughness^2.
 float ndfGGX(float cosLh, float roughness) {
@@ -25,11 +30,6 @@ float gaSchlickGGX(float cosLi, float cosLo, float roughness) {
 	float r = roughness + 1.0;
 	float k = (r * r) / 8.0; // Epic suggests using this roughness remapping for analytic lights.
 	return gaSchlickG1(cosLi, k) * gaSchlickG1(cosLo, k);
-}
-
-// Shlick's approximation of the Fresnel factor.
-vec3 fresnelSchlick(vec3 F0, float cosTheta) {
-	return F0 + (vec3(1.0) - F0) * pow(1.0 - cosTheta, 5.0);
 }
 
 vec3 PBR(vec3 N, vec3 Li, vec3 Lo, vec3 F0, float roughness, float metalness, vec3 albedo) {

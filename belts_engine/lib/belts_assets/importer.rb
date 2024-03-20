@@ -7,6 +7,7 @@ module BeltsAssets
       @scene = Assimp.aiImportFile(file_path,
         Assimp::Process::Preset::TARGET_REALTIME_MAX_QUALITY |
         Assimp::Process::CONVERT_TO_LEFT_HANDED |
+        # Assimp::Process::PRE_TRANSFORM_VERTICES |
         Assimp::Process::EMBED_TEXTURES)
 
       @model = Model.new(key)
@@ -21,7 +22,6 @@ module BeltsAssets
     private
 
     def import_textures
-      pp @scene[:mNumTextures]
       Array.new(@scene[:mNumTextures]) do |i|
         pointer = Assimp::TexturePointer.new(@scene[:mTextures].to_ptr + i * Assimp::TexturePointer.size)
         import_texture(pointer[:texture], i)
@@ -75,8 +75,6 @@ module BeltsAssets
 
           mesh.texture_coords << Assimp::Vector3D.new(texture_coords.to_ptr + i * Assimp::Vector3D.size).values
         end
-
-        mesh.colors << [1, 0, 0, 1]
       end
 
       Array.new(mesh_data[:mNumFaces]) do |i|
@@ -105,21 +103,23 @@ module BeltsAssets
         properties[property[:mKey][:data].to_s] = import_property(property)
       end
 
-      pp properties
+      # pp properties
 
       material = Material.new(fetch_material_id(index))
       material.name = properties["?mat.name"]
-      material.color = Vec4[*properties["$clr.diffuse"]]
+      pp material.name
 
       albedo_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:BASE_COLOR])
+      normals_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:NORMALS])
       roughness_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:DIFFUSE_ROUGHNESS])
-      metallness_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:METALNESS])
-
-      pp albedo_index, roughness_index, metallness_index
+      metalness_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:METALNESS])
+      color = fetch_color(material_data, Assimp::Matkey::COLOR_DIFFUSE)
 
       material.texture_ids[:albedo] = fetch_texture_id(albedo_index) if albedo_index
+      material.texture_ids[:normals] = fetch_texture_id(normals_index) if normals_index
       material.texture_ids[:roughness] = fetch_texture_id(roughness_index) if roughness_index
-      material.texture_ids[:metallness] = fetch_texture_id(metallness_index) if metallness_index
+      material.texture_ids[:metalness] = fetch_texture_id(metalness_index) if metalness_index
+      material.color = color if color
 
       material
     end
@@ -144,7 +144,7 @@ module BeltsAssets
     def import_nodes(parent_node = nil, cur_node_data = @scene[:mRootNode])
       model_node = ModelNode.new
       model_node.name = cur_node_data[:mName][:data].to_s
-      model_node.transformation = Mat4[*cur_node_data[:mTransformation]]
+      model_node.transformation = Mat4[*cur_node_data[:mTransformation]].invert_major
       model_node.parent = parent_node
 
       local_ids = cur_node_data[:mMeshes].read_array_of_uint(cur_node_data[:mNumMeshes])
@@ -181,6 +181,14 @@ module BeltsAssets
       raise "Invalid texture path: #{path}\nOnly embedded textures are supported" unless path.start_with?("*")
 
       path[1..].to_i
+    end
+
+    def fetch_color(material_data, key)
+      color = Assimp::Color4D.new
+      result = Assimp.aiGetMaterialColor(material_data, key, 0, 0, color)
+      return nil if result != :Success
+
+      Vec4[color[:r], color[:g], color[:b], color[:a]]
     end
   end
 end

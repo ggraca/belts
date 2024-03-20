@@ -22,7 +22,7 @@ module Assimp
       mTangents: Vector3D.ptr,
       mBitangents: Vector3D.ptr,
       mColors: [:pointer, AI_MAX_NUMBER_OF_COLOR_SETS], # TODO: Color4D.ptr
-      mTextureCoords: [Vector3D.ptr, AI_MAX_NUMBER_OF_TEXTURECOORDS], # TODO: Vector3D.ptr
+      mTextureCoords: [Vector3D.ptr, AI_MAX_NUMBER_OF_TEXTURECOORDS],
       mNumUVComponents: [:uint, AI_MAX_NUMBER_OF_TEXTURECOORDS],
       mFaces: :pointer, # TODO: Face.ptr
       mNumBones: :uint,

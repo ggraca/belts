@@ -13,13 +13,15 @@ module BeltsBGFX::Assets
     end
 
     def unload
-      BGFX.destroy_vertex_layout(@vao) if @vao
       BGFX.destroy_index_buffer(@ebo) if @ebo
       BGFX.destroy_vertex_buffer(@vbo) if @vbo
+      BGFX.destroy_vertex_layout(@vao) if @vao
 
-      @vao = nil
-      @vbo = nil
       @ebo = nil
+      @vbo = nil
+      @vao = nil
+      @vert_buffer = nil
+      @index_buffer = nil
     end
 
     private
@@ -28,7 +30,18 @@ module BeltsBGFX::Assets
       @vao = BGFX::VertexLayout.new
       BGFX.vertex_layout_begin(@vao, 0)
       BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Position], 3, BGFX::AttribType[:Float], false, false)
-      BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Normal], 3, BGFX::AttribType[:Float], false, false)
+
+      if @mesh.normals.any?
+        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Normal], 3, BGFX::AttribType[:Float], false, false)
+      end
+
+      if @mesh.tangents.any?
+        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Tangent], 3, BGFX::AttribType[:Float], false, false)
+      end
+
+      if @mesh.bitangents.any?
+        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Bitangent], 3, BGFX::AttribType[:Float], false, false)
+      end
 
       if @mesh.colors.any?
         BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Color0], 4, BGFX::AttribType[:Float], true, false)
@@ -43,10 +56,16 @@ module BeltsBGFX::Assets
 
     def load_vertex_buffer
       vertices = Array.new(@mesh.positions.size) do |i|
-        [*@mesh.positions[i], *@mesh.normals[i], *@mesh.colors[i], *@mesh.texture_coords[i]]
+        [
+          *@mesh.positions[i],
+          *@mesh.normals[i],
+          *@mesh.tangents[i],
+          *@mesh.bitangents[i],
+          *@mesh.colors[i],
+          *@mesh.texture_coords[i]
+        ]
       end.flatten
 
-      # TODO: Remove instance variables, perhaps with blocking: true on the function call
       @vert_buffer = FFI::MemoryPointer.new(:float, vertices.size)
       @vert_buffer.write_array_of_float(vertices)
 

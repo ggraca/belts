@@ -11,9 +11,10 @@ module BeltsBGFX::Assets
     end
 
     def unload
-      # BGFX.destroy_vertex_buffer(@vbo) if @vbo
+      BGFX.destroy_texture(@tbo) if @tbo
 
-      # @vbo = nil
+      @tbo = nil
+      @texture_buffer = nil
     end
 
     private
