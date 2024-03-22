@@ -4,11 +4,7 @@ module BeltsAssets
     attr_reader :model, :textures, :materials, :meshes
 
     def initialize(key, file_path)
-      @scene = Assimp.aiImportFile(file_path,
-        Assimp::Process::Preset::TARGET_REALTIME_MAX_QUALITY |
-        Assimp::Process::CONVERT_TO_LEFT_HANDED |
-        # Assimp::Process::PRE_TRANSFORM_VERTICES |
-        Assimp::Process::EMBED_TEXTURES)
+      @scene = import_scene(file_path)
 
       @model = Model.new(key)
 
@@ -21,6 +17,24 @@ module BeltsAssets
 
     private
 
+    def import_scene(file_path)
+      store = Assimp.aiCreatePropertyStore
+      Assimp.aiSetImportPropertyInteger(store, "PP_RVC_FLAGS", Assimp::Component::COLORS)
+
+      scene = Assimp.aiImportFileExWithProperties(file_path,
+        Assimp::Process::Preset::TARGET_REALTIME_MAX_QUALITY |
+        Assimp::Process::CONVERT_TO_LEFT_HANDED |
+        Assimp::Process::EMBED_TEXTURES |
+        # Assimp::Process::PRE_TRANSFORM_VERTICES |
+        Assimp::Process::REMOVE_COMPONENT |
+        0,
+        nil, store)
+
+      Assimp.aiReleasePropertyStore(store)
+
+      scene
+    end
+
     def import_textures
       Array.new(@scene[:mNumTextures]) do |i|
         pointer = Assimp::TexturePointer.new(@scene[:mTextures].to_ptr + i * Assimp::TexturePointer.size)
@@ -32,8 +46,6 @@ module BeltsAssets
       image = Magick::Image.from_blob(texture_data[:pcData].get_bytes(0, texture_data[:mWidth]).to_s) do |img|
         img.format = texture_data[:achFormatHint].to_s
       end.first
-
-      image = image.quantize(256, Magick::RGBColorspace)
 
       texture = Texture.new(fetch_texture_id(index))
       texture.width = image.columns
@@ -55,7 +67,7 @@ module BeltsAssets
       mesh.material_id = fetch_material_id(mesh_data[:mMaterialIndex])
       mesh.total_vertices = mesh_data[:mNumVertices]
 
-      Array.new(mesh_data[:mNumVertices]) do |i|
+      Array.new(mesh.total_vertices) do |i|
         mesh.positions << Assimp::Vector3D.new(mesh_data[:mVertices].to_ptr + i * Assimp::Vector3D.size).values
 
         if !mesh_data[:mNormals].null?
@@ -73,9 +85,13 @@ module BeltsAssets
         mesh_data[:mTextureCoords].each do |texture_coords|
           break if texture_coords.null?
 
-          mesh.texture_coords << Assimp::Vector3D.new(texture_coords.to_ptr + i * Assimp::Vector3D.size).values
+          mesh.texture_coords << Assimp::Vector3D.new(texture_coords.to_ptr + i * Assimp::Vector3D.size).values[0..1]
         end
       end
+      pp mesh.normals[0]
+      pp mesh.tangents[0]
+      pp mesh.bitangents[0]
+      pp mesh.texture_coords[0]
 
       Array.new(mesh_data[:mNumFaces]) do |i|
         face = Assimp::Face.new(mesh_data[:mFaces] + i * Assimp::Face.size)
@@ -113,12 +129,14 @@ module BeltsAssets
       normals_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:NORMALS])
       roughness_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:DIFFUSE_ROUGHNESS])
       metalness_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:METALNESS])
+      ao_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:AMBIENT_OCCLUSION])
       color = fetch_color(material_data, Assimp::Matkey::COLOR_DIFFUSE)
 
       material.texture_ids[:albedo] = fetch_texture_id(albedo_index) if albedo_index
       material.texture_ids[:normals] = fetch_texture_id(normals_index) if normals_index
       material.texture_ids[:roughness] = fetch_texture_id(roughness_index) if roughness_index
       material.texture_ids[:metalness] = fetch_texture_id(metalness_index) if metalness_index
+      material.texture_ids[:ambient_occlusion] = fetch_texture_id(ao_index) if ao_index
       material.color = color if color
 
       material

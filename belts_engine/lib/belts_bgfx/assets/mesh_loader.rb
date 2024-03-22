@@ -32,23 +32,19 @@ module BeltsBGFX::Assets
       BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Position], 3, BGFX::AttribType[:Float], false, false)
 
       if @mesh.normals.any?
-        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Normal], 3, BGFX::AttribType[:Float], false, false)
+        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Normal], 3, BGFX::AttribType[:Float], true, false)
       end
 
       if @mesh.tangents.any?
-        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Tangent], 3, BGFX::AttribType[:Float], false, false)
+        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Tangent], 3, BGFX::AttribType[:Float], true, false)
       end
 
       if @mesh.bitangents.any?
-        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Bitangent], 3, BGFX::AttribType[:Float], false, false)
-      end
-
-      if @mesh.colors.any?
-        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Color0], 4, BGFX::AttribType[:Float], true, false)
+        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:Bitangent], 3, BGFX::AttribType[:Float], true, false)
       end
 
       if @mesh.texture_coords.any?
-        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:TexCoord0], 3, BGFX::AttribType[:Float], false, false)
+        BGFX.vertex_layout_add(@vao, BGFX::Attrib[:TexCoord0], 2, BGFX::AttribType[:Float], true, false)
       end
 
       BGFX.vertex_layout_end(@vao)
@@ -61,7 +57,6 @@ module BeltsBGFX::Assets
           *@mesh.normals[i],
           *@mesh.tangents[i],
           *@mesh.bitangents[i],
-          *@mesh.colors[i],
           *@mesh.texture_coords[i]
         ]
       end.flatten

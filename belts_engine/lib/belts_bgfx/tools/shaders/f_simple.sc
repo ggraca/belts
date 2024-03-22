@@ -11,7 +11,9 @@ SAMPLER2D(s_tex_albedo, 0);
 SAMPLER2D(s_tex_normals, 1);
 SAMPLER2D(s_tex_roughness, 2);
 SAMPLER2D(s_tex_metalness, 3);
+SAMPLER2D(s_tex_ambient_occlusion, 4);
 
+uniform vec4 u_camera_position;
 uniform vec4 u_lights;
 uniform vec4 u_light_positions[MAX_LIGHTS];
 uniform vec4 u_light_colors[MAX_LIGHTS];
@@ -21,18 +23,18 @@ uniform vec4 u_color;
 uniform vec4 u_surface;
 
 void main() {
-	vec3 u_viewPos = (u_view * vec4(0, 0, 0, 1.0)).xyz;
 	mat3 tbn = mat3(normalize(v_tangent), normalize(v_bitangent), normalize(v_normal));
 
-	vec3 albedo = texture2D(s_tex_albedo, v_texcoord0).rgb;
+	vec3 albedo = toLinear(texture2D(s_tex_albedo, v_texcoord0)).rgb;
+	vec3 normal = texture2D(s_tex_normals, v_texcoord0).rgb * 2.0 - 1.0;
 	float roughness = texture2D(s_tex_roughness, v_texcoord0).g;
 	float metalness = texture2D(s_tex_metalness, v_texcoord0).b;
+	float ao = texture2D(s_tex_ambient_occlusion, v_texcoord0).r;
 
-	vec3 N = normalize(tbn * texture2D(s_tex_normals, v_texcoord0).rgb * 2.0 - 1.0);
-	vec3 V = normalize(u_viewPos - v_position);
-	vec3 F0 = mix(vec3(0.04), albedo, metalness);
+	vec3 N = normalize(tbn * normal);
+	vec3 V = normalize(u_camera_position.xyz - v_position);
 
-	vec3 ambient = vec3(0.1) * albedo;
+	vec3 ambient = vec3(0.1) * albedo * ao;
 	vec3 directLighting = vec3(0);
 	for(int i=0; i<u_total_lights; ++i) {
 		vec3 lightPosition = u_light_positions[i].xyz;
@@ -42,8 +44,9 @@ void main() {
 		float attenuation = 1.0 / (distance * distance);
 		vec3 lightColor = u_light_colors[i].xyz * attenuation;
 
-		directLighting += PBR(N, -L, V, F0, roughness, metalness, albedo) * lightColor;
+		directLighting += PBR(N, L, V, roughness, metalness, albedo) * lightColor;
 	}
 
-  gl_FragColor.xyz = clamp(directLighting + ambient, 0.0, 1.0);
+	vec3 finalColor = clamp(directLighting + ambient, 0, 1);
+  gl_FragColor.xyz = toGamma(finalColor);
 }

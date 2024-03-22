@@ -30,6 +30,20 @@ module Assimp
     :UNKNOWN
   ]
 
+  module Component
+    NORMALS = 0x2
+    TANGENTS_AND_BITANGENTS = 0x4
+    COLORS = 0x8
+    TEXTURE_COORDS = 0x10
+    BONE_WEIGHTS = 0x20
+    ANIMATIONS = 0x40
+    TEXTURES = 0x80
+    LIGHTS = 0x100
+    CAMERAS = 0x200
+    MESHES = 0x400
+    MATERIALS = 0x800
+  end
+
   module Matkey
     NAME = "?mat.name"
     TWOSIDED = "$mat.twosided"

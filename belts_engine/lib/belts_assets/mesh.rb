@@ -14,7 +14,6 @@ module BeltsAssets
       @normals = []
       @tangents = []
       @bitangents = []
-      @colors = []
       @texture_coords = []
       @material_id = 0
     end

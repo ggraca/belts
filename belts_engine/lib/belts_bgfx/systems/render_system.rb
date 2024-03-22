@@ -16,6 +16,8 @@ module BeltsBGFX::Systems
     def start
       BGFX.set_view_clear(0, BGFX::CLEAR_COLOR | BGFX::CLEAR_DEPTH, 0x443355FF, 1.0, 0)
 
+      @u_camera_position = BGFX.create_uniform("u_camera_position", BGFX::UniformType[:Vec4], 1)
+
       # NOTE: x = total lights
       @u_lights = BGFX.create_uniform("u_lights", BGFX::UniformType[:Vec4], 1)
       @u_light_positions = BGFX.create_uniform("u_light_positions", BGFX::UniformType[:Vec4], MAX_LIGHTS)
@@ -27,6 +29,7 @@ module BeltsBGFX::Systems
       @s_tex_normals = BGFX.create_uniform("s_tex_normals", BGFX::UniformType[:Sampler], 1)
       @s_tex_roughness = BGFX.create_uniform("s_tex_roughness", BGFX::UniformType[:Sampler], 1)
       @s_tex_metalness = BGFX.create_uniform("s_tex_metalness", BGFX::UniformType[:Sampler], 1)
+      @s_tex_ambient_occlusion = BGFX.create_uniform("s_tex_ambient_occlusion", BGFX::UniformType[:Sampler], 1)
       # BGFX.set_debug(BGFX::DEBUG_WIREFRAME)
 
       @game.bgfx_shaders.build_default_shader
@@ -54,6 +57,7 @@ module BeltsBGFX::Systems
         view_matrix = Mat4.look_at(position, position + rotation.forward, Vec3.up)
         proj_matrix = Mat4.perspective(Math::PI / 4, @window.ratio, 0.1, 100)
 
+        BGFX.set_uniform(@u_camera_position, Vec4[*position[:values], 0], 1)
         BGFX.set_view_transform(0, view_matrix, proj_matrix)
         BGFX.touch(0)
       end
@@ -68,8 +72,9 @@ module BeltsBGFX::Systems
 
       i = 0
       lights.each_with_components do |position:, light:|
-        positions_buffer.put_array_of_float(i * 4, position[:values].to_a + [0])
-        colors_buffer.put_array_of_float(i * 4, [light[:r], light[:g], light[:b], 0])
+        # NOTE: offset = index * sizeof float * 4 values
+        positions_buffer.put_array_of_float(i * 4 * 4, position[:values].to_a + [0])
+        colors_buffer.put_array_of_float(i * 4 * 4, [light[:r], light[:g], light[:b], 0])
 
         i += 1
       end
@@ -108,6 +113,7 @@ module BeltsBGFX::Systems
       BGFX.set_texture(1, @s_tex_normals, @assets.textures[material.texture_ids[:normals] || :default].bgfx.tbo, 0)
       BGFX.set_texture(2, @s_tex_roughness, @assets.textures[material.texture_ids[:roughness] || :default].bgfx.tbo, 0)
       BGFX.set_texture(3, @s_tex_metalness, @assets.textures[material.texture_ids[:metalness] || :default].bgfx.tbo, 0)
+      BGFX.set_texture(4, @s_tex_ambient_occlusion, @assets.textures[material.texture_ids[:ambient_occlusion] || :default].bgfx.tbo, 0)
 
       BGFX.set_vertex_buffer(0, mesh.bgfx.vbo, 0, mesh.total_vertices)
       BGFX.set_index_buffer(mesh.bgfx.ebo, 0, mesh.total_elements)
