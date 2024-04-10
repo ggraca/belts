@@ -9,11 +9,14 @@ module BeltsBGFX
 
   def self.install
     BGFX.load_lib(config.bgfx_lib_path)
-
-    # TODO: Automatically find the lib based on the platform
     SDL.load_lib(config.sdl_lib_path)
 
     BeltsAssets::Mesh.include BeltsBGFX::Assets::MeshMixin
+    BeltsAssets::Texture.include BeltsBGFX::Assets::TextureMixin
+  end
+
+  def self.init(game)
+    game.register_tool(:bgfx_shaders, BeltsBGFX::Tools::ShaderManager.new)
   end
 
   def self.root

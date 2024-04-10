@@ -26,7 +26,7 @@ module BeltsEngine
       @running = false
     end
 
-    def quit
+    def shutdown
       ecs.finalize
     end
   end

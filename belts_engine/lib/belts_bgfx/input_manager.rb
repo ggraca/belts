@@ -7,7 +7,8 @@ module BeltsBGFX
       SDL::SDLK_d => :d,
       SDL::SDLK_q => :q,
       SDL::SDLK_e => :e,
-      SDL::SDLK_SPACE => :space
+      SDL::SDLK_SPACE => :space,
+      SDL::SDLK_ESCAPE => :esc
     }
 
     BUTTON_MAP = {

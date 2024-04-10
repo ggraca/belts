@@ -17,6 +17,18 @@ module BeltsEngine::Ecs
       end
     end
 
+    # TODO: Look for built-in methods to get the size of the query
+    def size
+      total = 0
+
+      it = Flecs.ecs_query_iter(@flecs_world, @flecs_query)
+      while Flecs.ecs_query_next(it)
+        total += it[:count]
+      end
+
+      total
+    end
+
     def each_with_components(&block)
       params = block.parameters.map(&:last)
       entity_requested = params.include?(:entity)

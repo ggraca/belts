@@ -1,15 +1,11 @@
 module BeltsAssets
   class Model < Asset
-    attr_accessor :root_node, :materials, :meshes
+    attr_accessor :root_node
 
-    def initialize
+    def initialize(id)
+      super(id)
+
       @root_node = nil
-      @materials = []
-      @meshes = []
-    end
-
-    def self.from_file(key, file)
-      Importer.new(key, file).model
     end
   end
 end

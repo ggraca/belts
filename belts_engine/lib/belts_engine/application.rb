@@ -33,7 +33,7 @@ module BeltsEngine
         @game.update
       end
 
-      @game.quit
+      @game.shutdown
     end
   end
 end

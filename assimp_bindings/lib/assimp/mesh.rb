@@ -6,17 +6,23 @@ module Assimp
   AI_MAX_NUMBER_OF_COLOR_SETS = 0x8
   AI_MAX_NUMBER_OF_TEXTURECOORDS = 0x8
 
+  class Vector3DArray < FFI::Struct
+    layout(
+      data: [Vector3D, AI_MAX_NUMBER_OF_TEXTURECOORDS]
+    )
+  end
+
   class Mesh < FFI::Struct
     layout(
       mPrimitiveTypes: :uint,
       mNumVertices: :uint,
       mNumFaces: :uint,
-      mVertices: Vector3D.ptr, # TODO: Vector3D.ptr
-      mNormals: Vector3D.ptr, # TODO: Vector3D.ptr
-      mTangents: :pointer, # TODO: Vector3D.ptr
-      mBitangents: :pointer, # TODO: Vector3D.ptr
+      mVertices: Vector3D.ptr,
+      mNormals: Vector3D.ptr,
+      mTangents: Vector3D.ptr,
+      mBitangents: Vector3D.ptr,
       mColors: [:pointer, AI_MAX_NUMBER_OF_COLOR_SETS], # TODO: Color4D.ptr
-      mTextureCoords: [:pointer, AI_MAX_NUMBER_OF_TEXTURECOORDS], # TODO: Vector3D.ptr
+      mTextureCoords: [Vector3D.ptr, AI_MAX_NUMBER_OF_TEXTURECOORDS],
       mNumUVComponents: [:uint, AI_MAX_NUMBER_OF_TEXTURECOORDS],
       mFaces: :pointer, # TODO: Face.ptr
       mNumBones: :uint,

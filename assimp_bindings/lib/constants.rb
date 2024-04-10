@@ -1,4 +1,81 @@
 module Assimp
+  extend FFI::Library
+
+  Return = enum [:Success]
+
+  TextureType = enum [
+    :NONE,
+    :DIFFUSE,
+    :SPECULAR,
+    :AMBIENT,
+    :EMISSIVE,
+    :HEIGHT,
+    :NORMALS,
+    :SHININESS,
+    :OPACITY,
+    :DISPLACEMENT,
+    :LIGHTMAP,
+    :REFLECTION,
+
+    :BASE_COLOR,
+    :NORMAL_CAMERA,
+    :EMISSION_COLOR,
+    :METALNESS,
+    :DIFFUSE_ROUGHNESS,
+    :AMBIENT_OCCLUSION,
+
+    :SHEEN,
+    :CLEARCOAT,
+    :TRANSMISSION,
+    :UNKNOWN
+  ]
+
+  module Component
+    NORMALS = 0x2
+    TANGENTS_AND_BITANGENTS = 0x4
+    COLORS = 0x8
+    TEXTURE_COORDS = 0x10
+    BONE_WEIGHTS = 0x20
+    ANIMATIONS = 0x40
+    TEXTURES = 0x80
+    LIGHTS = 0x100
+    CAMERAS = 0x200
+    MESHES = 0x400
+    MATERIALS = 0x800
+  end
+
+  module Matkey
+    NAME = "?mat.name"
+    TWOSIDED = "$mat.twosided"
+    SHADING_MODEL = "$mat.shadingm"
+    ENABLE_WIREFRAME = "$mat.wireframe"
+    BLEND_FUNC = "$mat.blend"
+    OPACITY = "$mat.opacity"
+    BUMPSCALING = "$mat.bumpscaling"
+    SHININESS = "$mat.shininess"
+    REFLECTIVITY = "$mat.reflectivity"
+    SHININESS_STRENGTH = "$mat.shinpercent"
+    REFRACTI = "$mat.refracti"
+    COLOR_DIFFUSE = "$clr.diffuse"
+    COLOR_AMBIENT = "$clr.ambient"
+    COLOR_SPECULAR = "$clr.specular"
+    COLOR_EMISSIVE = "$clr.emissive"
+    COLOR_TRANSPARENT = "$clr.transparent"
+    COLOR_REFLECTIVE = "$clr.reflective"
+    GLOBAL_BACKGROUND_IMAGE = "?bg.global"
+
+    TEXTURE_BASE = "$tex.file"
+    UVWSRC_BASE = "$tex.uvwsrc"
+    TEXOP_BASE = "$tex.op"
+    MAPPING_BASE = "$tex.mapping"
+    TEXBLEND_BASE = "$tex.blend"
+    MAPPINGMODE_U_BASE = "$tex.mapmodeu"
+    MAPPINGMODE_V_BASE = "$tex.mapmodev"
+    TEXMAP_AXIS_BASE = "$tex.mapaxis"
+    UVTRANSFORM_BASE = "$tex.uvtrafo"
+    TEXFLAGS_BASE = "$tex.flags"
+  end
+
   module Process
     CALC_TANGENT_SPACE = 0x1
     JOIN_IDENTICAL_VERTICES = 0x2

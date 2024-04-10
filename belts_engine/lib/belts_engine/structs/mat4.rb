@@ -23,6 +23,15 @@ class Mat4 < BeltsSupport::Struct
         GLM.glmc_mat4_inv(self, dest)
       end
     end
+
+    def invert_major
+      Mat4[
+        self[:values][0], self[:values][4], self[:values][8], self[:values][12],
+        self[:values][1], self[:values][5], self[:values][9], self[:values][13],
+        self[:values][2], self[:values][6], self[:values][10], self[:values][14],
+        self[:values][3], self[:values][7], self[:values][11], self[:values][15]
+      ]
+    end
   end
 
   include Behaviour
