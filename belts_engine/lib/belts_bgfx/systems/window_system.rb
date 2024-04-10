@@ -51,7 +51,7 @@ module BeltsBGFX::Systems
       init_data = BGFX::Init.new(resolution:)
       init_data[:type] = BGFX::RendererType[:OpenGL]
       # TODO: choose platform
-      init_data[:platformData] = get_platform_data_x11
+      init_data[:platformData] = get_platform_data_wl
 
       BGFX.init(init_data)
     end

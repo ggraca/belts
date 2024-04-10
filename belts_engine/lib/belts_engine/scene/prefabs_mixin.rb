@@ -12,8 +12,8 @@ module BeltsEngine
           @prefabs ||= []
         end
 
-        def prefab(class_name, **options)
-          prefabs << options.merge(class_name: class_name)
+        def prefab(name, **options)
+          prefabs << options.merge(name: name)
         end
       end
     end
