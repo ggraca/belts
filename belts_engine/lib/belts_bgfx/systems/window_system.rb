@@ -50,7 +50,7 @@ module BeltsBGFX::Systems
       resolution = BGFX::Resolution.new(width: @window.width, height: @window.height, reset: BGFX::RESET_VSYNC)
       init_data = BGFX::Init.new(resolution:)
       init_data[:type] = BGFX::RendererType[:OpenGL]
-      # TODO: choose platform
+      # TODO: automatically choose platform
       init_data[:platformData] = get_platform_data_wl
 
       BGFX.init(init_data)
