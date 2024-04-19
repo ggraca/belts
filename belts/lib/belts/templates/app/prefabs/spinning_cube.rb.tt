@@ -1,4 +1,0 @@
-class SpinningCube < BeltsEngine::Prefab
-  component :render_data, RenderData.new(:cube, Vec3.right)
-  component :spinner, Spinner.new
-end

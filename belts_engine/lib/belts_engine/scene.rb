@@ -16,10 +16,10 @@ module BeltsEngine
         scale = prefab[:scale] || Vec3.one
 
         @game.ecs.instantiate(
-          prefab[:class_name],
-          position.as(Position),
-          rotation.as(Rotation),
-          scale.as(Scale)
+          prefab[:name],
+          position,
+          rotation,
+          scale
         )
       end
     end

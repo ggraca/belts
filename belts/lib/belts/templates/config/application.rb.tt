@@ -1,3 +1,8 @@
-class Application < BeltsEngine::Application
-  config.plugins << BeltsBGFX
+BeltsEngine::Application.configure do |config|
+  # config.plugins << OtherPlugin
 end
+
+BeltsCore.config.flecs_lib_path = "vendor/libflecs.so"
+BeltsCore.config.cglm_lib_path = "vendor/libcglm.so"
+BeltsAssets.config.assimp_lib_path = "vendor/libassimp.so"
+BeltsBGFX.config.bgfx_lib_path = "vendor/libbgfx.so"

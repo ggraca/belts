@@ -19,8 +19,9 @@ Gem::Specification.new do |s|
 
   # BeltsAssets
   s.add_dependency "assimp_bindings", "~> 0.1.0"
+  s.add_dependency "rmagick", "~> 5.4.3"
 
   # BeltsBGFX
   s.add_dependency "bgfx_bindings", "~> 0.1.0"
-  s.add_dependency "sdl2-bindings", "~> 0.1.4"
+  s.add_dependency "sdl2-bindings", "~> 0.2.3"
 end

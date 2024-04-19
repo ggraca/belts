@@ -12,15 +12,16 @@ module BeltsEngine
           @components ||= {}
         end
 
-        def component(name, val)
-          set_component(name, val)
+        def component(name, options = {})
+          klass = name.to_s.camelize.constantize
+          set_component(name, klass[**options])
         end
 
         private
 
-        def set_component(name, data)
+        def set_component(name, value)
           @components ||= {}
-          @components[name] = data
+          @components[name] = value
         end
       end
     end

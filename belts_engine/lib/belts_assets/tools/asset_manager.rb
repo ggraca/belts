@@ -1,6 +1,6 @@
 module BeltsAssets::Tools
   class AssetManager
-    attr_reader :meshes, :models, :materials, :textures
+    attr_reader :models, :meshes, :materials, :textures
 
     def initialize
       @models = ModelManager.new
@@ -8,20 +8,33 @@ module BeltsAssets::Tools
       @materials = MaterialManager.new
       @textures = TextureManager.new
 
-      default_texture = BeltsAssets::Texture.new(:default)
-      default_texture.width = 1
-      default_texture.height = 1
-      default_texture.data = "0000"
-      @textures.add_texture(default_texture)
+      @textures.add_texture(BeltsAssets::Texture.default_texture)
     end
 
-    def reload(models)
-      models.each do |key, value|
-        import_model(key, value)
+    def load_sprites(sprites)
+      sprites.each do |key, file_name|
+        file_path = File.join("assets/textures/", file_name)
+        import_sprite(key, file_path)
+      end
+    end
+
+    def load_models(models)
+      models.each do |key, file_name|
+        file_path = File.join("assets/models/", file_name)
+        import_model(key, file_path)
       end
     end
 
     private
+
+    def import_sprite(key, file_path)
+      data = BeltsAssets::SpriteImporter.new(key, file_path)
+
+      @models.add_model(data.model)
+      @textures.add_texture(data.texture)
+      @materials.add_material(data.material)
+      @meshes.add_mesh(data.mesh)
+    end
 
     def import_model(key, file_path)
       data = BeltsAssets::Importer.new(key, file_path)

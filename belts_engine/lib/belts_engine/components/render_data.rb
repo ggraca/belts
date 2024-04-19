@@ -4,7 +4,7 @@ class RenderData < BeltsSupport::Component
   )
 
   class << self
-    def [](model)
+    def [](model: nil)
       new.tap do |rd|
         rd.model = model
       end

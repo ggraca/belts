@@ -1,0 +1,3 @@
+class PointLight < BeltsEngine::Prefab
+  component :light, type: :point
+end

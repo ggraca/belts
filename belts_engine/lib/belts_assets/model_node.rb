@@ -6,7 +6,7 @@ module BeltsAssets
       @parent = nil
       @children = []
       @mesh_ids = []
-      @transformation = Mat4.identity
+      @transformation = Mat4.identity.invert_major
     end
   end
 end

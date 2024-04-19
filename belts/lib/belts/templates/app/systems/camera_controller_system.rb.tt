@@ -1,0 +1,28 @@
+class CameraControllerSystem < BeltsEngine::System
+  query :cameras,
+    with: [:position, :rotation, :camera]
+
+  def update
+    @game.stop if @input.keyboard.key(:esc).up?
+
+    z = 0
+    z += 1 if @input.keyboard.key?(:w)
+    z -= 1 if @input.keyboard.key?(:s)
+
+    x = 0
+    x += 1 if @input.keyboard.key?(:d)
+    x -= 1 if @input.keyboard.key?(:a)
+
+    speed = 5 * @time.delta_time
+    mouse_speed = 0.2 * @time.delta_time
+
+    quat = Quat.from_euler(@input.mouse.motion.y * mouse_speed, @input.mouse.motion.x * mouse_speed, 0)
+
+    cameras.each_with_components do |position:, rotation:|
+      position.move!(rotation.forward * z * speed)
+      position.move!(rotation.right * x * speed)
+
+      rotation.rotate!(quat)
+    end
+  end
+end

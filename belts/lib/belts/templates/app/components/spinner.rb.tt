@@ -1,1 +1,3 @@
-Spinner = Struct.new(nil)
+class Spinner < BeltsSupport::Component
+  layout(_nil: :bool)
+end

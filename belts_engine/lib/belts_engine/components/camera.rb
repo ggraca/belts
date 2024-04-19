@@ -1,20 +1,20 @@
 class Camera < BeltsSupport::Component
   layout(
-    projection_type: :ulong
+    type: :ulong
   )
 
   class << self
-    def [](projection_type = :perspective)
+    def [](type: :perspective)
       new.tap do |rd|
-        rd[:projection_type] = projection_type.object_id
+        rd[:type] = type.object_id
       end
     end
   end
 
-  def projection_type
-    ObjectSpace._id2ref(self[:projection_type])
+  def type
+    ObjectSpace._id2ref(self[:type])
   end
 
-  def perspective? = projection_type == :perspective
-  def orthographic? = projection_type == :orthographic
+  def perspective? = type == :perspective
+  def orthographic? = type == :orthographic
 end

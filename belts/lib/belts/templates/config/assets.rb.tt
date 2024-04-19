@@ -1,0 +1,5 @@
+BeltsAssets.configure do |config|
+  config.models.tap do |models|
+    models[:cube] = "cube.glb"
+  end
+end

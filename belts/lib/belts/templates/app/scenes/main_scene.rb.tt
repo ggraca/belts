@@ -1,4 +1,5 @@
 class MainScene < BeltsEngine::Scene
   prefab :Camera3d, position: Vec3.back * 5
-  prefab :SpinningCube, position: Vec3.zero
+  prefab :PointLight, position: Vec3[1, 1, -1]
+  prefab :Cube, position: Vec3.zero, scale: Vec3.one * 0.5
 end

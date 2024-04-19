@@ -1,4 +1,3 @@
-require "rmagick"
 module BeltsAssets
   class Importer
     attr_reader :model, :textures, :materials, :meshes
@@ -88,10 +87,6 @@ module BeltsAssets
           mesh.texture_coords << Assimp::Vector3D.new(texture_coords.to_ptr + i * Assimp::Vector3D.size).values[0..1]
         end
       end
-      pp mesh.normals[0]
-      pp mesh.tangents[0]
-      pp mesh.bitangents[0]
-      pp mesh.texture_coords[0]
 
       Array.new(mesh_data[:mNumFaces]) do |i|
         face = Assimp::Face.new(mesh_data[:mFaces] + i * Assimp::Face.size)
@@ -119,11 +114,8 @@ module BeltsAssets
         properties[property[:mKey][:data].to_s] = import_property(property)
       end
 
-      # pp properties
-
       material = Material.new(fetch_material_id(index))
       material.name = properties["?mat.name"]
-      pp material.name
 
       albedo_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:BASE_COLOR])
       normals_index = fetch_embeded_texture_index(material_data, Assimp::TextureType[:NORMALS])

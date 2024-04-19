@@ -41,15 +41,16 @@ module BeltsEngine
         Flecs.ecs_remove_id(world, entity, component(name))
       end
 
-      def instantiate(prefab_class, position, rotation, scale)
+      def instantiate(name, position, rotation, scale)
+        klass = name.to_s.camelize.constantize
         entity = Flecs.ecs_entity_init(world, Flecs::EntityDesc.new)
 
-        add_component(entity, position)
-        add_component(entity, rotation)
-        add_component(entity, scale)
+        add_component(entity, position.as(Position))
+        add_component(entity, rotation.as(Rotation))
+        add_component(entity, scale.as(Scale))
         add_component(entity, Mat4.identity.as(TransformMatrix))
 
-        prefab_class.to_s.constantize.components.each do |k, v|
+        klass.components.each do |k, v|
           add_component(entity, v)
         end
       end
