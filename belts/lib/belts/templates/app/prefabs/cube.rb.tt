@@ -1,0 +1,4 @@
+class Cube < BeltsEngine::Prefab
+  component :render_data, model: :cube
+  component :spinner
+end

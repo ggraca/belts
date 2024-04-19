@@ -7,9 +7,9 @@ module Belts
     desc "new NAME", "Generate a new project in the current directory with the given NAME"
     def new(name)
       invoke :engine, name
-      run "bundle --gemfile=#{name}/Gemfile"
+      run "bundle install --gemfile=#{name}/Gemfile"
     end
 
-    register(Belts::Engine, "engine", "engine", "Badjoras")
+    register(Belts::Engine, "engine", "engine", "Generates core engine files")
   end
 end

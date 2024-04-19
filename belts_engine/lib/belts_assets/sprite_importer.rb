@@ -1,5 +1,3 @@
-require "rmagick"
-
 module BeltsAssets
   class SpriteImporter
     attr_reader :model, :texture, :material, :mesh

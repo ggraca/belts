@@ -1,12 +1,21 @@
 class SpinnerSystem < BeltsEngine::System
-  collection :spinners,
-    with: [:transform, :spinner]
+  query :spinners,
+    with: [:rotation, :spinner]
+
+  def start
+    @spin = true
+  end
 
   def update
-    speed = @time.delta_time * 30
+    @spin = !@spin if @input.keyboard.key(:space).up?
+    return unless @spin
 
-    spinners.each_with_components do |transform:, **|
-      transform.rotate(speed, speed, speed)
+    speed = @time.delta_time
+
+    quat = Quat.from_euler(0, speed, 0)
+
+    spinners.each_with_components do |rotation:|
+      rotation.rotate!(quat)
     end
   end
 end

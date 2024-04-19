@@ -1,4 +1,5 @@
 require "assimp"
+require "rmagick"
 
 module BeltsAssets
   extend BeltsSupport::Extension
